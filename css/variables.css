@@ -1,0 +1,86 @@
+:root {
+  /* Typography */
+  --font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+  --fs-xs: 0.6875rem;    /* 11px */
+  --fs-sm: 0.75rem;      /* 12px */
+  --fs-base: 0.875rem;   /* 14px */
+  --fs-md: 1rem;         /* 16px */
+  --fs-lg: 1.125rem;     /* 18px */
+  --fs-xl: 1.25rem;      /* 20px */
+  --fs-2xl: 1.5rem;      /* 24px */
+  --fs-3xl: 1.75rem;     /* 28px */
+
+  /* Brand Colors */
+  --brand-orange: #e8870e;
+  --brand-orange-dark: #c06e08;
+  --brand-green: #2eaa57;
+  --brand-green-dark: #249448;
+  --brand-red: #e05a3a;
+  --brand-red-dark: #c44a2e;
+  --brand-blue: #2b7de9;
+
+  /* Neutral Colors */
+  --color-bg: #f2f2f7;
+  --color-surface: #ffffff;
+  --color-text: #1a1a1a;
+  --color-text-secondary: #8e8e93;
+  --color-text-tertiary: #aeaeb2;
+  --color-border: #e5e5ea;
+  --color-divider: #f0f0f0;
+
+  /* Bronze tier */
+  --bronze-1: #9a6e1e;
+  --bronze-2: #c4943a;
+  --bronze-3: #ddb35c;
+  --bronze-4: #eece82;
+  --bronze-6: #8a5e14;
+  --bronze-gradient: linear-gradient(145deg, var(--bronze-6) 0%, var(--bronze-2) 18%, var(--bronze-4) 40%, var(--bronze-3) 55%, var(--bronze-2) 72%, var(--bronze-6) 100%);
+  --bronze-text: #4a2e08;
+
+  /* Silver tier */
+  --silver-1: #8e8e8e;
+  --silver-2: #b0b0b0;
+  --silver-3: #d0d0d0;
+  --silver-4: #e8e8e8;
+  --silver-6: #8e8e8e;
+  --silver-gradient: linear-gradient(145deg, var(--silver-6) 0%, var(--silver-2) 18%, var(--silver-4) 40%, var(--silver-3) 55%, var(--silver-2) 72%, var(--silver-6) 100%);
+  --silver-text: #3a3a3a;
+
+  /* Gold tier */
+  --gold-1: #b8880a;
+  --gold-2: #d4a82a;
+  --gold-3: #efc842;
+  --gold-4: #fad96a;
+  --gold-6: #a07808;
+  --gold-gradient: linear-gradient(145deg, var(--gold-6) 0%, var(--gold-2) 18%, var(--gold-4) 40%, var(--gold-3) 55%, var(--gold-2) 72%, var(--gold-6) 100%);
+  --gold-text: #4a3808;
+
+  /* User card gradient (ЛК) — warm orange/amber */
+  --card-gradient-bronze: linear-gradient(145deg, #b87a1a 0%, #d4a03a 20%, #ecc464 45%, #d4a03a 70%, #b87a1a 100%);
+  --card-gradient-silver: linear-gradient(145deg, #8a9aa8 0%, #b0c0cc 20%, #d0dce4 45%, #b0c0cc 70%, #8a9aa8 100%);
+  --card-gradient-gold: linear-gradient(145deg, #b89018 0%, #d4b030 20%, #f0d050 45%, #d4b030 70%, #b89018 100%);
+
+  /* Spacing */
+  --sp-xs: 4px;
+  --sp-sm: 8px;
+  --sp-md: 12px;
+  --sp-base: 16px;
+  --sp-lg: 20px;
+  --sp-xl: 24px;
+  --sp-2xl: 32px;
+
+  /* Radius */
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 20px;
+  --r-full: 9999px;
+
+  /* Shadows */
+  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.10);
+  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.06);
+
+  /* Layout */
+  --max-width: 430px;
+  --nav-height: 60px;
+}

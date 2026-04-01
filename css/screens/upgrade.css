@@ -1,0 +1,110 @@
+/* Upgrade congratulation screen */
+
+.upgrade-screen {
+  padding-bottom: calc(var(--nav-height) + var(--sp-base));
+  position: relative;
+  overflow: hidden;
+}
+
+.upgrade-card-area {
+  margin-bottom: var(--sp-xl);
+}
+
+.upgrade-body {
+  padding: 0 var(--sp-base);
+  text-align: center;
+}
+
+.upgrade-body__title {
+  font-size: var(--fs-3xl);
+  font-weight: 700;
+  margin-bottom: var(--sp-xs);
+  animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.2s both;
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Confetti particles */
+.confetti-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 300px;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.confetti {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  opacity: 0;
+  animation: confettiFall 2.5s ease-in forwards;
+}
+
+@keyframes confettiFall {
+  0% { opacity: 1; transform: translateY(-20px) rotate(0deg) scale(1); }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(300px) rotate(720deg) scale(0.5); }
+}
+
+.upgrade-body__subtitle {
+  font-size: var(--fs-md);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--sp-xl);
+  line-height: 1.4;
+}
+
+/* Benefits display */
+.upgrade-benefits {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-sm);
+  margin-bottom: var(--sp-xl);
+  padding: 0 var(--sp-base);
+}
+
+.upgrade-benefit {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--color-bg);
+  border-radius: var(--r-md);
+  padding: var(--sp-md) var(--sp-base);
+}
+
+.upgrade-benefit__label {
+  font-size: var(--fs-base);
+  color: var(--color-text-secondary);
+}
+
+.upgrade-benefit__value {
+  font-size: var(--fs-md);
+  font-weight: 700;
+}
+
+/* History on upgrade */
+.upgrade-history {
+  padding: 0 var(--sp-base);
+  margin-bottom: var(--sp-xl);
+}
+
+/* CTA area */
+.upgrade-cta {
+  padding: 0 var(--sp-base);
+  margin-bottom: var(--sp-md);
+}
+
+/* Disclaimer */
+.upgrade-disclaimer {
+  padding: 0 var(--sp-base);
+  font-size: var(--fs-xs);
+  color: var(--color-text-tertiary);
+  text-align: center;
+  line-height: 1.4;
+}

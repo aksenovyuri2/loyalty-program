@@ -1,0 +1,111 @@
+/* Green repayment button */
+.btn-repay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 14px;
+  border-radius: var(--r-md);
+  background: var(--brand-green);
+  color: #fff;
+  font-size: var(--fs-md);
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btn-repay:active {
+  background: var(--brand-green-dark);
+  transform: scale(0.98);
+}
+
+/* Red/orange CTA button (upgrade screen) */
+.btn-loan {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 14px;
+  border-radius: var(--r-md);
+  background: var(--brand-red);
+  color: #fff;
+  font-size: var(--fs-md);
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btn-loan:active {
+  background: var(--brand-red-dark);
+  transform: scale(0.98);
+}
+
+/* Pill / info badge */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-sm);
+  padding: 8px 14px;
+  border-radius: var(--r-full);
+  font-size: var(--fs-base);
+  font-weight: 600;
+}
+
+.pill--orange {
+  background: #fef3e0;
+  color: var(--brand-orange);
+}
+
+.pill--tier {
+  padding: 6px 14px;
+  border-radius: var(--r-full);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: #fff;
+}
+
+.pill--tier-bronze { background: var(--bronze-2); }
+.pill--tier-silver { background: var(--silver-2); }
+.pill--tier-gold { background: var(--gold-2); }
+
+/* Tab buttons (status page) */
+.tab-bar {
+  display: flex;
+  gap: var(--sp-sm);
+  padding: 0 var(--sp-base);
+  margin-bottom: var(--sp-md);
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 10px 8px;
+  border-radius: var(--r-sm);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  text-align: center;
+  background: var(--color-bg);
+  color: var(--color-text-secondary);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tab-btn:active { transform: scale(0.96); }
+
+.tab-btn.active--bronze { background: var(--bronze-3); color: var(--bronze-text); box-shadow: 0 2px 8px rgba(221, 179, 92, 0.3); }
+.tab-btn.active--silver { background: var(--silver-3); color: var(--silver-text); box-shadow: 0 2px 8px rgba(176, 176, 176, 0.3); }
+.tab-btn.active--gold { background: var(--gold-3); color: var(--gold-text); box-shadow: 0 2px 8px rgba(239, 200, 66, 0.3); }
+
+/* Text link */
+.link {
+  display: inline-block;
+  font-size: var(--fs-base);
+  font-weight: 500;
+  color: var(--brand-blue);
+  cursor: pointer;
+  padding: var(--sp-sm) 0;
+}
+
+.link:active { opacity: 0.7; }

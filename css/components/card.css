@@ -1,0 +1,239 @@
+/* ============================================
+   User Card — ЛК (Personal Account card)
+   ============================================ */
+.user-card {
+  margin: 0 var(--sp-base);
+  border-radius: var(--r-lg);
+  padding: var(--sp-lg);
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+  box-shadow: var(--shadow-card);
+}
+
+.user-card::before {
+  content: '';
+  position: absolute;
+  bottom: -20%;
+  left: -10%;
+  width: 50%;
+  height: 60%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(0,0,0,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.user-card::after {
+  content: '';
+  position: absolute;
+  top: -30%;
+  right: -15%;
+  width: 55%;
+  height: 75%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(255,255,255,0.30) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.user-card--bronze { background: var(--card-gradient-bronze); }
+.user-card--silver { background: var(--card-gradient-silver); }
+.user-card--gold { background: var(--card-gradient-gold); }
+
+.user-card__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--sp-xl);
+  position: relative;
+  z-index: 1;
+}
+
+.user-card__name {
+  font-size: var(--fs-md);
+  font-weight: 600;
+  max-width: 60%;
+  line-height: 1.3;
+}
+
+.user-card__badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255,255,255,0.25);
+  padding: 4px 12px;
+  border-radius: var(--r-full);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.user-card__badge:active {
+  background: rgba(255,255,255,0.35);
+}
+
+.user-card__badge-arrow {
+  font-size: 10px;
+}
+
+.user-card__metrics {
+  display: flex;
+  gap: var(--sp-sm);
+  position: relative;
+  z-index: 1;
+}
+
+.user-card__metric {
+  background: rgba(255,255,255,0.2);
+  border-radius: var(--r-sm);
+  padding: 6px 14px;
+  font-size: var(--fs-base);
+  font-weight: 700;
+}
+
+.user-card__metric span {
+  font-weight: 400;
+  font-size: var(--fs-xs);
+  opacity: 0.8;
+}
+
+/* ============================================
+   Status Card — Status page large card
+   ============================================ */
+.status-card {
+  margin: 0 var(--sp-base);
+  border-radius: var(--r-lg);
+  padding: var(--sp-2xl) var(--sp-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+
+.status-card::before {
+  content: '';
+  position: absolute;
+  bottom: -15%;
+  left: -5%;
+  width: 45%;
+  height: 55%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(0,0,0,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.status-card::after {
+  content: '';
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 50%;
+  height: 70%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(255,255,255,0.35) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.status-card--bronze { background: var(--bronze-gradient); color: var(--bronze-text); }
+.status-card--silver { background: var(--silver-gradient); color: var(--silver-text); }
+.status-card--gold { background: var(--gold-gradient); color: var(--gold-text); }
+
+.status-card__avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.4);
+  border: 2px solid rgba(255,255,255,0.6);
+  margin-bottom: var(--sp-md);
+  position: relative;
+  z-index: 1;
+}
+
+.status-card__label {
+  font-size: var(--fs-sm);
+  opacity: 0.7;
+  margin-bottom: 2px;
+  position: relative;
+  z-index: 1;
+}
+
+.status-card__tier {
+  font-size: var(--fs-2xl);
+  font-weight: 700;
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================
+   Upgrade Card — small card on upgrade screen
+   ============================================ */
+.upgrade-user-card {
+  margin: 0 var(--sp-base);
+  border-radius: var(--r-md);
+  padding: var(--sp-md) var(--sp-base);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+  box-shadow: var(--shadow-sm);
+}
+
+.upgrade-user-card--bronze { background: var(--card-gradient-bronze); }
+.upgrade-user-card--silver { background: var(--card-gradient-silver); }
+.upgrade-user-card--gold { background: var(--card-gradient-gold); }
+
+.upgrade-user-card__left {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm);
+  min-width: 0;
+}
+
+.upgrade-user-card__avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.35);
+  flex-shrink: 0;
+}
+
+.upgrade-user-card__name {
+  font-size: var(--fs-base);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.upgrade-user-card__right {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm);
+  flex-shrink: 0;
+}
+
+.upgrade-user-card__badge {
+  background: rgba(255,255,255,0.25);
+  padding: 3px 10px;
+  border-radius: var(--r-full);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+}
+
+.upgrade-user-card__close {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  font-size: 14px;
+  cursor: pointer;
+  color: #fff;
+}
