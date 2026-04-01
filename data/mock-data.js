@@ -67,7 +67,5 @@ export const CURRENT_LOAN = {
 };
 
 export const STATUS_HISTORY = [
-  { tier: 'bronze', date: '10 мая 2025', active: false },
-  { tier: 'silver', date: '10 сентября 2025', active: false },
-  { tier: 'gold', date: '20 ноября 2025', active: true },
+  { tier: 'bronze', date: '10 мая 2025', active: true },
 ];
