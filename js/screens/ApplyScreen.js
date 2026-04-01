@@ -2,6 +2,7 @@ import { TIERS, BASE_RATE } from '../../data/mock-data.js';
 import { getState } from '../state.js';
 import { navigate, onEnter } from '../router.js';
 import { setLastApplication } from './ApplySuccessScreen.js';
+import { fmtNum, fmtRate } from '../utils.js';
 
 const TERMS = [5, 10, 15, 21, 30];
 let selectedAmount = 10000;
@@ -34,7 +35,7 @@ function render(screen) {
 
   screen.innerHTML = `
     <div class="screen-header">
-      <button class="screen-header__back" id="apply-back">
+      <button class="screen-header__back" id="apply-back" aria-label="Назад">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
       <span class="screen-header__title">Новая заявка</span>
@@ -56,7 +57,8 @@ function render(screen) {
         <span class="apply-field__currency">₽</span>
       </div>
       <input type="range" class="apply-slider" id="apply-amount-slider"
-        min="1000" max="${maxAmount}" step="1000" value="${selectedAmount}">
+        min="1000" max="${maxAmount}" step="1000" value="${selectedAmount}"
+        aria-label="Сумма займа">
       <div class="apply-field__range-labels">
         <span>1 000 ₽</span>
         <span>${fmtNum(maxAmount)} ₽</span>
@@ -67,7 +69,7 @@ function render(screen) {
       <label class="apply-field__label">Срок</label>
       <div class="apply-terms">
         ${TERMS.map(t => `
-          <button class="apply-term-chip ${t === selectedTerm ? 'active' : ''}" data-term="${t}">
+          <button class="apply-term-chip ${t === selectedTerm ? 'active' : ''}" data-term="${t}" aria-label="${t} дней" aria-pressed="${t === selectedTerm}">
             ${t} дн.
           </button>
         `).join('')}
@@ -137,7 +139,7 @@ function render(screen) {
     ` : ''}
 
     <div class="apply-submit">
-      <button class="btn-repay" id="apply-submit-btn">Оформить заявку</button>
+      <button class="btn-primary" id="apply-submit-btn" aria-label="Оформить заявку">Оформить заявку</button>
     </div>
 
     <div class="apply-disclaimer">
@@ -168,10 +170,14 @@ function render(screen) {
   });
 
   screen.querySelector('#apply-submit-btn')?.addEventListener('click', () => {
-    setLastApplication({ amount: selectedAmount, term: selectedTerm, rate: tier.dailyRate });
-    navigate('/apply-success');
+    const btn = screen.querySelector('#apply-submit-btn');
+    btn.classList.add('btn-loading');
+    btn.textContent = 'Отправка';
+    setTimeout(() => {
+      setLastApplication({ amount: selectedAmount, term: selectedTerm, rate: tier.dailyRate });
+      navigate('/apply-success');
+      btn.classList.remove('btn-loading');
+      btn.textContent = 'Оформить заявку';
+    }, 500);
   });
 }
-
-function fmtNum(n) { return new Intl.NumberFormat('ru-RU').format(n); }
-function fmtRate(r) { return r.toFixed(2).replace('.', ',') + '%'; }

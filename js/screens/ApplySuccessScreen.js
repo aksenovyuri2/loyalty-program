@@ -1,6 +1,7 @@
 import { TIERS, TIER_ORDER, BASE_RATE, TIER_PROGRESS } from '../../data/mock-data.js';
 import { getState } from '../state.js';
 import { navigate, onEnter } from '../router.js';
+import { fmtNum, fmtRate, loanWord } from '../utils.js';
 
 // Store last application details (set by ApplyScreen before navigating)
 let lastApplication = null;
@@ -32,8 +33,11 @@ function render(screen) {
   const savings = baseInterest - interest;
 
   screen.innerHTML = `
-    <div class="app-header">
-      <div class="app-header__logo">boostra</div>
+    <div class="screen-header">
+      <button class="screen-header__back" id="success-close" aria-label="Закрыть">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <span class="screen-header__title">Заявка</span>
     </div>
 
     <div class="empty-state" style="padding-top: 40px; padding-bottom: var(--sp-lg)">
@@ -41,8 +45,8 @@ function render(screen) {
         <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--brand-green)" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
       <h2 class="empty-state__title">Заявка отправлена!</h2>
-      <p class="empty-state__text" style="margin-bottom: var(--sp-md)">
-        Мы рассмотрим её в ближайшее время и сообщим результат.
+      <p class="empty-state__text" style="margin-bottom: var(--sp-sm)">
+        Обычно решение занимает до 15 минут.<br>Мы отправим SMS на ваш номер.
       </p>
     </div>
 
@@ -78,25 +82,19 @@ function render(screen) {
 
     ${!isMaxTier ? `
     <div class="lk-new-loan-section" style="margin: 0 var(--sp-base) var(--sp-lg); text-align: center">
-      <div style="font-size: 28px; margin-bottom: var(--sp-sm)">\ud83c\udf1f</div>
+      <div style="margin-bottom: var(--sp-sm)">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--brand-blue)" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
       <div class="lk-new-loan__title">Ещё ${loansLeft > 0 ? loansLeft : 1} ${loanWord(loansLeft > 0 ? loansLeft : 1)} до «${nextTier.name}»</div>
       <div class="lk-new-loan__subtitle">Ставка станет <strong>${fmtRate(nextTier.dailyRate)}/день</strong> — ещё выгоднее!</div>
     </div>
     ` : ''}
 
     <div style="padding: 0 var(--sp-base)">
-      <button class="btn-repay" style="width: 100%" id="success-to-lk">Вернуться в ЛК</button>
+      <button class="btn-secondary" style="width: 100%" id="success-to-lk" aria-label="Вернуться в личный кабинет">Вернуться в ЛК</button>
     </div>
   `;
 
+  screen.querySelector('#success-close')?.addEventListener('click', () => navigate('/lk'));
   screen.querySelector('#success-to-lk')?.addEventListener('click', () => navigate('/lk'));
 }
-
-function loanWord(n) {
-  if (n === 1) return 'займ';
-  if (n >= 2 && n <= 4) return 'займа';
-  return 'займов';
-}
-
-function fmtNum(n) { return new Intl.NumberFormat('ru-RU').format(n); }
-function fmtRate(r) { return r.toFixed(2).replace('.', ',') + '%'; }

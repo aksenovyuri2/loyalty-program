@@ -94,3 +94,20 @@ body {
 .text-accent { color: var(--brand-blue); }
 
 .fmt-rub::after { content: ' ₽'; }
+
+/* Accessibility — focus-visible */
+:focus-visible {
+  outline: 2px solid var(--brand-blue);
+  outline-offset: 2px;
+}
+
+button:focus:not(:focus-visible),
+a:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Touch targets — minimum 44px */
+.screen-header__back {
+  min-width: 44px;
+  min-height: 44px;
+}

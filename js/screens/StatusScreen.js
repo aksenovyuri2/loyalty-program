@@ -1,6 +1,7 @@
 import { TIERS, TIER_ORDER, TIER_PROGRESS, BASE_RATE, STATUS_HISTORY } from '../../data/mock-data.js';
 import { getState } from '../state.js';
 import { navigate, onEnter } from '../router.js';
+import { fmtNum, fmtRate, loanWord } from '../utils.js';
 
 let activeTab = null;
 
@@ -29,8 +30,9 @@ function render(screen) {
   // Default tab = next tier (P0 fix), or current if max
   const viewTier = activeTab || (isMaxTier ? currentTier : nextTierId);
   const viewTierData = TIERS[viewTier];
+  const viewTierAllDone = viewTierData.conditions.every(c => c.completed);
 
-  // Savings example: 10 000 ₽ on 10 days
+  // Savings example — use current loan amount or default
   const exampleAmount = 10000;
   const exampleDays = 10;
   const baseInterest = exampleAmount * (BASE_RATE / 100) * exampleDays;
@@ -39,20 +41,28 @@ function render(screen) {
   const savingsVsBase = baseInterest - currentInterest;
   const savingsNextVsCurrent = nextTier ? currentInterest - nextInterest : 0;
 
+  // History: inline if only 1 entry
+  const showHistorySection = STATUS_HISTORY.length >= 2;
+
   screen.innerHTML = `
     <div class="screen-header">
-      <button class="screen-header__back" id="status-back">
+      <button class="screen-header__back" id="status-back" aria-label="Назад">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
       <span class="screen-header__title">Ваш статус</span>
     </div>
 
-    <!-- Status card with rate + limit (P0) -->
+    <!-- Status card with name, rate, limit -->
     <div class="status-card-area">
       <div class="status-card status-card--${currentTier}">
         <div class="status-card__top">
-          <div class="status-card__tier-name">${tier.name}</div>
-          <div class="status-card__badge">Программа лояльности</div>
+          <div>
+            <div class="status-card__user-name">${state.user.name}, ваш статус</div>
+            <div class="status-card__tier-name">${tier.name}</div>
+          </div>
+          ${!showHistorySection && STATUS_HISTORY.length === 1 ? `
+            <div class="status-card__since">с ${STATUS_HISTORY[0].date}</div>
+          ` : ''}
         </div>
         <div class="status-card__metrics">
           <div class="status-card__metric">
@@ -67,12 +77,12 @@ function render(screen) {
       </div>
     </div>
 
-    <!-- Progress bar with labels (P0) -->
+    <!-- Progress bar with labels -->
     ${!isMaxTier ? `
     <div class="status-progress-section">
       <div class="status-progress__header">
         <span class="status-progress__title">Погашено ${prog.loansCompleted} из ${prog.loansNeeded} займов</span>
-        <span class="status-progress__target">до «${nextTier.name}»</span>
+        <span class="status-progress__target" id="status-scroll-to-conditions" role="button" aria-label="Перейти к условиям Серебро">до «${nextTier.name}»</span>
       </div>
       <div class="status-progress__bar">
         <div class="status-progress__fill status-progress__fill--${currentTier}" style="width: ${progressPct}%"></div>
@@ -91,7 +101,7 @@ function render(screen) {
     </div>
     `}
 
-    <!-- Tier comparison (P1: compact rows) -->
+    <!-- Tier comparison -->
     <div class="section-title">Ставки по уровням</div>
     <div class="status-tiers-compare">
       ${TIER_ORDER.map((tid, idx) => {
@@ -114,7 +124,7 @@ function render(screen) {
       }).join('')}
     </div>
 
-    <!-- Savings example (P2) -->
+    <!-- Savings example -->
     ${!isMaxTier ? `
     <div class="status-savings-example">
       <div class="status-savings-example__title">Пример экономии</div>
@@ -157,18 +167,28 @@ function render(screen) {
     </div>
     `}
 
-    <!-- Conditions with tabs (P0: default=next, P1: progress inline) -->
-    <div class="section-title">Условия перехода</div>
+    <!-- Conditions with tabs -->
+    <div class="section-title" id="conditions-anchor">Условия перехода</div>
     <div class="tab-bar">
       ${TIER_ORDER.map(tid => {
         const t = TIERS[tid];
         const isActive = tid === viewTier;
-        return `<button class="tab-btn ${isActive ? 'active--' + tid : ''}" data-view-tier="${tid}">${t.name}</button>`;
+        const allDone = t.conditions.every(c => c.completed);
+        return `<button class="tab-btn ${isActive ? 'active--' + tid : ''}" data-view-tier="${tid}" aria-label="${t.name}${allDone ? ' — выполнено' : ''}">${t.name}${allDone && TIER_ORDER.indexOf(tid) <= currentIdx ? ' ✓' : ''}</button>`;
       }).join('')}
     </div>
     <div class="conditions-section">
-      ${viewTierData.conditions.map(c => {
-        return `
+      ${viewTierAllDone ? `
+      <div class="condition-item condition-item--all-done">
+        <div class="condition-item__left">
+          <div class="condition-item__check condition-item__check--done">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="condition-item__text" style="color: var(--brand-green); font-weight: 600">Все условия выполнены</span>
+        </div>
+      </div>
+      ` : `
+      ${viewTierData.conditions.map(c => `
         <div class="condition-item ${c.completed ? 'condition-item--done' : ''}">
           <div class="condition-item__left">
             <div class="condition-item__check ${c.completed ? 'condition-item__check--done' : ''}">
@@ -179,16 +199,12 @@ function render(screen) {
             <span class="condition-item__text">${c.text}</span>
           </div>
         </div>
-        `;
-      }).join('')}
-      ${allCompleted(viewTierData.conditions) ? `
-      <div class="condition-item condition-item--all-done">
-        <span class="condition-item__text" style="color: var(--brand-green); font-weight: 600">Все условия выполнены ✓</span>
-      </div>
-      ` : ''}
+      `).join('')}
+      `}
     </div>
 
-    <!-- History -->
+    <!-- History (only if 2+ entries) -->
+    ${showHistorySection ? `
     <div class="section-title">История статусов</div>
     <div class="history-section">
       ${STATUS_HISTORY.slice().reverse().map(h => `
@@ -201,12 +217,13 @@ function render(screen) {
         </div>
       `).join('')}
     </div>
+    ` : ''}
 
     <!-- CTA -->
     <div style="padding: 0 var(--sp-base); margin-bottom: var(--sp-md)">
-      <button class="btn-loan" id="status-apply" style="width:100%">Оформить заявку со ставкой ${fmtRate(tier.dailyRate)}</button>
+      <button class="btn-primary" id="status-apply" style="width:100%" aria-label="Оформить заявку">Оформить заявку со ставкой ${fmtRate(tier.dailyRate)}</button>
     </div>
-    <div style="padding: 0 var(--sp-base); margin-bottom: var(--sp-lg); font-size: var(--fs-xs); color: var(--color-text-tertiary); text-align: center">
+    <div style="padding: 0 var(--sp-base); margin-bottom: var(--sp-lg); font-size: var(--fs-xs); color: var(--color-text-secondary); text-align: center">
       Ваш статус ${tier.name} даёт лучшие условия
     </div>
   `;
@@ -214,6 +231,12 @@ function render(screen) {
   // Back button
   screen.querySelector('#status-back')?.addEventListener('click', () => navigate('/lk'));
   screen.querySelector('#status-apply')?.addEventListener('click', () => navigate('/apply'));
+
+  // "до Серебро" → scroll to conditions
+  screen.querySelector('#status-scroll-to-conditions')?.addEventListener('click', () => {
+    const anchor = screen.querySelector('#conditions-anchor');
+    if (anchor) anchor.scrollIntoView({ behavior: 'smooth' });
+  });
 
   // Tab switching
   screen.querySelectorAll('[data-view-tier]').forEach(btn => {
@@ -223,16 +246,3 @@ function render(screen) {
     });
   });
 }
-
-function allCompleted(conditions) {
-  return conditions.every(c => c.completed);
-}
-
-function loanWord(n) {
-  if (n === 1) return 'займ';
-  if (n >= 2 && n <= 4) return 'займа';
-  return 'займов';
-}
-
-function fmtNum(n) { return new Intl.NumberFormat('ru-RU').format(n); }
-function fmtRate(r) { return r.toFixed(2).replace('.', ',') + '%'; }

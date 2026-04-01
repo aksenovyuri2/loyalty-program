@@ -24,18 +24,26 @@
   margin-bottom: var(--sp-lg);
 }
 
+.status-card__user-name {
+  font-size: var(--fs-sm);
+  opacity: 0.7;
+  margin-bottom: 2px;
+}
+
 .status-card__tier-name {
   font-size: var(--fs-2xl);
   font-weight: 700;
   letter-spacing: 0.02em;
 }
 
-.status-card__badge {
+.status-card__since {
   font-size: var(--fs-xs);
-  opacity: 0.7;
-  padding: 2px 8px;
+  opacity: 0.6;
+  padding: 4px 10px;
   border-radius: var(--r-full);
   background: rgba(255,255,255,0.2);
+  align-self: flex-start;
+  white-space: nowrap;
 }
 
 .status-card__metrics {
@@ -92,6 +100,11 @@
   font-size: var(--fs-sm);
   font-weight: 600;
   color: var(--brand-blue);
+  cursor: pointer;
+}
+
+.status-progress__target:active {
+  opacity: 0.7;
 }
 
 .status-progress__bar {

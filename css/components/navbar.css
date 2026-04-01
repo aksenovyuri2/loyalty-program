@@ -51,6 +51,15 @@
   opacity: 0.7;
 }
 
+.bottom-nav__item--disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.bottom-nav__item--disabled:active {
+  opacity: 0.35;
+}
+
 .bottom-nav__icon {
   width: 24px;
   height: 24px;

@@ -1,6 +1,9 @@
 import { TIERS, TIER_ORDER, STATUS_HISTORY } from '../../data/mock-data.js';
 import { getState } from '../state.js';
 import { navigate, onEnter } from '../router.js';
+import { fmtNum, fmtRate } from '../utils.js';
+
+let confettiShown = false;
 
 export function initUpgradeScreen() {
   const screen = document.getElementById('screen-upgrade');
@@ -21,7 +24,7 @@ function render(screen) {
 
   screen.innerHTML = `
     <div class="screen-header">
-      <button class="screen-header__back" id="upgrade-close">
+      <button class="screen-header__back" id="upgrade-close" aria-label="Назад">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
       <span class="screen-header__title">${isMaxTier ? 'Ваш статус' : 'Повышение статуса'}</span>
@@ -77,7 +80,10 @@ function render(screen) {
     </div>
 
     <div class="upgrade-cta">
-      <button class="btn-loan" id="upgrade-loan">${isMaxTier ? 'Оформить заявку' : 'Получить займ'}</button>
+      <button class="btn-primary" id="upgrade-ok" aria-label="Отлично">${isMaxTier ? 'Отлично!' : 'Отлично!'}</button>
+    </div>
+    <div class="upgrade-cta" style="margin-top: calc(-1 * var(--sp-sm))">
+      <button class="btn-secondary" id="upgrade-loan" aria-label="Оформить заявку по новой ставке">Оформить заявку по новой ставке</button>
     </div>
 
     <div class="upgrade-disclaimer">
@@ -86,10 +92,14 @@ function render(screen) {
   `;
 
   screen.querySelector('#upgrade-close')?.addEventListener('click', () => navigate('/lk'));
+  screen.querySelector('#upgrade-ok')?.addEventListener('click', () => navigate('/lk'));
   screen.querySelector('#upgrade-loan')?.addEventListener('click', () => navigate('/apply'));
 
-  // Spawn confetti
-  spawnConfetti(screen);
+  // Confetti — only once per session
+  if (!confettiShown) {
+    spawnConfetti(screen);
+    confettiShown = true;
+  }
 }
 
 function spawnConfetti(screen) {
@@ -110,6 +120,3 @@ function spawnConfetti(screen) {
     container.appendChild(el);
   }
 }
-
-function fmtNum(n) { return new Intl.NumberFormat('ru-RU').format(n); }
-function fmtRate(r) { return r.toFixed(2).replace('.', ',') + '%'; }

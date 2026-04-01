@@ -86,19 +86,19 @@
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: var(--brand-orange);
+  background: var(--brand-blue);
   cursor: pointer;
-  box-shadow: 0 2px 6px rgba(232, 135, 14, 0.35);
+  box-shadow: 0 2px 6px rgba(59, 130, 246, 0.35);
 }
 
 .apply-slider::-moz-range-thumb {
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: var(--brand-orange);
+  background: var(--brand-blue);
   cursor: pointer;
   border: none;
-  box-shadow: 0 2px 6px rgba(232, 135, 14, 0.35);
+  box-shadow: 0 2px 6px rgba(59, 130, 246, 0.35);
 }
 
 .apply-field__range-labels {
@@ -113,11 +113,12 @@
 .apply-terms {
   display: flex;
   gap: var(--sp-sm);
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 .apply-term-chip {
-  padding: 8px 16px;
+  flex: 1;
+  padding: 8px 6px;
   border-radius: var(--r-full);
   background: var(--color-bg);
   color: var(--color-text-secondary);
@@ -131,9 +132,9 @@
 .apply-term-chip:active { transform: scale(0.96); }
 
 .apply-term-chip.active {
-  background: rgba(232, 135, 14, 0.1);
-  border-color: var(--brand-orange);
-  color: var(--brand-orange);
+  background: rgba(59, 130, 246, 0.08);
+  border-color: var(--brand-blue);
+  color: var(--brand-blue);
   font-weight: 600;
 }
 
@@ -249,8 +250,8 @@
 
 .apply-disclaimer {
   padding: 0 var(--sp-base);
-  font-size: var(--fs-xs);
-  color: var(--color-text-tertiary);
+  font-size: var(--fs-sm);
+  color: var(--color-text-secondary);
   text-align: center;
   line-height: 1.4;
   margin-bottom: var(--sp-lg);

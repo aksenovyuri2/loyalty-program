@@ -4,7 +4,6 @@ const NAV_ITEMS = [
   {
     route: '/lk',
     label: 'Главная',
-    dot: true,
     icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><text x="12" y="16" text-anchor="middle" font-size="11" font-weight="800" fill="currentColor" stroke="none">b</text></svg>`,
   },
   {
@@ -15,7 +14,6 @@ const NAV_ITEMS = [
   {
     route: '/status',
     label: 'Статус',
-    dot: true,
     icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
   },
   {
@@ -32,12 +30,14 @@ const NAV_ITEMS = [
 
 export function renderBottomNav(container) {
   container.innerHTML = `
-    <nav class="bottom-nav">
+    <nav class="bottom-nav" role="navigation" aria-label="Основная навигация">
       ${NAV_ITEMS.map(item => `
-        <button class="bottom-nav__item" data-route="${item.route || ''}">
+        <button class="bottom-nav__item ${!item.route ? 'bottom-nav__item--disabled' : ''}"
+                data-route="${item.route || ''}"
+                aria-label="${item.label}"
+                ${!item.route ? 'aria-disabled="true"' : ''}>
           <span class="bottom-nav__icon">
             ${item.icon}
-            ${item.dot ? '<span class="bottom-nav__dot"></span>' : ''}
           </span>
           <span class="bottom-nav__label">${item.label}</span>
         </button>
@@ -48,7 +48,9 @@ export function renderBottomNav(container) {
   container.querySelectorAll('.bottom-nav__item').forEach(btn => {
     btn.addEventListener('click', () => {
       const route = btn.dataset.route;
-      if (route) navigate(route);
+      if (route) {
+        navigate(route);
+      }
     });
   });
 }

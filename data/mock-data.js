@@ -6,12 +6,12 @@ export const TIERS = {
     name: 'Бронза',
     dailyRate: 0.80,
     maxLimit: 30000,
-    perks: ['Сниженная ставка 0,80%/день'],
+    perks: ['Сниженная ставка 0,80%/день', 'Лимит до 30 000 ₽', 'Накопление баллов'],
     nextPerks: ['Ставка 0,70%/день', 'Финансовая консультация'],
     conditions: [
-      { text: 'Своевременное погашение 3 займов', amount: 10000, completed: false },
-      { text: 'Общая сумма займов от 5 000 ₽', amount: 5000, completed: true },
-      { text: 'Регистрация в программе', amount: 1000, completed: true },
+      { text: 'Своевременное погашение 3 займов', completed: false },
+      { text: 'Общая сумма займов от 5 000 ₽', completed: true },
+      { text: 'Регистрация в программе', completed: true },
     ],
   },
   silver: {
@@ -19,12 +19,12 @@ export const TIERS = {
     name: 'Серебро',
     dailyRate: 0.70,
     maxLimit: 60000,
-    perks: ['Сниженная ставка 0,70%/день', 'Финансовая консультация'],
+    perks: ['Сниженная ставка 0,70%/день', 'Лимит до 60 000 ₽', 'Финансовая консультация'],
     nextPerks: ['Ставка 0,60%/день', 'Телемедицина 30 дней', 'Приоритетная линия'],
     conditions: [
-      { text: 'Своевременное погашение 6 займов', amount: 10000, completed: false },
-      { text: 'Общая сумма займов от 30 000 ₽', amount: 5000, completed: true },
-      { text: 'Статус «Бронза» не менее 30 дней', amount: 1000, completed: true },
+      { text: 'Своевременное погашение 6 займов', completed: false },
+      { text: 'Общая сумма займов от 30 000 ₽', completed: true },
+      { text: 'Статус «Бронза» не менее 30 дней', completed: true },
     ],
   },
   gold: {
@@ -32,12 +32,12 @@ export const TIERS = {
     name: 'Золото',
     dailyRate: 0.60,
     maxLimit: 90000,
-    perks: ['Сниженная ставка 0,60%/день', 'Телемедицина 30 дней', 'Приоритетная линия'],
+    perks: ['Сниженная ставка 0,60%/день', 'Лимит до 90 000 ₽', 'Телемедицина 30 дней', 'Приоритетная линия'],
     nextPerks: [],
     conditions: [
-      { text: 'Своевременное погашение 10 займов', amount: 10000, completed: true },
-      { text: 'Общая сумма займов от 60 000 ₽', amount: 5000, completed: true },
-      { text: 'Статус «Серебро» не менее 60 дней', amount: 1000, completed: true },
+      { text: 'Своевременное погашение 10 займов', completed: true },
+      { text: 'Общая сумма займов от 60 000 ₽', completed: true },
+      { text: 'Статус «Серебро» не менее 60 дней', completed: true },
     ],
   },
 };
@@ -58,10 +58,17 @@ export const USER = {
   tier: 'bronze',
 };
 
+// Dynamic payment date: 14 days from now
+const paymentDate = new Date();
+paymentDate.setDate(paymentDate.getDate() + 14);
+const dd = String(paymentDate.getDate()).padStart(2, '0');
+const mm = String(paymentDate.getMonth() + 1).padStart(2, '0');
+const yyyy = paymentDate.getFullYear();
+
 export const CURRENT_LOAN = {
   id: 'A24-2758246',
   remainingDebt: 1000,
-  paymentDate: '24.04.2024',
+  paymentDate: `${dd}.${mm}.${yyyy}`,
   minPayment: 250,
   dpd: 0,  // days past due — set >= 7 to test frozen state
 };

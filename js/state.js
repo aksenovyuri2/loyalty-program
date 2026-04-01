@@ -4,6 +4,7 @@ const state = {
   currentTier: USER.tier,
   user: { ...USER },
   hasActiveLoan: true,  // set to false to test empty state
+  isFirstVisit: false,  // set to true to show onboarding above the fold
 };
 
 export function getState() { return state; }
