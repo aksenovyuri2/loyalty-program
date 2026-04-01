@@ -9,9 +9,9 @@
   border-radius: var(--r-md);
 }
 
-.apply-tier-badge--bronze { background: rgba(221, 179, 92, 0.12); }
-.apply-tier-badge--silver { background: rgba(176, 176, 176, 0.12); }
-.apply-tier-badge--gold { background: rgba(239, 200, 66, 0.12); }
+.apply-tier-badge--bronze { background: var(--color-surface); box-shadow: var(--shadow-section); }
+.apply-tier-badge--silver { background: var(--color-surface); box-shadow: var(--shadow-section); }
+.apply-tier-badge--gold { background: var(--color-surface); box-shadow: var(--shadow-section); }
 
 .apply-tier-badge__icon {
   width: 32px;
@@ -140,9 +140,10 @@
 /* Calculation breakdown */
 .apply-calc {
   margin: 0 var(--sp-base) var(--sp-lg);
-  background: var(--color-bg);
+  background: var(--color-surface);
   border-radius: var(--r-lg);
   padding: var(--sp-base);
+  box-shadow: var(--shadow-section);
 }
 
 .apply-calc__row {

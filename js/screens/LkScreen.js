@@ -1,4 +1,4 @@
-import { TIERS, CURRENT_LOAN } from '../../data/mock-data.js';
+import { TIERS, TIER_ORDER, CURRENT_LOAN } from '../../data/mock-data.js';
 import { getState, setTier } from '../state.js';
 import { navigate } from '../router.js';
 
@@ -107,17 +107,37 @@ function updateCard() {
   const container = document.getElementById('lk-user-card');
   if (!container) return;
 
+  const currentIdx = TIER_ORDER.indexOf(state.currentTier);
+  const isMaxTier = currentIdx >= TIER_ORDER.length - 1;
+  const nextTier = isMaxTier ? null : TIERS[TIER_ORDER[currentIdx + 1]];
+  const progressPct = isMaxTier ? 100 : 65; // mock progress
+
   container.innerHTML = `
     <div class="user-card user-card--${tier.id}">
       <div class="user-card__top">
-        <div class="user-card__name">${state.user.fullName}</div>
+        <div>
+          <div class="user-card__name">${state.user.fullName}</div>
+          <div class="user-card__subtitle">Программа лояльности boostra</div>
+        </div>
         <div class="user-card__badge" id="lk-badge">
           ${tier.name} <span class="user-card__badge-arrow">›</span>
         </div>
       </div>
       <div class="user-card__metrics">
-        <div class="user-card__metric">${fmtRate(tier.dailyRate)} <span>/день</span></div>
-        <div class="user-card__metric">${fmtNum(tier.maxLimit)} ₽</div>
+        <div class="user-card__metric">
+          <span class="user-card__metric-value">${fmtRate(tier.dailyRate)}</span>
+          <span class="user-card__metric-label">ставка/день</span>
+        </div>
+        <div class="user-card__metric">
+          <span class="user-card__metric-value">${fmtNum(tier.maxLimit)} ₽</span>
+          <span class="user-card__metric-label">макс. лимит</span>
+        </div>
+      </div>
+      <div class="user-card__progress">
+        <div class="user-card__progress-bar">
+          <div class="user-card__progress-fill" style="width: ${progressPct}%"></div>
+        </div>
+        <span class="user-card__progress-text">${isMaxTier ? 'Максимальный уровень' : `До «${nextTier.name}» — ${100 - progressPct}%`}</span>
       </div>
     </div>
   `;

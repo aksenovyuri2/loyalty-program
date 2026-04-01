@@ -17,16 +17,19 @@
   --brand-green-dark: #249448;
   --brand-red: #e05a3a;
   --brand-red-dark: #c44a2e;
-  --brand-blue: #2b7de9;
+  --brand-blue: #3b82f6;
+  --brand-blue-dark: #2563eb;
+  --brand-blue-gradient: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
 
   /* Neutral Colors */
-  --color-bg: #f2f2f7;
+  --color-bg: #eef2f7;
   --color-surface: #ffffff;
-  --color-text: #1a1a1a;
-  --color-text-secondary: #8e8e93;
-  --color-text-tertiary: #aeaeb2;
-  --color-border: #e5e5ea;
-  --color-divider: #f0f0f0;
+  --color-surface-secondary: #f8fafc;
+  --color-text: #1a1a2e;
+  --color-text-secondary: #64748b;
+  --color-text-tertiary: #94a3b8;
+  --color-border: #e2e8f0;
+  --color-divider: #f1f5f9;
 
   /* Bronze tier */
   --bronze-1: #9a6e1e;
@@ -77,8 +80,9 @@
   --r-full: 9999px;
 
   /* Shadows */
-  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.10);
-  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.06);
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.08);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
+  --shadow-section: 0 2px 12px rgba(0, 0, 0, 0.06);
 
   /* Layout */
   --max-width: 430px;

@@ -3,12 +3,12 @@
    ============================================ */
 .user-card {
   margin: 0 var(--sp-base);
-  border-radius: var(--r-lg);
-  padding: var(--sp-lg);
+  border-radius: var(--r-xl);
+  padding: var(--sp-lg) var(--sp-lg) var(--sp-base);
   position: relative;
   overflow: hidden;
   color: #fff;
-  box-shadow: var(--shadow-card);
+  box-shadow: var(--shadow-card), 0 8px 32px rgba(0, 0, 0, 0.12);
 }
 
 .user-card::before {
@@ -49,10 +49,17 @@
 }
 
 .user-card__name {
-  font-size: var(--fs-md);
-  font-weight: 600;
-  max-width: 60%;
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  max-width: 65%;
   line-height: 1.3;
+}
+
+.user-card__subtitle {
+  font-size: var(--fs-xs);
+  opacity: 0.7;
+  font-weight: 400;
+  margin-top: 2px;
 }
 
 .user-card__badge {
@@ -81,20 +88,57 @@
   gap: var(--sp-sm);
   position: relative;
   z-index: 1;
+  margin-bottom: var(--sp-md);
 }
 
 .user-card__metric {
-  background: rgba(255,255,255,0.2);
-  border-radius: var(--r-sm);
-  padding: 6px 14px;
-  font-size: var(--fs-base);
+  flex: 1;
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(4px);
+  border-radius: var(--r-md);
+  padding: var(--sp-sm) var(--sp-md);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.user-card__metric-value {
+  font-size: var(--fs-md);
   font-weight: 700;
 }
 
-.user-card__metric span {
-  font-weight: 400;
+.user-card__metric-label {
   font-size: var(--fs-xs);
-  opacity: 0.8;
+  opacity: 0.7;
+  font-weight: 400;
+}
+
+/* Progress to next tier */
+.user-card__progress {
+  position: relative;
+  z-index: 1;
+}
+
+.user-card__progress-bar {
+  width: 100%;
+  height: 3px;
+  background: rgba(255,255,255,0.2);
+  border-radius: var(--r-full);
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+
+.user-card__progress-fill {
+  height: 100%;
+  border-radius: var(--r-full);
+  background: rgba(255,255,255,0.8);
+  transition: width 0.4s ease;
+}
+
+.user-card__progress-text {
+  font-size: var(--fs-xs);
+  opacity: 0.65;
+  font-weight: 400;
 }
 
 /* ============================================
@@ -150,6 +194,11 @@
   margin-bottom: var(--sp-md);
   position: relative;
   z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--fs-2xl);
+  font-weight: 800;
 }
 
 .status-card__label {

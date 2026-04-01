@@ -16,46 +16,42 @@ function render(screen) {
   const nextTier = TIERS[nextTierId];
   const currentTier = TIERS[state.currentTier];
 
+  const displayTier = isMaxTier ? currentTier : nextTier;
+  const tierInitial = displayTier.name.charAt(0).toUpperCase();
+
   screen.innerHTML = `
-    <div class="app-header">
-      <div class="app-header__logo">boostra</div>
-      <div class="app-header__icons">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 1l4 4m0 0a11 11 0 1 1-4 4"/></svg>
-      </div>
+    <div class="screen-header">
+      <button class="screen-header__back" id="upgrade-close">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <span class="screen-header__title">${isMaxTier ? 'Ваш статус' : 'Повышение статуса'}</span>
     </div>
 
-    <div class="upgrade-card-area">
-      <div class="upgrade-user-card upgrade-user-card--${isMaxTier ? state.currentTier : nextTierId}">
-        <div class="upgrade-user-card__left">
-          <div class="upgrade-user-card__avatar"></div>
-          <div class="upgrade-user-card__name">${state.user.fullName}</div>
-        </div>
-        <div class="upgrade-user-card__right">
-          <span class="upgrade-user-card__badge">${isMaxTier ? currentTier.name : nextTier.name}</span>
-          <button class="upgrade-user-card__close" id="upgrade-close">✕</button>
-        </div>
-      </div>
-    </div>
-
-    ${isMaxTier ? `
-    <div class="upgrade-body">
-      <h1 class="upgrade-body__title">Вы на максимуме!</h1>
-      <p class="upgrade-body__subtitle">У вас максимальный статус «${currentTier.name}» — лучшие условия уже ваши</p>
+    <div class="upgrade-hero">
+      <div class="upgrade-hero__avatar upgrade-hero__avatar--${displayTier.id}">${tierInitial}</div>
+      ${isMaxTier ? `
+        <h1 class="upgrade-hero__title">Вы на максимуме!</h1>
+        <p class="upgrade-hero__subtitle">Статус «${currentTier.name}» — лучшие условия уже ваши</p>
+      ` : `
+        <h1 class="upgrade-hero__title">Поздравляем!</h1>
+        <p class="upgrade-hero__subtitle">Статус повышен до «${nextTier.name}»</p>
+      `}
     </div>
 
     <div class="upgrade-benefits">
       <div class="upgrade-benefit">
-        <span class="upgrade-benefit__label">Ваша ставка</span>
-        <span class="upgrade-benefit__value">${fmtRate(currentTier.dailyRate)}/день</span>
+        <span class="upgrade-benefit__value">${fmtRate(displayTier.dailyRate)}</span>
+        <span class="upgrade-benefit__label">ставка/день</span>
       </div>
       <div class="upgrade-benefit">
-        <span class="upgrade-benefit__label">Ваш лимит</span>
-        <span class="upgrade-benefit__value">${fmtNum(currentTier.maxLimit)} ₽</span>
+        <span class="upgrade-benefit__value">${fmtNum(displayTier.maxLimit)} ₽</span>
+        <span class="upgrade-benefit__label">макс. лимит</span>
       </div>
     </div>
 
-    <div class="section-title" style="text-align:left">Ваши привилегии</div>
-    <div class="apply-perks" style="padding: 0 var(--sp-base); margin-bottom: var(--sp-xl)">
+    ${isMaxTier ? `
+    <div class="upgrade-perks-card">
+      <div style="font-size: var(--fs-base); font-weight: 700; margin-bottom: var(--sp-sm)">Ваши привилегии</div>
       ${currentTier.perks.map(p => `
         <div class="apply-perk">
           <span class="apply-perk__check">
@@ -65,23 +61,7 @@ function render(screen) {
         </div>
       `).join('')}
     </div>
-    ` : `
-    <div class="upgrade-body">
-      <h1 class="upgrade-body__title">Поздравляем!</h1>
-      <p class="upgrade-body__subtitle">Статус повышен до «${nextTier.name}»</p>
-    </div>
-
-    <div class="upgrade-benefits">
-      <div class="upgrade-benefit">
-        <span class="upgrade-benefit__label">Ставка от</span>
-        <span class="upgrade-benefit__value">${fmtRate(nextTier.dailyRate)}/день</span>
-      </div>
-      <div class="upgrade-benefit">
-        <span class="upgrade-benefit__label">Доступно до</span>
-        <span class="upgrade-benefit__value">${fmtNum(nextTier.maxLimit)} ₽</span>
-      </div>
-    </div>
-    `}
+    ` : ''}
 
     <div class="section-title" style="text-align:left">История статусов</div>
     <div class="upgrade-history">

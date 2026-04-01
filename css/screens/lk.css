@@ -7,6 +7,10 @@
 /* Loan section */
 .loan-section {
   margin: 0 var(--sp-base) var(--sp-lg);
+  background: var(--color-surface);
+  border-radius: var(--r-lg);
+  padding: var(--sp-base);
+  box-shadow: var(--shadow-section);
 }
 
 .loan-header {
@@ -48,16 +52,18 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #fef3e0;
+  background: var(--color-surface-secondary);
+  border: 1px solid var(--color-border);
   border-radius: var(--r-md);
   padding: var(--sp-md) var(--sp-base);
   margin: var(--sp-md) 0;
-  color: var(--brand-orange-dark);
+  color: var(--color-text);
   font-size: var(--fs-base);
 }
 
 .min-payment__label {
   font-weight: 500;
+  color: var(--color-text-secondary);
 }
 
 .min-payment__value {
@@ -78,9 +84,10 @@
   display: flex;
   align-items: center;
   gap: var(--sp-md);
-  background: var(--color-bg);
-  border-radius: var(--r-md);
+  background: var(--color-surface);
+  border-radius: var(--r-lg);
   padding: var(--sp-md) var(--sp-base);
+  box-shadow: var(--shadow-section);
 }
 
 .sbp-banner__logo {

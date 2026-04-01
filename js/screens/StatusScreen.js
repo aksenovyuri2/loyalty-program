@@ -30,7 +30,7 @@ function render(screen) {
 
     <div class="status-card-area">
       <div class="status-card status-card--${currentTier}">
-        <div class="status-card__avatar"></div>
+        <div class="status-card__avatar">${TIERS[currentTier].name.charAt(0)}</div>
         <div class="status-card__label">Ваш статус</div>
         <div class="status-card__tier">${TIERS[currentTier].name}</div>
       </div>

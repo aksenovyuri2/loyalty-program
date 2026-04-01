@@ -38,8 +38,11 @@
 
 /* Benefits section */
 .benefits-section {
-  padding: 0 var(--sp-base);
-  margin-bottom: var(--sp-lg);
+  margin: 0 var(--sp-base) var(--sp-lg);
+  background: var(--color-surface);
+  border-radius: var(--r-lg);
+  padding: var(--sp-sm) var(--sp-base);
+  box-shadow: var(--shadow-section);
 }
 
 .benefit-row {
@@ -84,7 +87,11 @@
 
 /* Conditions section */
 .conditions-section {
-  margin-bottom: var(--sp-lg);
+  margin: 0 var(--sp-base) var(--sp-lg);
+  background: var(--color-surface);
+  border-radius: var(--r-lg);
+  padding: var(--sp-sm) 0;
+  box-shadow: var(--shadow-section);
 }
 
 .condition-item {
@@ -129,8 +136,8 @@
 
 /* Status history */
 .history-section {
-  padding: 0 var(--sp-base);
-  margin-bottom: var(--sp-lg);
+  margin: 0 var(--sp-base) var(--sp-lg);
+  padding: 0;
 }
 
 .history-item {

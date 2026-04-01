@@ -11,7 +11,7 @@ body {
   width: 100%;
   max-width: var(--max-width);
   min-height: 100vh;
-  background-color: var(--color-surface);
+  background-color: var(--color-bg);
   position: relative;
   overflow-x: hidden;
 }
@@ -38,7 +38,8 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: var(--sp-md) var(--sp-base);
-  height: 48px;
+  height: 52px;
+  background: var(--color-surface);
 }
 
 .app-header__logo {
@@ -59,8 +60,9 @@ body {
   display: flex;
   align-items: center;
   padding: var(--sp-md) var(--sp-base);
-  height: 48px;
+  height: 52px;
   gap: var(--sp-sm);
+  background: var(--color-surface);
 }
 
 .screen-header__back {
