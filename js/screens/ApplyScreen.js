@@ -1,6 +1,7 @@
 import { TIERS, BASE_RATE } from '../../data/mock-data.js';
 import { getState } from '../state.js';
 import { navigate, onEnter } from '../router.js';
+import { setLastApplication } from './ApplySuccessScreen.js';
 
 const TERMS = [5, 10, 15, 21, 30];
 let selectedAmount = 10000;
@@ -102,7 +103,9 @@ function render(screen) {
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
       <div class="apply-savings__text">
-        Экономия по программе лояльности: <strong>${fmtNum(Math.round(savings))} ₽</strong>
+        Без программы: <strong>${fmtNum(Math.round(baseInterest))} \u20bd</strong> процентов<br>
+        Ваши проценты: <strong>${fmtNum(Math.round(interest))} \u20bd</strong>.
+        Экономия: <strong>${fmtNum(Math.round(savings))} \u20bd</strong>
       </div>
     </div>
     ` : ''}
@@ -118,6 +121,20 @@ function render(screen) {
         </div>
       `).join('')}
     </div>
+
+    ${tier.nextPerks && tier.nextPerks.length > 0 ? `
+    <div class="section-title" style="text-align:left">На следующем уровне</div>
+    <div class="apply-perks" style="opacity: 0.65">
+      ${tier.nextPerks.map(p => `
+        <div class="apply-perk">
+          <span class="apply-perk__check" style="background: var(--color-text-tertiary)">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg>
+          </span>
+          ${p}
+        </div>
+      `).join('')}
+    </div>
+    ` : ''}
 
     <div class="apply-submit">
       <button class="btn-repay" id="apply-submit-btn">Оформить заявку</button>
@@ -151,6 +168,7 @@ function render(screen) {
   });
 
   screen.querySelector('#apply-submit-btn')?.addEventListener('click', () => {
+    setLastApplication({ amount: selectedAmount, term: selectedTerm, rate: tier.dailyRate });
     navigate('/apply-success');
   });
 }

@@ -6,11 +6,12 @@ export const TIERS = {
     name: 'Бронза',
     dailyRate: 0.80,
     maxLimit: 30000,
-    perks: ['Сниженная ставка 0,80%'],
+    perks: ['Сниженная ставка 0,80%/день'],
+    nextPerks: ['Ставка 0,70%/день', 'Финансовая консультация'],
     conditions: [
-      { text: 'Оформить заявку', amount: 10000, completed: false },
-      { text: 'Оформить заявку', amount: 5000, completed: true },
-      { text: 'Оформить заявку', amount: 1000, completed: true },
+      { text: 'Своевременное погашение 3 займов', amount: 10000, completed: false },
+      { text: 'Общая сумма займов от 5 000 ₽', amount: 5000, completed: true },
+      { text: 'Регистрация в программе', amount: 1000, completed: true },
     ],
   },
   silver: {
@@ -18,11 +19,12 @@ export const TIERS = {
     name: 'Серебро',
     dailyRate: 0.70,
     maxLimit: 60000,
-    perks: ['Сниженная ставка 0,70%', 'Консультация финансовая'],
+    perks: ['Сниженная ставка 0,70%/день', 'Финансовая консультация'],
+    nextPerks: ['Ставка 0,60%/день', 'Телемедицина 30 дней', 'Приоритетная линия'],
     conditions: [
-      { text: 'Оформить заявку', amount: 10000, completed: false },
-      { text: 'Оформить заявку', amount: 5000, completed: true },
-      { text: 'Оформить заявку', amount: 1000, completed: true },
+      { text: 'Своевременное погашение 6 займов', amount: 10000, completed: false },
+      { text: 'Общая сумма займов от 30 000 ₽', amount: 5000, completed: true },
+      { text: 'Статус «Бронза» не менее 30 дней', amount: 1000, completed: true },
     ],
   },
   gold: {
@@ -30,13 +32,22 @@ export const TIERS = {
     name: 'Золото',
     dailyRate: 0.60,
     maxLimit: 90000,
-    perks: ['Сниженная ставка 0,60%', 'Телемедицина 30 дней', 'Приоритетная линия'],
+    perks: ['Сниженная ставка 0,60%/день', 'Телемедицина 30 дней', 'Приоритетная линия'],
+    nextPerks: [],
     conditions: [
-      { text: 'Оформить заявку', amount: 10000, completed: true },
-      { text: 'Оформить заявку', amount: 5000, completed: true },
-      { text: 'Оформить заявку', amount: 1000, completed: true },
+      { text: 'Своевременное погашение 10 займов', amount: 10000, completed: true },
+      { text: 'Общая сумма займов от 60 000 ₽', amount: 5000, completed: true },
+      { text: 'Статус «Серебро» не менее 60 дней', amount: 1000, completed: true },
     ],
   },
+};
+
+// Progress toward next tier
+export const TIER_PROGRESS = {
+  loansCompleted: 2,
+  loansNeeded: 3,
+  amountPaid: 6500,
+  amountNeeded: 10000,
 };
 
 export const TIER_ORDER = ['bronze', 'silver', 'gold'];

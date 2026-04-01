@@ -86,7 +86,7 @@ function render(screen) {
   `;
 
   screen.querySelector('#upgrade-close')?.addEventListener('click', () => navigate('/lk'));
-  screen.querySelector('#upgrade-loan')?.addEventListener('click', () => navigate(isMaxTier ? '/apply' : '/lk'));
+  screen.querySelector('#upgrade-loan')?.addEventListener('click', () => navigate('/apply'));
 
   // Spawn confetti
   spawnConfetti(screen);

@@ -103,10 +103,18 @@ function render(screen) {
         </div>
       `).join('')}
     </div>
+
+    <div style="padding: 0 var(--sp-base); margin-bottom: var(--sp-md)">
+      <button class="btn-loan" id="status-apply" style="width:100%">Оформить заявку со ставкой ${fmtRate(TIERS[currentTier].dailyRate)}</button>
+    </div>
+    <div style="padding: 0 var(--sp-base); margin-bottom: var(--sp-lg); font-size: var(--fs-xs); color: var(--color-text-tertiary); text-align: center">
+      Ваш статус ${TIERS[currentTier].name} даёт лучшие условия
+    </div>
   `;
 
   // Back button
   screen.querySelector('#status-back')?.addEventListener('click', () => navigate('/lk'));
+  screen.querySelector('#status-apply')?.addEventListener('click', () => navigate('/apply'));
 
   // Tab switching — local re-render only
   screen.querySelectorAll('[data-view-tier]').forEach(btn => {

@@ -113,6 +113,14 @@
   font-weight: 400;
 }
 
+.user-card__metric-old {
+  opacity: 0.55;
+  font-weight: 400;
+  font-size: var(--fs-sm);
+  text-decoration: line-through;
+  margin-right: 2px;
+}
+
 /* Progress to next tier */
 .user-card__progress {
   position: relative;
