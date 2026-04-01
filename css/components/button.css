@@ -1,115 +1,135 @@
-/* Primary CTA button — blue gradient pill */
+/* Windows 2000 style buttons */
 .btn-repay {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--sp-sm);
   width: 100%;
-  padding: 16px;
-  border-radius: var(--r-full);
-  background: var(--brand-blue-gradient);
-  color: #fff;
-  font-size: var(--fs-md);
-  font-weight: 600;
+  padding: 5px 12px;
+  background: var(--win-gray);
+  color: var(--win-black);
+  font-size: var(--fs-base);
+  font-weight: normal;
+  font-family: var(--font-family);
   border: none;
   cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
+  box-shadow: var(--border-button);
+  min-height: 26px;
+  border-radius: 0;
+  transition: none;
 }
 
 .btn-repay:active {
-  transform: scale(0.98);
-  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+  box-shadow: var(--border-sunken);
+  padding-left: 13px;
+  padding-top: 6px;
 }
 
-/* Secondary CTA button (upgrade screen) */
 .btn-loan {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--sp-sm);
   width: 100%;
-  padding: 16px;
-  border-radius: var(--r-full);
-  background: var(--brand-blue-gradient);
-  color: #fff;
-  font-size: var(--fs-md);
-  font-weight: 600;
+  padding: 5px 12px;
+  background: var(--win-gray);
+  color: var(--win-black);
+  font-size: var(--fs-base);
+  font-weight: normal;
+  font-family: var(--font-family);
   border: none;
   cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
+  box-shadow: var(--border-button);
+  min-height: 26px;
+  border-radius: 0;
+  transition: none;
 }
 
 .btn-loan:active {
-  transform: scale(0.98);
-  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+  box-shadow: var(--border-sunken);
+  padding-left: 13px;
+  padding-top: 6px;
 }
 
-/* Pill / info badge */
+/* Pill — now just a flat label */
 .pill {
   display: inline-flex;
   align-items: center;
   gap: var(--sp-sm);
-  padding: 8px 14px;
-  border-radius: var(--r-full);
-  font-size: var(--fs-base);
-  font-weight: 600;
+  padding: 3px 8px;
+  background: var(--win-gray);
+  box-shadow: var(--border-sunken);
+  font-size: var(--fs-sm);
+  font-weight: normal;
+  border-radius: 0;
 }
 
 .pill--orange {
-  background: #fef3e0;
-  color: var(--brand-orange);
+  background: var(--win-gray);
+  color: var(--color-text);
 }
 
 .pill--tier {
-  padding: 6px 14px;
-  border-radius: var(--r-full);
-  font-size: var(--fs-sm);
-  font-weight: 600;
-  color: #fff;
+  padding: 3px 8px;
+  font-size: var(--fs-xs);
+  font-weight: bold;
+  color: var(--win-black);
+  background: var(--win-gray);
+  box-shadow: var(--border-button);
+  border-radius: 0;
 }
 
-.pill--tier-bronze { background: var(--bronze-2); }
-.pill--tier-silver { background: var(--silver-2); }
-.pill--tier-gold { background: var(--gold-2); }
+.pill--tier-bronze { background: var(--bronze-gradient); color: var(--bronze-text); }
+.pill--tier-silver { background: var(--silver-gradient); color: var(--silver-text); }
+.pill--tier-gold { background: var(--gold-gradient); color: var(--gold-text); }
 
 /* Tab buttons (status page) */
 .tab-bar {
   display: flex;
-  gap: var(--sp-sm);
-  padding: 0 var(--sp-base);
-  margin-bottom: var(--sp-md);
+  gap: 2px;
+  padding: var(--sp-sm) var(--sp-base) 0;
+  margin-bottom: 0;
+  background: var(--win-gray);
 }
 
 .tab-btn {
-  flex: 1;
-  padding: 10px 8px;
-  border-radius: var(--r-sm);
+  padding: 4px 12px;
   font-size: var(--fs-sm);
-  font-weight: 600;
+  font-weight: normal;
+  font-family: var(--font-family);
   text-align: center;
-  background: var(--color-bg);
-  color: var(--color-text-secondary);
+  background: var(--win-gray);
+  color: var(--color-text);
   border: none;
   cursor: pointer;
-  transition: all 0.2s ease;
+  box-shadow: inset 1px 1px 0 #ffffff, inset -1px 0 0 #404040, inset 2px 2px 0 #d4d0c8;
+  border-radius: 0;
+  transition: none;
+  position: relative;
+  top: 1px;
 }
 
-.tab-btn:active { transform: scale(0.96); }
+.tab-btn:active { box-shadow: var(--border-sunken); }
 
-.tab-btn.active--bronze { background: var(--bronze-3); color: var(--bronze-text); box-shadow: 0 2px 8px rgba(221, 179, 92, 0.3); }
-.tab-btn.active--silver { background: var(--silver-3); color: var(--silver-text); box-shadow: 0 2px 8px rgba(176, 176, 176, 0.3); }
-.tab-btn.active--gold { background: var(--gold-3); color: var(--gold-text); box-shadow: 0 2px 8px rgba(239, 200, 66, 0.3); }
+.tab-btn.active--bronze,
+.tab-btn.active--silver,
+.tab-btn.active--gold {
+  background: var(--win-gray);
+  color: var(--color-text);
+  box-shadow: inset 1px 1px 0 #ffffff, inset -1px 0 0 #404040, inset 2px 2px 0 #d4d0c8;
+  font-weight: bold;
+  z-index: 1;
+}
 
 /* Text link */
 .link {
   display: inline-block;
   font-size: var(--fs-base);
-  font-weight: 500;
+  font-weight: normal;
   color: var(--brand-blue);
   cursor: pointer;
-  padding: var(--sp-sm) 0;
+  padding: var(--sp-xs) 0;
+  text-decoration: underline;
 }
 
-.link:active { opacity: 0.7; }
+.link:active { color: var(--brand-red); }

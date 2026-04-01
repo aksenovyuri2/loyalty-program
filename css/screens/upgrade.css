@@ -1,95 +1,96 @@
-/* Upgrade congratulation screen */
+/* Upgrade screen — Windows 2000 dialog style */
 
 .upgrade-screen {
   padding-bottom: calc(var(--nav-height) + var(--sp-base));
   position: relative;
   overflow: hidden;
-  background: var(--color-bg);
+  background: var(--win-gray);
 }
 
 .upgrade-card-area {
-  margin-bottom: var(--sp-md);
+  margin-bottom: var(--sp-sm);
 }
 
-/* Hero section — centered avatar + text */
+/* Hero section */
 .upgrade-hero {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: var(--sp-xl) var(--sp-base) var(--sp-lg);
+  padding: var(--sp-lg) var(--sp-base) var(--sp-md);
   position: relative;
 }
 
 .upgrade-hero__avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
+  width: 64px;
+  height: 64px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: var(--fs-3xl);
-  font-weight: 800;
-  color: #fff;
+  font-size: var(--fs-2xl);
+  font-weight: bold;
+  color: var(--win-black);
   margin-bottom: var(--sp-md);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.1s both;
+  background: var(--win-gray);
+  box-shadow: var(--border-raised);
+  animation: popIn 0.3s ease 0.1s both;
 }
 
-.upgrade-hero__avatar--bronze { background: var(--card-gradient-bronze); }
-.upgrade-hero__avatar--silver { background: var(--card-gradient-silver); }
-.upgrade-hero__avatar--gold { background: var(--card-gradient-gold); }
+.upgrade-hero__avatar--bronze { border-top: 3px solid var(--bronze-gradient); }
+.upgrade-hero__avatar--silver { border-top: 3px solid var(--silver-gradient); }
+.upgrade-hero__avatar--gold   { border-top: 3px solid var(--gold-gradient); }
 
 .upgrade-hero__title {
-  font-size: var(--fs-2xl);
-  font-weight: 700;
+  font-size: var(--fs-xl);
+  font-weight: bold;
   margin-bottom: var(--sp-xs);
-  animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.2s both;
+  color: var(--win-black);
+  animation: popIn 0.3s ease 0.2s both;
 }
 
 .upgrade-hero__subtitle {
-  font-size: var(--fs-base);
+  font-size: var(--fs-sm);
   color: var(--color-text-secondary);
   line-height: 1.4;
-  animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.3s both;
+  animation: popIn 0.3s ease 0.3s both;
 }
 
 @keyframes popIn {
-  from { opacity: 0; transform: scale(0.8); }
+  from { opacity: 0; transform: scale(0.9); }
   to { opacity: 1; transform: scale(1); }
 }
 
-/* Confetti particles */
+/* Confetti — simplified square Win2k pixels */
 .confetti-container {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 300px;
+  height: 200px;
   pointer-events: none;
   overflow: hidden;
 }
 
 .confetti {
   position: absolute;
-  width: 8px;
-  height: 8px;
-  border-radius: 2px;
+  width: 6px;
+  height: 6px;
+  border-radius: 0;
   opacity: 0;
-  animation: confettiFall 2.5s ease-in forwards;
+  animation: confettiFall 2s ease-in forwards;
 }
 
 @keyframes confettiFall {
-  0% { opacity: 1; transform: translateY(-20px) rotate(0deg) scale(1); }
+  0% { opacity: 1; transform: translateY(-10px) rotate(0deg); }
   80% { opacity: 1; }
-  100% { opacity: 0; transform: translateY(300px) rotate(720deg) scale(0.5); }
+  100% { opacity: 0; transform: translateY(200px) rotate(360deg); }
 }
 
 /* Benefits display */
 .upgrade-benefits {
   display: flex;
-  gap: var(--sp-sm);
-  margin: 0 var(--sp-base) var(--sp-lg);
+  gap: 2px;
+  margin: var(--sp-xs) var(--sp-base) var(--sp-sm);
 }
 
 .upgrade-benefit {
@@ -97,50 +98,50 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
-  background: var(--color-surface);
-  border-radius: var(--r-lg);
-  padding: var(--sp-base) var(--sp-sm);
-  box-shadow: var(--shadow-section);
+  gap: 2px;
+  background: var(--win-gray);
+  box-shadow: var(--border-raised);
+  padding: var(--sp-sm) var(--sp-xs);
 }
 
 .upgrade-benefit__value {
-  font-size: var(--fs-lg);
-  font-weight: 700;
-  color: var(--color-text);
+  font-size: var(--fs-md);
+  font-weight: bold;
+  color: var(--win-black);
 }
 
 .upgrade-benefit__label {
   font-size: var(--fs-xs);
   color: var(--color-text-secondary);
-}
-
-/* History on upgrade */
-.upgrade-history {
-  margin: 0 var(--sp-base) var(--sp-lg);
-  padding: 0;
+  text-align: center;
 }
 
 /* CTA area */
 .upgrade-cta {
   padding: 0 var(--sp-base);
-  margin-bottom: var(--sp-md);
+  margin-bottom: var(--sp-sm);
 }
 
 /* Disclaimer */
 .upgrade-disclaimer {
   padding: 0 var(--sp-base);
   font-size: var(--fs-xs);
-  color: var(--color-text-tertiary);
+  color: var(--color-text-secondary);
   text-align: center;
   line-height: 1.4;
 }
 
-/* Perks card on upgrade */
+/* Perks card */
 .upgrade-perks-card {
-  margin: 0 var(--sp-base) var(--sp-lg);
-  background: var(--color-surface);
-  border-radius: var(--r-lg);
-  padding: var(--sp-base);
-  box-shadow: var(--shadow-section);
+  margin: var(--sp-xs) var(--sp-base) var(--sp-sm);
+  background: var(--win-gray);
+  box-shadow: var(--border-raised);
+  padding: var(--sp-sm) var(--sp-md);
+}
+
+/* History */
+.upgrade-history {
+  margin: var(--sp-xs) var(--sp-base) var(--sp-sm);
+  background: var(--win-white);
+  box-shadow: var(--border-sunken);
 }

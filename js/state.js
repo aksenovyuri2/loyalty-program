@@ -1,7 +1,7 @@
 import { USER, TIERS } from '../data/mock-data.js';
 
 const state = {
-  currentTier: USER.tier,
+  currentTier: 'silver',
   user: { ...USER },
   hasActiveLoan: true,  // set to false to test empty state
 };

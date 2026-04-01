@@ -22,14 +22,18 @@ function render(screen) {
 
   screen.innerHTML = `
     <div class="screen-header">
-      <button class="screen-header__back" id="status-back">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
-      </button>
-      <span class="screen-header__title">Ваш статус</span>
+      <button class="screen-header__back" id="status-back">&#8592;</button>
+      <span class="screen-header__title">&#128190; Ваш статус — boostra</span>
+      <div style="display:flex;gap:2px;margin-left:auto;">
+        <div class="win-titlebar-btn" style="color:#fff;background:transparent;box-shadow:none;font-size:11px;">_</div>
+        <div class="win-titlebar-btn" style="color:#fff;background:transparent;box-shadow:none;font-size:11px;">&#9633;</div>
+        <div class="win-titlebar-btn" style="color:#fff;background:transparent;box-shadow:none;font-size:11px;">&#x2715;</div>
+      </div>
     </div>
 
     <div class="status-card-area">
       <div class="status-card status-card--${currentTier}">
+        <div style="background:${currentTier==='bronze'?'linear-gradient(to right,#8a5e14,#c8a040)':currentTier==='silver'?'linear-gradient(to right,#606060,#a0a0a0)':'linear-gradient(to right,#a07808,#d4b020)'};padding:3px 8px;font-size:11px;font-weight:bold;color:#fff;width:100%;text-align:left;">Статус программы лояльности</div>
         <div class="status-card__avatar">${TIERS[currentTier].name.charAt(0)}</div>
         <div class="status-card__label">Ваш статус</div>
         <div class="status-card__tier">${TIERS[currentTier].name}</div>

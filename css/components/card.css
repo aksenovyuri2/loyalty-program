@@ -1,64 +1,64 @@
 /* ============================================
-   User Card — ЛК (Personal Account card)
+   User Card — Windows 2000 GroupBox style
    ============================================ */
 .user-card {
-  margin: 0 var(--sp-base);
-  border-radius: var(--r-xl);
-  padding: var(--sp-lg) var(--sp-lg) var(--sp-base);
+  margin: var(--sp-sm) var(--sp-base);
+  padding: 0;
   position: relative;
-  overflow: hidden;
-  color: #fff;
-  box-shadow: var(--shadow-card), 0 8px 32px rgba(0, 0, 0, 0.12);
+  overflow: visible;
+  background: var(--win-gray);
+  box-shadow: var(--border-raised);
 }
 
+/* Win2k "group box" title strip */
 .user-card::before {
-  content: '';
-  position: absolute;
-  bottom: -20%;
-  left: -10%;
-  width: 50%;
-  height: 60%;
-  border-radius: 50%;
-  background: radial-gradient(ellipse, rgba(0,0,0,0.08) 0%, transparent 70%);
-  pointer-events: none;
+  display: none;
 }
-
 .user-card::after {
-  content: '';
-  position: absolute;
-  top: -30%;
-  right: -15%;
-  width: 55%;
-  height: 75%;
-  border-radius: 50%;
-  background: radial-gradient(ellipse, rgba(255,255,255,0.30) 0%, transparent 65%);
-  pointer-events: none;
+  display: none;
 }
 
-.user-card--bronze { background: var(--card-gradient-bronze); }
-.user-card--silver { background: var(--card-gradient-silver); }
-.user-card--gold { background: var(--card-gradient-gold); }
+/* Tier color strip on top = title bar style */
+.user-card--bronze { border-top: 3px solid #c8a040; }
+.user-card--silver { border-top: 3px solid #909090; }
+.user-card--gold   { border-top: 3px solid #d4b020; }
+
+.user-card__titlebar {
+  padding: 3px 6px;
+  font-size: var(--fs-xs);
+  font-weight: bold;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+}
+
+.user-card--bronze .user-card__titlebar { background: linear-gradient(to right, #8a5e14, #c8a040); }
+.user-card--silver .user-card__titlebar { background: linear-gradient(to right, #606060, #a0a0a0); }
+.user-card--gold   .user-card__titlebar { background: linear-gradient(to right, #a07808, #d4b020); }
 
 .user-card__top {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: var(--sp-xl);
+  padding: var(--sp-sm) var(--sp-md) var(--sp-xs);
   position: relative;
   z-index: 1;
 }
 
 .user-card__name {
-  font-size: var(--fs-lg);
-  font-weight: 700;
+  font-size: var(--fs-md);
+  font-weight: bold;
+  color: var(--win-black);
   max-width: 65%;
   line-height: 1.3;
 }
 
 .user-card__subtitle {
   font-size: var(--fs-xs);
-  opacity: 0.7;
-  font-weight: 400;
+  color: var(--color-text-secondary);
+  font-weight: normal;
   margin-top: 2px;
 }
 
@@ -66,17 +66,19 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  background: rgba(255,255,255,0.25);
-  padding: 4px 12px;
-  border-radius: var(--r-full);
-  font-size: var(--fs-sm);
-  font-weight: 600;
+  background: var(--win-gray);
+  box-shadow: var(--border-button);
+  padding: 2px 8px;
+  font-size: var(--fs-xs);
+  font-weight: bold;
   cursor: pointer;
-  transition: background 0.15s;
+  color: var(--win-black);
+  border-radius: 0;
+  transition: none;
 }
 
 .user-card__badge:active {
-  background: rgba(255,255,255,0.35);
+  box-shadow: var(--border-sunken);
 }
 
 .user-card__badge-arrow {
@@ -88,35 +90,36 @@
   gap: var(--sp-sm);
   position: relative;
   z-index: 1;
-  margin-bottom: var(--sp-md);
+  padding: var(--sp-xs) var(--sp-md);
+  margin-bottom: var(--sp-xs);
 }
 
 .user-card__metric {
   flex: 1;
-  background: rgba(255,255,255,0.18);
-  backdrop-filter: blur(4px);
-  border-radius: var(--r-md);
-  padding: var(--sp-sm) var(--sp-md);
+  background: var(--win-white);
+  box-shadow: var(--border-sunken);
+  padding: var(--sp-xs) var(--sp-sm);
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 1px;
 }
 
 .user-card__metric-value {
   font-size: var(--fs-md);
-  font-weight: 700;
+  font-weight: bold;
+  color: var(--win-black);
 }
 
 .user-card__metric-label {
   font-size: var(--fs-xs);
-  opacity: 0.7;
-  font-weight: 400;
+  color: var(--color-text-secondary);
+  font-weight: normal;
 }
 
 .user-card__metric-old {
-  opacity: 0.55;
-  font-weight: 400;
-  font-size: var(--fs-sm);
+  color: var(--win-gray-dark);
+  font-weight: normal;
+  font-size: var(--fs-xs);
   text-decoration: line-through;
   margin-right: 2px;
 }
@@ -125,124 +128,148 @@
 .user-card__progress {
   position: relative;
   z-index: 1;
+  padding: var(--sp-xs) var(--sp-md) var(--sp-sm);
 }
 
 .user-card__progress-bar {
   width: 100%;
-  height: 3px;
-  background: rgba(255,255,255,0.2);
-  border-radius: var(--r-full);
+  height: 12px;
+  background: var(--win-white);
+  box-shadow: var(--border-sunken);
   overflow: hidden;
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
 
 .user-card__progress-fill {
   height: 100%;
-  border-radius: var(--r-full);
-  background: rgba(255,255,255,0.8);
+  background: var(--win-blue);
   transition: width 0.4s ease;
 }
 
 .user-card__progress-text {
   font-size: var(--fs-xs);
-  opacity: 0.65;
-  font-weight: 400;
+  color: var(--color-text-secondary);
+  font-weight: normal;
 }
 
 /* ============================================
-   Status Card — Status page large card
+   Badge tooltip — Win2k dialog style
+   ============================================ */
+.badge-tooltip {
+  position: absolute;
+  top: 40px;
+  right: var(--sp-base);
+  z-index: 200;
+  background: var(--win-gray);
+  box-shadow: var(--border-raised), 2px 2px 4px rgba(0,0,0,0.4);
+  padding: 0;
+  min-width: 200px;
+}
+
+.badge-tooltip__title {
+  background: var(--win-titlebar);
+  color: #fff;
+  font-size: var(--fs-xs);
+  font-weight: bold;
+  padding: 3px 6px;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+}
+
+.badge-tooltip__item {
+  font-size: var(--fs-xs);
+  color: var(--win-black);
+  padding: 3px 8px;
+  border-bottom: 1px solid var(--win-gray-light);
+}
+
+.badge-tooltip__link {
+  font-size: var(--fs-xs);
+  color: var(--brand-blue);
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 4px 8px 6px;
+  display: block;
+}
+
+.badge-tooltip__link:hover {
+  color: var(--brand-red);
+}
+
+/* ============================================
+   Status Card — Windows 2000 panel
    ============================================ */
 .status-card {
-  margin: 0 var(--sp-base);
-  border-radius: var(--r-lg);
-  padding: var(--sp-2xl) var(--sp-lg);
+  margin: var(--sp-sm) var(--sp-base);
+  padding: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   position: relative;
-  overflow: hidden;
-  box-shadow: var(--shadow-card);
+  overflow: visible;
+  background: var(--win-gray);
+  box-shadow: var(--border-raised);
 }
 
-.status-card::before {
-  content: '';
-  position: absolute;
-  bottom: -15%;
-  left: -5%;
-  width: 45%;
-  height: 55%;
-  border-radius: 50%;
-  background: radial-gradient(ellipse, rgba(0,0,0,0.06) 0%, transparent 70%);
-  pointer-events: none;
-}
+.status-card::before { display: none; }
+.status-card::after  { display: none; }
 
-.status-card::after {
-  content: '';
-  position: absolute;
-  top: -20%;
-  right: -10%;
-  width: 50%;
-  height: 70%;
-  border-radius: 50%;
-  background: radial-gradient(ellipse, rgba(255,255,255,0.35) 0%, transparent 65%);
-  pointer-events: none;
-}
-
-.status-card--bronze { background: var(--bronze-gradient); color: var(--bronze-text); }
-.status-card--silver { background: var(--silver-gradient); color: var(--silver-text); }
-.status-card--gold { background: var(--gold-gradient); color: var(--gold-text); }
+.status-card--bronze { border-top: 3px solid var(--bronze-gradient); }
+.status-card--silver { border-top: 3px solid var(--silver-gradient); }
+.status-card--gold   { border-top: 3px solid var(--gold-gradient); }
 
 .status-card__avatar {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.4);
-  border: 2px solid rgba(255,255,255,0.6);
-  margin-bottom: var(--sp-md);
+  width: 48px;
+  height: 48px;
+  background: var(--win-white);
+  box-shadow: var(--border-sunken);
+  margin: var(--sp-md) 0 var(--sp-sm);
   position: relative;
   z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: var(--fs-2xl);
-  font-weight: 800;
+  font-size: var(--fs-xl);
+  font-weight: bold;
+  border-radius: 0;
 }
 
 .status-card__label {
-  font-size: var(--fs-sm);
-  opacity: 0.7;
+  font-size: var(--fs-xs);
+  color: var(--color-text-secondary);
   margin-bottom: 2px;
   position: relative;
   z-index: 1;
 }
 
 .status-card__tier {
-  font-size: var(--fs-2xl);
-  font-weight: 700;
+  font-size: var(--fs-lg);
+  font-weight: bold;
   position: relative;
   z-index: 1;
+  color: var(--win-black);
+  margin-bottom: var(--sp-sm);
 }
 
 /* ============================================
-   Upgrade Card — small card on upgrade screen
+   Upgrade Card
    ============================================ */
 .upgrade-user-card {
-  margin: 0 var(--sp-base);
-  border-radius: var(--r-md);
-  padding: var(--sp-md) var(--sp-base);
+  margin: var(--sp-sm) var(--sp-base);
+  padding: var(--sp-sm) var(--sp-base);
   display: flex;
   align-items: center;
   justify-content: space-between;
   position: relative;
-  overflow: hidden;
-  color: #fff;
-  box-shadow: var(--shadow-sm);
+  overflow: visible;
+  background: var(--win-gray);
+  box-shadow: var(--border-raised);
+  color: var(--win-black);
 }
 
-.upgrade-user-card--bronze { background: var(--card-gradient-bronze); }
-.upgrade-user-card--silver { background: var(--card-gradient-silver); }
-.upgrade-user-card--gold { background: var(--card-gradient-gold); }
+.upgrade-user-card--bronze { border-left: 4px solid var(--bronze-gradient); }
+.upgrade-user-card--silver { border-left: 4px solid var(--silver-gradient); }
+.upgrade-user-card--gold   { border-left: 4px solid var(--gold-gradient); }
 
 .upgrade-user-card__left {
   display: flex;
@@ -252,19 +279,20 @@
 }
 
 .upgrade-user-card__avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.35);
+  width: 28px;
+  height: 28px;
+  background: var(--win-white);
+  box-shadow: var(--border-sunken);
   flex-shrink: 0;
 }
 
 .upgrade-user-card__name {
   font-size: var(--fs-base);
-  font-weight: 600;
+  font-weight: bold;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: var(--win-black);
 }
 
 .upgrade-user-card__right {
@@ -275,22 +303,28 @@
 }
 
 .upgrade-user-card__badge {
-  background: rgba(255,255,255,0.25);
-  padding: 3px 10px;
-  border-radius: var(--r-full);
-  font-size: var(--fs-sm);
-  font-weight: 600;
+  background: var(--win-gray);
+  box-shadow: var(--border-button);
+  padding: 2px 8px;
+  font-size: var(--fs-xs);
+  font-weight: bold;
+  color: var(--win-black);
 }
 
 .upgrade-user-card__close {
-  width: 24px;
-  height: 24px;
+  width: 16px;
+  height: 14px;
+  background: var(--win-gray);
+  box-shadow: var(--border-button);
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.2);
-  font-size: 14px;
+  font-size: 10px;
   cursor: pointer;
-  color: #fff;
+  color: var(--win-black);
+  font-weight: bold;
+}
+
+.upgrade-user-card__close:active {
+  box-shadow: var(--border-sunken);
 }

@@ -1,42 +1,67 @@
-/* ЛК — Personal Account screen */
+/* ЛК — Personal Account screen — Windows 2000 style */
 
 .lk-card-area {
-  margin-bottom: var(--sp-lg);
+  margin-bottom: var(--sp-sm);
 }
 
-/* Loan section */
+/* Win2k menu bar beneath title bar */
+.win-menubar {
+  background: var(--win-gray);
+  border-bottom: 1px solid var(--win-gray-dark);
+  padding: 2px 4px;
+  display: flex;
+  gap: 0;
+  font-size: var(--fs-xs);
+}
+
+.win-menubar__item {
+  padding: 2px 8px;
+  cursor: pointer;
+  color: var(--win-black);
+  font-family: var(--font-family);
+}
+
+.win-menubar__item:hover {
+  background: var(--win-blue);
+  color: #fff;
+}
+
+/* Loan section — Win2k GroupBox */
 .loan-section {
-  margin: 0 var(--sp-base) var(--sp-lg);
-  background: var(--color-surface);
-  border-radius: var(--r-lg);
-  padding: var(--sp-base);
-  box-shadow: var(--shadow-section);
+  margin: var(--sp-xs) var(--sp-base) var(--sp-sm);
+  background: var(--win-gray);
+  box-shadow: var(--border-raised);
+  padding: var(--sp-sm) var(--sp-md);
 }
 
 .loan-header {
-  font-size: var(--fs-md);
-  font-weight: 700;
+  font-size: var(--fs-base);
+  font-weight: bold;
   margin-bottom: var(--sp-xs);
+  color: var(--win-black);
+  padding-bottom: var(--sp-xs);
+  border-bottom: 1px solid var(--win-gray-dark);
 }
 
 .loan-number {
-  font-size: var(--fs-base);
+  font-size: var(--fs-sm);
   color: var(--brand-blue);
-  font-weight: 600;
-  margin-bottom: var(--sp-md);
+  font-weight: bold;
+  margin-bottom: var(--sp-sm);
+  font-family: 'Courier New', monospace;
 }
 
 .loan-info-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--sp-sm) 0;
-  font-size: var(--fs-base);
-  color: var(--color-text);
+  padding: 3px 0;
+  font-size: var(--fs-sm);
+  color: var(--win-black);
 }
 
 .loan-info-row + .loan-info-row {
-  border-top: 1px solid var(--color-divider);
+  border-top: 1px solid var(--win-gray-light);
 }
 
 .loan-info-row__label {
@@ -44,81 +69,118 @@
 }
 
 .loan-info-row__value {
-  font-weight: 600;
+  font-weight: bold;
 }
 
-/* Min payment pill */
+/* Min payment — Win2k status bar style */
 .min-payment {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: var(--color-surface-secondary);
-  border: 1px solid var(--color-border);
-  border-radius: var(--r-md);
-  padding: var(--sp-md) var(--sp-base);
-  margin: var(--sp-md) 0;
-  color: var(--color-text);
-  font-size: var(--fs-base);
+  background: var(--win-white);
+  box-shadow: var(--border-sunken);
+  padding: var(--sp-xs) var(--sp-sm);
+  margin: var(--sp-sm) 0;
+  font-size: var(--fs-sm);
 }
 
 .min-payment__label {
-  font-weight: 500;
+  font-weight: normal;
   color: var(--color-text-secondary);
 }
 
 .min-payment__value {
-  font-weight: 700;
+  font-weight: bold;
+  color: var(--win-black);
 }
 
 /* Repay buttons */
 .loan-actions {
   display: flex;
   flex-direction: column;
-  gap: var(--sp-sm);
+  gap: var(--sp-xs);
   align-items: center;
+  padding-top: var(--sp-xs);
 }
 
 /* New loan CTA section */
 .lk-new-loan-section {
-  margin: 0 var(--sp-base) var(--sp-lg);
-  background: var(--color-surface);
-  border-radius: var(--r-lg);
-  padding: var(--sp-base);
-  box-shadow: var(--shadow-section);
+  margin: var(--sp-xs) var(--sp-base) var(--sp-sm);
+  background: var(--win-gray);
+  box-shadow: var(--border-raised);
+  padding: var(--sp-sm) var(--sp-md);
 }
 
 .lk-new-loan__title {
-  font-size: var(--fs-md);
-  font-weight: 700;
+  font-size: var(--fs-base);
+  font-weight: bold;
   margin-bottom: 2px;
+  color: var(--win-black);
 }
 
 .lk-new-loan__subtitle {
   font-size: var(--fs-sm);
   color: var(--color-text-secondary);
-  margin-bottom: var(--sp-md);
+  margin-bottom: var(--sp-sm);
 }
 
-/* Tier comparison rows */
+/* Tier comparison — Win2k ListView style */
 .lk-tiers-compare {
-  margin: 0 var(--sp-base) var(--sp-lg);
-  background: var(--color-surface);
-  border-radius: var(--r-lg);
-  padding: var(--sp-sm) var(--sp-base);
-  box-shadow: var(--shadow-section);
+  margin: var(--sp-xs) var(--sp-base) var(--sp-sm);
+  background: var(--win-white);
+  box-shadow: var(--border-sunken);
+  padding: 0;
+}
+
+/* Column headers */
+.lk-tiers-compare-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--win-gray);
+  box-shadow: var(--border-button);
+  padding: 2px var(--sp-sm);
+  font-size: var(--fs-xs);
+  font-weight: bold;
+  color: var(--win-black);
 }
 
 .lk-tier-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--sp-md) 0;
-  border-bottom: 1px solid var(--color-divider);
+  padding: 4px var(--sp-sm);
+  border-bottom: 1px solid var(--win-gray);
+  background: var(--win-white);
 }
 
 .lk-tier-row:last-child { border-bottom: none; }
 
-.lk-tier-row--locked { opacity: 0.45; }
+.lk-tier-row--current {
+  background: var(--win-blue);
+  color: #fff;
+}
+
+.lk-tier-row--current .lk-tier-row__name,
+.lk-tier-row--current .lk-tier-row__rate,
+.lk-tier-row--current .lk-tier-row__limit {
+  color: #fff;
+}
+
+.lk-tier-row--current .lk-tier-row__badge {
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+  box-shadow: none;
+}
+
+.lk-tier-row--locked {
+  color: var(--win-gray-dark);
+}
+
+.lk-tier-row--locked .lk-tier-row__name,
+.lk-tier-row--locked .lk-tier-row__rate {
+  color: var(--win-gray-dark);
+}
 
 .lk-tier-row__left {
   display: flex;
@@ -129,25 +191,25 @@
 .lk-tier-row__dot {
   width: 8px;
   height: 8px;
-  border-radius: 50%;
 }
 
-.lk-tier-row__dot--bronze { background: var(--bronze-3); }
-.lk-tier-row__dot--silver { background: var(--silver-3); }
-.lk-tier-row__dot--gold { background: var(--gold-3); }
+.lk-tier-row__dot--bronze { background: var(--bronze-gradient); }
+.lk-tier-row__dot--silver { background: var(--silver-gradient); }
+.lk-tier-row__dot--gold   { background: var(--gold-gradient); }
 
 .lk-tier-row__name {
-  font-size: var(--fs-base);
-  font-weight: 600;
+  font-size: var(--fs-sm);
+  font-weight: normal;
+  color: var(--win-black);
 }
 
 .lk-tier-row__badge {
   font-size: var(--fs-xs);
-  font-weight: 600;
-  color: var(--brand-blue);
-  background: rgba(59, 130, 246, 0.1);
-  padding: 2px 8px;
-  border-radius: var(--r-full);
+  font-weight: bold;
+  color: var(--win-black);
+  background: var(--win-gray);
+  box-shadow: var(--border-button);
+  padding: 1px 6px;
 }
 
 .lk-tier-row__right {
@@ -158,8 +220,9 @@
 }
 
 .lk-tier-row__rate {
-  font-size: var(--fs-base);
-  font-weight: 700;
+  font-size: var(--fs-sm);
+  font-weight: bold;
+  color: var(--win-black);
 }
 
 .lk-tier-row__limit {
@@ -167,85 +230,100 @@
   color: var(--color-text-secondary);
 }
 
-/* How it works */
+/* How it works — Win2k steps panel */
 .lk-how-it-works {
-  margin: 0 var(--sp-base) var(--sp-lg);
-  background: var(--color-surface);
-  border-radius: var(--r-lg);
-  padding: var(--sp-base);
-  box-shadow: var(--shadow-section);
+  margin: var(--sp-xs) var(--sp-base) var(--sp-sm);
+  background: var(--win-gray);
+  box-shadow: var(--border-raised);
+  padding: var(--sp-sm) var(--sp-md);
   display: flex;
   flex-direction: column;
-  gap: var(--sp-md);
+  gap: var(--sp-sm);
 }
 
 .lk-how-step {
   display: flex;
   align-items: center;
-  gap: var(--sp-md);
+  gap: var(--sp-sm);
 }
 
 .lk-how-step__num {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: var(--brand-blue);
+  width: 20px;
+  height: 20px;
+  background: var(--win-blue);
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: var(--fs-sm);
-  font-weight: 700;
+  font-size: var(--fs-xs);
+  font-weight: bold;
   flex-shrink: 0;
+  border-radius: 0;
+  box-shadow: var(--border-button);
 }
 
 .lk-how-step__text {
   font-size: var(--fs-sm);
-  color: var(--color-text);
-  line-height: 1.3;
+  color: var(--win-black);
+  line-height: 1.4;
 }
 
-/* СБП Banner */
+/* СБП Banner — Win2k status panel */
 .sbp-banner {
-  margin: 0 var(--sp-base) var(--sp-lg);
+  margin: var(--sp-xs) var(--sp-base) var(--sp-md);
   display: flex;
   align-items: center;
-  gap: var(--sp-md);
-  background: var(--color-surface);
-  border-radius: var(--r-lg);
-  padding: var(--sp-md) var(--sp-base);
-  box-shadow: var(--shadow-section);
+  gap: var(--sp-sm);
+  background: var(--win-gray);
+  box-shadow: var(--border-raised);
+  padding: var(--sp-sm) var(--sp-md);
 }
 
 .sbp-banner__logo {
-  width: 36px;
-  height: 36px;
-  border-radius: var(--r-sm);
+  width: 32px;
+  height: 32px;
   background: #5b2d8e;
+  box-shadow: var(--border-raised);
   display: flex;
   align-items: center;
   justify-content: center;
   color: #fff;
-  font-size: var(--fs-sm);
-  font-weight: 800;
+  font-size: var(--fs-xs);
+  font-weight: bold;
   flex-shrink: 0;
 }
 
 .sbp-banner__text {
   flex: 1;
-  font-size: var(--fs-sm);
+  font-size: var(--fs-xs);
   color: var(--color-text-secondary);
   line-height: 1.3;
 }
 
 .sbp-banner__btn {
-  padding: 6px 14px;
-  border-radius: var(--r-full);
-  background: var(--brand-orange);
-  color: #fff;
+  padding: 3px 10px;
+  background: var(--win-gray);
+  color: var(--win-black);
   font-size: var(--fs-xs);
-  font-weight: 600;
+  font-weight: normal;
+  font-family: var(--font-family);
   border: none;
   cursor: pointer;
+  box-shadow: var(--border-button);
   flex-shrink: 0;
+}
+
+.sbp-banner__btn:active {
+  box-shadow: var(--border-sunken);
+}
+
+/* Section header — Win2k toolbar label */
+.section-title {
+  font-size: var(--fs-sm);
+  font-weight: bold;
+  padding: var(--sp-sm) var(--sp-base) var(--sp-xs);
+  color: var(--win-black);
+  background: var(--win-gray);
+  border-bottom: 1px solid var(--win-gray-dark);
+  margin-top: var(--sp-xs);
 }

@@ -1,35 +1,53 @@
 :root {
-  /* Typography */
-  --font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+  /* Typography — Windows 2000 era */
+  --font-family: 'Tahoma', 'MS Sans Serif', 'Microsoft Sans Serif', Arial, sans-serif;
   --fs-xs: 0.6875rem;    /* 11px */
   --fs-sm: 0.75rem;      /* 12px */
-  --fs-base: 0.875rem;   /* 14px */
-  --fs-md: 1rem;         /* 16px */
-  --fs-lg: 1.125rem;     /* 18px */
-  --fs-xl: 1.25rem;      /* 20px */
-  --fs-2xl: 1.5rem;      /* 24px */
-  --fs-3xl: 1.75rem;     /* 28px */
+  --fs-base: 0.8125rem;  /* 13px */
+  --fs-md: 0.875rem;     /* 14px */
+  --fs-lg: 1rem;         /* 16px */
+  --fs-xl: 1.125rem;     /* 18px */
+  --fs-2xl: 1.25rem;     /* 20px */
+  --fs-3xl: 1.5rem;      /* 24px */
 
-  /* Brand Colors */
-  --brand-orange: #e8870e;
-  --brand-orange-dark: #c06e08;
-  --brand-green: #2eaa57;
-  --brand-green-dark: #249448;
-  --brand-red: #e05a3a;
-  --brand-red-dark: #c44a2e;
-  --brand-blue: #3b82f6;
-  --brand-blue-dark: #2563eb;
-  --brand-blue-gradient: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  /* Windows 2000 System Colors */
+  --win-gray: #d4d0c8;
+  --win-gray-light: #ece9d8;
+  --win-gray-dark: #808080;
+  --win-gray-darker: #404040;
+  --win-white: #ffffff;
+  --win-black: #000000;
+  --win-blue: #0054e3;
+  --win-blue-dark: #003585;
+  --win-titlebar: linear-gradient(to right, #0054e3 0%, #4d8ef5 100%);
+  --win-titlebar-inactive: linear-gradient(to right, #808080 0%, #aaaaaa 100%);
 
-  /* Neutral Colors */
-  --color-bg: #eef2f7;
-  --color-surface: #ffffff;
-  --color-surface-secondary: #f8fafc;
-  --color-text: #1a1a2e;
-  --color-text-secondary: #64748b;
-  --color-text-tertiary: #94a3b8;
-  --color-border: #e2e8f0;
-  --color-divider: #f1f5f9;
+  /* Brand Colors (keeping tier identity) */
+  --brand-orange: #c06000;
+  --brand-orange-dark: #984d00;
+  --brand-green: #008000;
+  --brand-green-dark: #006000;
+  --brand-red: #cc0000;
+  --brand-red-dark: #990000;
+  --brand-blue: #0054e3;
+  --brand-blue-dark: #003585;
+  --brand-blue-gradient: linear-gradient(to right, #0054e3 0%, #4d8ef5 100%);
+
+  /* Neutral Colors — Win2k palette */
+  --color-bg: #d4d0c8;
+  --color-surface: #d4d0c8;
+  --color-surface-secondary: #ece9d8;
+  --color-text: #000000;
+  --color-text-secondary: #444444;
+  --color-text-tertiary: #808080;
+  --color-border: #808080;
+  --color-divider: #808080;
+
+  /* Win2k 3D borders */
+  --border-raised: inset 1px 1px 0 #ffffff, inset -1px -1px 0 #808080, inset 2px 2px 0 #ece9d8, inset -2px -2px 0 #404040;
+  --border-sunken: inset 1px 1px 0 #808080, inset -1px -1px 0 #ffffff, inset 2px 2px 0 #404040, inset -2px -2px 0 #ece9d8;
+  --border-field: inset 1px 1px 0 #808080, inset -1px -1px 0 #ffffff;
+  --border-button: inset 1px 1px 0 #ffffff, inset -1px -1px 0 #404040, inset 2px 2px 0 #d4d0c8, inset -2px -2px 0 #808080;
 
   /* Bronze tier */
   --bronze-1: #9a6e1e;
@@ -37,7 +55,7 @@
   --bronze-3: #ddb35c;
   --bronze-4: #eece82;
   --bronze-6: #8a5e14;
-  --bronze-gradient: linear-gradient(145deg, var(--bronze-6) 0%, var(--bronze-2) 18%, var(--bronze-4) 40%, var(--bronze-3) 55%, var(--bronze-2) 72%, var(--bronze-6) 100%);
+  --bronze-gradient: #c8a040;
   --bronze-text: #4a2e08;
 
   /* Silver tier */
@@ -46,8 +64,8 @@
   --silver-3: #d0d0d0;
   --silver-4: #e8e8e8;
   --silver-6: #8e8e8e;
-  --silver-gradient: linear-gradient(145deg, var(--silver-6) 0%, var(--silver-2) 18%, var(--silver-4) 40%, var(--silver-3) 55%, var(--silver-2) 72%, var(--silver-6) 100%);
-  --silver-text: #3a3a3a;
+  --silver-gradient: #b8b8b8;
+  --silver-text: #2a2a2a;
 
   /* Gold tier */
   --gold-1: #b8880a;
@@ -55,13 +73,13 @@
   --gold-3: #efc842;
   --gold-4: #fad96a;
   --gold-6: #a07808;
-  --gold-gradient: linear-gradient(145deg, var(--gold-6) 0%, var(--gold-2) 18%, var(--gold-4) 40%, var(--gold-3) 55%, var(--gold-2) 72%, var(--gold-6) 100%);
+  --gold-gradient: #d4b020;
   --gold-text: #4a3808;
 
-  /* User card gradient (ЛК) — warm orange/amber */
-  --card-gradient-bronze: linear-gradient(145deg, #b87a1a 0%, #d4a03a 20%, #ecc464 45%, #d4a03a 70%, #b87a1a 100%);
-  --card-gradient-silver: linear-gradient(145deg, #8a9aa8 0%, #b0c0cc 20%, #d0dce4 45%, #b0c0cc 70%, #8a9aa8 100%);
-  --card-gradient-gold: linear-gradient(145deg, #b89018 0%, #d4b030 20%, #f0d050 45%, #d4b030 70%, #b89018 100%);
+  /* User card colors — flat Win2k panels */
+  --card-gradient-bronze: #c8a040;
+  --card-gradient-silver: #aeaeae;
+  --card-gradient-gold: #d4b020;
 
   /* Spacing */
   --sp-xs: 4px;
@@ -72,17 +90,17 @@
   --sp-xl: 24px;
   --sp-2xl: 32px;
 
-  /* Radius */
-  --r-sm: 8px;
-  --r-md: 12px;
-  --r-lg: 16px;
-  --r-xl: 20px;
-  --r-full: 9999px;
+  /* Radius — none in Win2k */
+  --r-sm: 0px;
+  --r-md: 0px;
+  --r-lg: 0px;
+  --r-xl: 0px;
+  --r-full: 0px;
 
-  /* Shadows */
-  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.08);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
-  --shadow-section: 0 2px 12px rgba(0, 0, 0, 0.06);
+  /* Shadows — Win2k flat */
+  --shadow-card: none;
+  --shadow-sm: none;
+  --shadow-section: none;
 
   /* Layout */
   --max-width: 430px;

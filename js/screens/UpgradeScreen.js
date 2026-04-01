@@ -21,10 +21,13 @@ function render(screen) {
 
   screen.innerHTML = `
     <div class="screen-header">
-      <button class="screen-header__back" id="upgrade-close">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
-      </button>
-      <span class="screen-header__title">${isMaxTier ? 'Ваш статус' : 'Повышение статуса'}</span>
+      <button class="screen-header__back" id="upgrade-close">&#8592;</button>
+      <span class="screen-header__title">&#128190; ${isMaxTier ? 'Ваш статус' : 'Повышение статуса'} — boostra</span>
+      <div style="display:flex;gap:2px;margin-left:auto;">
+        <div style="color:#fff;font-size:11px;padding:0 3px;">_</div>
+        <div style="color:#fff;font-size:11px;padding:0 3px;">&#9633;</div>
+        <div style="color:#fff;font-size:11px;padding:0 3px;">&#x2715;</div>
+      </div>
     </div>
 
     <div class="upgrade-hero">

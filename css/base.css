@@ -2,7 +2,7 @@ body {
   font-family: var(--font-family);
   font-size: var(--fs-base);
   color: var(--color-text);
-  background-color: var(--color-bg);
+  background-color: #008080; /* Classic Win2k teal desktop */
   display: flex;
   justify-content: center;
 }
@@ -14,83 +14,201 @@ body {
   background-color: var(--color-bg);
   position: relative;
   overflow-x: hidden;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.4), -2px 0 8px rgba(0,0,0,0.4);
 }
 
 .screen {
   display: none;
   padding-bottom: calc(var(--nav-height) + var(--sp-base) + env(safe-area-inset-bottom, 0px));
   min-height: 100vh;
-  animation: fadeIn 0.2s ease;
 }
 
 .screen.active {
   display: block;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-/* Shared header */
+/* Win2k style app header — title bar */
 .app-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--sp-md) var(--sp-base);
-  height: 52px;
-  background: var(--color-surface);
+  padding: 4px 8px;
+  height: 26px;
+  background: var(--win-titlebar);
+  color: #ffffff;
+  font-weight: bold;
+  font-size: var(--fs-sm);
+  user-select: none;
 }
 
 .app-header__logo {
-  font-size: var(--fs-xl);
-  font-weight: 800;
-  color: var(--color-text);
-  letter-spacing: -0.5px;
+  font-size: var(--fs-sm);
+  font-weight: bold;
+  color: #ffffff;
+  letter-spacing: 0;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.app-header__logo::before {
+  content: '';
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background:
+    linear-gradient(135deg, #ff0000 0%, #ff0000 25%, #00aa00 25%, #00aa00 50%, #0000ff 50%, #0000ff 75%, #ffcc00 75%, #ffcc00 100%);
+  flex-shrink: 0;
 }
 
 .app-header__icons {
   display: flex;
-  gap: var(--sp-sm);
-  color: var(--color-text-secondary);
+  gap: 2px;
+}
+
+/* Win2k title bar buttons */
+.app-header__icons svg {
+  display: none;
+}
+
+.win-titlebar-btns {
+  display: flex;
+  gap: 2px;
+}
+
+.win-titlebar-btn {
+  width: 16px;
+  height: 14px;
+  background: var(--win-gray);
+  box-shadow: var(--border-button);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  color: var(--win-black);
+  cursor: pointer;
+  font-family: var(--font-family);
 }
 
 /* Screen header with back button */
 .screen-header {
   display: flex;
   align-items: center;
-  padding: var(--sp-md) var(--sp-base);
-  height: 52px;
+  padding: 4px 8px;
+  height: 26px;
   gap: var(--sp-sm);
-  background: var(--color-surface);
+  background: var(--win-titlebar);
+  color: #fff;
 }
 
 .screen-header__back {
-  width: 32px;
-  height: 32px;
+  width: 20px;
+  height: 18px;
+  background: var(--win-gray);
+  box-shadow: var(--border-button);
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--r-full);
   cursor: pointer;
+  color: var(--win-black);
+  font-size: 10px;
+  flex-shrink: 0;
 }
 
 .screen-header__back:active {
-  background: var(--color-bg);
+  box-shadow: var(--border-sunken);
 }
 
 .screen-header__title {
-  font-size: var(--fs-lg);
-  font-weight: 700;
+  font-size: var(--fs-sm);
+  font-weight: bold;
+  color: #ffffff;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
 }
 
 .section-title {
-  font-size: var(--fs-md);
-  font-weight: 700;
-  padding: var(--sp-lg) var(--sp-base) var(--sp-sm);
+  font-size: var(--fs-base);
+  font-weight: bold;
+  padding: var(--sp-md) var(--sp-base) var(--sp-xs);
+  color: var(--color-text);
 }
 
 .text-secondary { color: var(--color-text-secondary); }
 .text-accent { color: var(--brand-blue); }
 
 .fmt-rub::after { content: ' ₽'; }
+
+/* Win2k menubar below titlebar */
+.win-menubar {
+  background: var(--win-gray);
+  border-bottom: 1px solid var(--win-gray-dark);
+  padding: 2px 4px;
+  display: flex;
+  gap: 0;
+  font-size: var(--fs-xs);
+}
+
+.win-menubar__item {
+  padding: 2px 8px;
+  cursor: pointer;
+  color: var(--win-black);
+}
+
+.win-menubar__item:hover {
+  background: var(--win-blue);
+  color: #fff;
+}
+
+/* Frozen / warning banner */
+.frozen-banner {
+  margin: var(--sp-sm) var(--sp-base);
+  background: #ffffe0;
+  border: 2px solid var(--win-gray-dark);
+  box-shadow: var(--border-raised);
+  padding: var(--sp-sm) var(--sp-md);
+  display: flex;
+  gap: var(--sp-sm);
+  align-items: flex-start;
+  font-size: var(--fs-sm);
+}
+
+.frozen-banner__icon {
+  font-size: 20px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.frozen-banner__text strong {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+/* Empty state */
+.empty-state {
+  margin: var(--sp-sm) var(--sp-base) var(--sp-md);
+  background: var(--win-gray);
+  box-shadow: var(--border-sunken);
+  padding: var(--sp-lg) var(--sp-base);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-sm);
+}
+
+.empty-state__icon {
+  color: var(--win-gray-dark);
+  margin-bottom: var(--sp-xs);
+}
+
+.empty-state__title {
+  font-size: var(--fs-md);
+  font-weight: bold;
+}
+
+.empty-state__text {
+  font-size: var(--fs-sm);
+  color: var(--color-text-secondary);
+}

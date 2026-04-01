@@ -1,33 +1,33 @@
-/* Status page */
+/* Status page — Windows 2000 style */
 
 .status-card-area {
-  margin-bottom: var(--sp-base);
+  margin-bottom: var(--sp-sm);
 }
 
 /* Progress to next tier */
 .status-progress {
   padding: var(--sp-sm) var(--sp-base);
-  margin-bottom: var(--sp-lg);
+  margin-bottom: var(--sp-sm);
 }
 
 .status-progress__bar {
   width: 100%;
-  height: 4px;
-  background: var(--color-bg);
-  border-radius: var(--r-full);
+  height: 12px;
+  background: var(--win-white);
+  box-shadow: var(--border-sunken);
   overflow: hidden;
-  margin-bottom: var(--sp-xs);
+  margin-bottom: 3px;
 }
 
 .status-progress__fill {
   height: 100%;
-  border-radius: var(--r-full);
   transition: width 0.4s ease;
+  border-radius: 0;
 }
 
-.status-progress__fill--bronze { background: var(--bronze-3); }
-.status-progress__fill--silver { background: var(--silver-3); }
-.status-progress__fill--gold { background: var(--gold-3); }
+.status-progress__fill--bronze { background: var(--bronze-gradient); }
+.status-progress__fill--silver { background: var(--silver-gradient); }
+.status-progress__fill--gold   { background: var(--gold-gradient); }
 
 .status-progress__labels {
   display: flex;
@@ -36,21 +36,21 @@
   color: var(--color-text-secondary);
 }
 
-/* Benefits section */
+/* Benefits section — Win2k ListView */
 .benefits-section {
-  margin: 0 var(--sp-base) var(--sp-lg);
-  background: var(--color-surface);
-  border-radius: var(--r-lg);
-  padding: var(--sp-sm) var(--sp-base);
-  box-shadow: var(--shadow-section);
+  margin: var(--sp-xs) var(--sp-base) var(--sp-sm);
+  background: var(--win-white);
+  box-shadow: var(--border-sunken);
+  padding: 0;
 }
 
 .benefit-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--sp-md) 0;
-  border-bottom: 1px solid var(--color-divider);
+  padding: 4px var(--sp-sm);
+  border-bottom: 1px solid var(--win-gray);
+  font-size: var(--fs-sm);
 }
 
 .benefit-row:last-child { border-bottom: none; }
@@ -64,79 +64,83 @@
 .benefit-row__dot {
   width: 8px;
   height: 8px;
-  border-radius: 50%;
 }
 
-.benefit-row__dot--bronze { background: var(--bronze-3); }
-.benefit-row__dot--silver { background: var(--silver-3); }
-.benefit-row__dot--gold { background: var(--gold-3); }
+.benefit-row__dot--bronze { background: var(--bronze-gradient); }
+.benefit-row__dot--silver { background: var(--silver-gradient); }
+.benefit-row__dot--gold   { background: var(--gold-gradient); }
 
 .benefit-row__name {
-  font-size: var(--fs-base);
-  font-weight: 500;
+  font-size: var(--fs-sm);
+  font-weight: normal;
 }
 
 .benefit-row__value {
-  font-size: var(--fs-base);
-  font-weight: 600;
+  font-size: var(--fs-sm);
+  font-weight: bold;
 }
 
 .benefit-row--inactive {
-  opacity: 0.4;
+  color: var(--win-gray-dark);
 }
 
 /* Conditions section */
 .conditions-section {
-  margin: 0 var(--sp-base) var(--sp-lg);
-  background: var(--color-surface);
-  border-radius: var(--r-lg);
-  padding: var(--sp-sm) 0;
-  box-shadow: var(--shadow-section);
+  margin: var(--sp-xs) var(--sp-base) var(--sp-sm);
+  background: var(--win-gray);
+  box-shadow: var(--border-raised);
+  padding: var(--sp-xs) 0;
 }
 
 .condition-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--sp-md) var(--sp-base);
-  border-bottom: 1px solid var(--color-divider);
+  padding: 4px var(--sp-md);
+  border-bottom: 1px solid var(--win-gray-light);
+  font-size: var(--fs-sm);
 }
+
+.condition-item:last-child { border-bottom: none; }
 
 .condition-item__left {
   display: flex;
   align-items: center;
-  gap: var(--sp-md);
+  gap: var(--sp-sm);
 }
 
 .condition-item__check {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  border: 2px solid var(--color-border);
+  width: 14px;
+  height: 14px;
+  background: var(--win-white);
+  box-shadow: var(--border-sunken);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  border-radius: 0;
 }
 
 .condition-item__check--done {
-  background: var(--brand-green);
-  border-color: var(--brand-green);
-  color: #fff;
+  background: var(--win-white);
+  box-shadow: var(--border-sunken);
+  color: var(--brand-green);
+  font-weight: bold;
+  font-size: 10px;
 }
 
 .condition-item__text {
-  font-size: var(--fs-base);
+  font-size: var(--fs-sm);
 }
 
 .condition-item__amount {
-  font-size: var(--fs-base);
-  font-weight: 600;
+  font-size: var(--fs-sm);
+  font-weight: bold;
 }
 
 /* Status history */
 .history-section {
-  margin: 0 var(--sp-base) var(--sp-lg);
+  margin: var(--sp-xs) var(--sp-base) var(--sp-sm);
   padding: 0;
 }
 
@@ -144,14 +148,15 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--sp-sm) var(--sp-md);
-  border-radius: var(--r-sm);
-  margin-bottom: var(--sp-xs);
+  padding: 4px var(--sp-sm);
+  border-bottom: 1px solid var(--win-gray);
+  background: var(--win-white);
+  font-size: var(--fs-sm);
 }
 
-.history-item--bronze { background: rgba(184, 134, 11, 0.08); }
-.history-item--silver { background: rgba(168, 168, 168, 0.08); }
-.history-item--gold { background: rgba(201, 150, 12, 0.08); }
+.history-item--bronze { background: var(--win-white); }
+.history-item--silver { background: var(--win-white); }
+.history-item--gold   { background: var(--win-white); }
 
 .history-item__left {
   display: flex;
@@ -161,22 +166,25 @@
 
 .history-item__tier {
   font-size: var(--fs-sm);
-  font-weight: 600;
+  font-weight: bold;
 }
 
 .history-item__badge {
-  padding: 2px 8px;
-  border-radius: var(--r-full);
+  padding: 1px 6px;
   font-size: var(--fs-xs);
-  font-weight: 600;
-  color: #fff;
+  font-weight: bold;
+  background: var(--win-gray);
+  box-shadow: var(--border-button);
+  color: var(--win-black);
 }
 
 .history-item__badge--current {
-  background: var(--brand-orange);
+  background: var(--win-blue);
+  color: #fff;
+  box-shadow: none;
 }
 
 .history-item__date {
-  font-size: var(--fs-sm);
+  font-size: var(--fs-xs);
   color: var(--color-text-secondary);
 }

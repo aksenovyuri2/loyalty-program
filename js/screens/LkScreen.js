@@ -21,10 +21,18 @@ function renderFull(screen) {
 
   screen.innerHTML = `
     <div class="app-header">
-      <div class="app-header__logo">boostra</div>
-      <div class="app-header__icons">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      <div class="app-header__logo">boostra — Программа лояльности</div>
+      <div class="app-header__icons" style="display:flex;gap:2px;">
+        <div class="win-titlebar-btn" title="Свернуть">_</div>
+        <div class="win-titlebar-btn" title="Развернуть">&#9633;</div>
+        <div class="win-titlebar-btn" title="Закрыть" style="margin-left:2px;">&#x2715;</div>
       </div>
+    </div>
+    <div class="win-menubar">
+      <div class="win-menubar__item">Файл</div>
+      <div class="win-menubar__item">Правка</div>
+      <div class="win-menubar__item">Вид</div>
+      <div class="win-menubar__item">Справка</div>
     </div>
 
     <div class="lk-card-area" id="lk-user-card"></div>
@@ -82,6 +90,13 @@ function renderFull(screen) {
     <!-- Comparison section -->
     <div class="section-title">Уровни программы</div>
     <div class="lk-tiers-compare">
+      <div class="lk-tiers-compare-header">
+        <span>Уровень</span>
+        <span style="display:flex;gap:32px;">
+          <span>Ставка/день</span>
+          <span>Лимит</span>
+        </span>
+      </div>
       ${TIER_ORDER.map((tid, idx) => {
         const t = TIERS[tid];
         const isCurrent = tid === state.currentTier;
@@ -124,6 +139,12 @@ function renderFull(screen) {
       <div class="sbp-banner__text">Погашайте через СБП — быстро и без комиссии</div>
       <button class="sbp-banner__btn">Подключить</button>
     </div>
+
+    <div style="margin:4px var(--sp-base) var(--sp-sm);background:var(--win-gray);box-shadow:inset 1px 1px 0 #808080,inset -1px -1px 0 #ffffff;display:flex;align-items:center;padding:2px 8px;gap:8px;font-size:11px;color:var(--color-text-secondary);">
+      <span style="border-right:1px solid var(--win-gray-dark);padding-right:8px;">&#128190; boostra v1.0</span>
+      <span style="border-right:1px solid var(--win-gray-dark);padding-right:8px;">Программа лояльности</span>
+      <span style="margin-left:auto;">Готово</span>
+    </div>
   `;
 
   updateCard();
@@ -153,6 +174,10 @@ function updateCard() {
 
   container.innerHTML = `
     <div class="user-card user-card--${tier.id}">
+      <div class="user-card__titlebar">
+        <span>&#128190; ${state.user.fullName}</span>
+        <span style="opacity:0.8;font-weight:normal;">${tier.name}</span>
+      </div>
       <div class="user-card__top">
         <div>
           <div class="user-card__name">${state.user.fullName}</div>
