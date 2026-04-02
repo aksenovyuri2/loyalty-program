@@ -124,14 +124,18 @@ function renderFull(screen) {
     </div>
 
     ` : `
-    <!-- Empty state: no active loan — new loan is priority 1 -->
-    <div class="empty-state">
-      <div class="empty-state__icon">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+    <!-- Empty state: no active loan -->
+    <div class="empty-cta">
+      <div class="empty-cta__rate">${fmtRate(tier.dailyRate)}<span class="empty-cta__rate-unit">/день</span></div>
+      <div class="empty-cta__label">ваша ставка по статусу ${tier.name}</div>
+      ${!isMaxTier ? `
+      <div class="empty-cta__hint">
+        Погасите вовремя — ещё ${loansLeft} ${loanWord(loansLeft)} до «${nextTier.name}»
       </div>
-      <div class="empty-state__title">Оформите займ</div>
-      <div class="empty-state__text">Ставка <strong>${fmtRate(tier.dailyRate)}/день</strong> по статусу ${tier.name} — вы не переплатите как без программы</div>
-      <button class="btn-primary" style="width:100%" id="btn-new-loan" aria-label="Оформить заявку">Оформить заявку по ставке ${fmtRate(tier.dailyRate)}</button>
+      ` : ''}
+      <button class="btn-primary" style="width:100%; margin-top: var(--sp-lg)" id="btn-new-loan" aria-label="Оформить займ">
+        Оформить займ
+      </button>
     </div>
     `}
 

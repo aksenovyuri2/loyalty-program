@@ -174,38 +174,6 @@ function render(screen) {
     ` : ''}
     </div>
 
-    <div class="section-title" style="text-align:left">Ваши привилегии</div>
-    <div class="apply-perks">
-      ${tier.perks.map(p => `
-        <div class="apply-perk">
-          <span class="apply-perk__check">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-          </span>
-          ${p}
-        </div>
-      `).join('')}
-    </div>
-
-    ${!isMaxTier ? `
-    <div class="section-title" style="text-align:left">До ${nextTier.name} — ${loansLeft} ${loanWord(loansLeft)}</div>
-    <div class="apply-perks" style="opacity: 0.65">
-      <div class="apply-perk">
-        <span class="apply-perk__check" style="background: var(--color-text-tertiary)"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg></span>
-        Ставка ${fmtRate(nextTier.dailyRate)}/день
-      </div>
-      <div class="apply-perk">
-        <span class="apply-perk__check" style="background: var(--color-text-tertiary)"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg></span>
-        Лимит до ${fmtNum(nextTier.maxLimit)} \u20bd
-      </div>
-      ${nextTier.perks.filter(p => !p.includes('Ставка') && !p.includes('Лимит')).map(p => `
-        <div class="apply-perk">
-          <span class="apply-perk__check" style="background: var(--color-text-tertiary)"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg></span>
-          ${p}
-        </div>
-      `).join('')}
-    </div>
-    ` : ''}
-
     <div class="apply-submit">
       <button class="btn-primary" id="apply-submit-btn" aria-label="Оформить заявку">Оформить по ставке ${fmtRate(tier.dailyRate)}</button>
     </div>
