@@ -1,0 +1,93 @@
+/* Shared tier comparison row — used on LK and Status screens */
+
+.tier-row-list {
+  margin: 0 var(--sp-base) var(--sp-lg);
+  background: var(--color-surface);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-section);
+}
+
+.tier-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--sp-md) var(--sp-base);
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.tier-row:last-child { border-bottom: none; }
+
+.tier-row__left {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm);
+}
+
+.tier-row__indicator {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.tier-row__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.tier-row__dot--bronze { background: var(--bronze-3); }
+.tier-row__dot--silver { background: var(--silver-3); }
+.tier-row__dot--gold   { background: var(--gold-3); }
+
+.tier-row__stars {
+  font-size: 8px;
+  color: var(--color-text-tertiary);
+  letter-spacing: 1px;
+  line-height: 1;
+}
+
+.tier-row--current .tier-row__stars { color: var(--brand-blue); }
+
+.tier-row__name {
+  font-size: var(--fs-base);
+  font-weight: 500;
+}
+
+.tier-row__badge {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--brand-blue);
+  background: rgba(59, 130, 246, 0.1);
+  padding: 1px 6px;
+  border-radius: var(--r-full);
+}
+
+.tier-row__right {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-md);
+  text-align: right;
+}
+
+.tier-row__rate {
+  font-size: var(--fs-base);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.tier-row__limit {
+  font-size: var(--fs-sm);
+  color: var(--color-text-secondary);
+  min-width: 80px;
+}
+
+.tier-row--current {
+  background: rgba(59, 130, 246, 0.04);
+}
+
+.tier-row--locked {
+  opacity: 0.45;
+}

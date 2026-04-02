@@ -1,7 +1,8 @@
-import { TIERS, TIER_ORDER, TIER_PROGRESS, BASE_RATE, STATUS_HISTORY } from '../../data/mock-data.js';
+import { TIERS, TIER_ORDER, TIER_PROGRESS, BASE_RATE, STATUS_HISTORY, CURRENT_LOAN } from '../../data/mock-data.js';
 import { getState } from '../state.js';
 import { navigate, onEnter } from '../router.js';
 import { fmtNum, fmtRate, loanWord } from '../utils.js';
+import { renderTierRows } from '../components/TierRow.js';
 
 let activeTab = null;
 
@@ -32,8 +33,8 @@ function render(screen) {
   const viewTierData = TIERS[viewTier];
   const viewTierAllDone = viewTierData.conditions.every(c => c.completed);
 
-  // Savings example — use current loan amount or default
-  const exampleAmount = 10000;
+  // Savings example — use current loan data if available, otherwise defaults
+  const exampleAmount = CURRENT_LOAN.remainingDebt > 0 ? Math.max(CURRENT_LOAN.remainingDebt, 5000) : 10000;
   const exampleDays = 10;
   const baseInterest = exampleAmount * (BASE_RATE / 100) * exampleDays;
   const currentInterest = exampleAmount * (tier.dailyRate / 100) * exampleDays;
@@ -103,26 +104,7 @@ function render(screen) {
 
     <!-- Tier comparison -->
     <div class="section-title">Ставки по уровням</div>
-    <div class="status-tiers-compare">
-      ${TIER_ORDER.map((tid, idx) => {
-        const t = TIERS[tid];
-        const isCurrent = tid === currentTier;
-        const isLocked = idx > currentIdx;
-        return `
-          <div class="status-tier-row ${isCurrent ? 'status-tier-row--current' : ''} ${isLocked ? 'status-tier-row--locked' : ''}">
-            <div class="status-tier-row__left">
-              <span class="status-tier-row__dot status-tier-row__dot--${tid}"></span>
-              <span class="status-tier-row__name">${t.name}</span>
-              ${isCurrent ? '<span class="status-tier-row__badge">ваш</span>' : ''}
-            </div>
-            <div class="status-tier-row__right">
-              <span class="status-tier-row__rate">${fmtRate(t.dailyRate)}/день</span>
-              <span class="status-tier-row__limit">до ${fmtNum(t.maxLimit)} ₽</span>
-            </div>
-          </div>
-        `;
-      }).join('')}
-    </div>
+    ${renderTierRows(currentTier)}
 
     <!-- Savings example -->
     ${!isMaxTier ? `

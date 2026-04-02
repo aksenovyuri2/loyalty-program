@@ -2,6 +2,7 @@ import { TIERS, TIER_ORDER, CURRENT_LOAN, BASE_RATE, TIER_PROGRESS } from '../..
 import { getState } from '../state.js';
 import { navigate } from '../router.js';
 import { fmtNum, fmtRate, loanWord } from '../utils.js';
+import { renderTierRows } from '../components/TierRow.js';
 
 let tooltipOpen = false;
 
@@ -98,26 +99,7 @@ function renderFull(screen) {
 
     <!-- Comparison section -->
     <div class="section-title">Уровни программы</div>
-    <div class="lk-tiers-compare">
-      ${TIER_ORDER.map((tid, idx) => {
-        const t = TIERS[tid];
-        const isCurrent = tid === state.currentTier;
-        const isLocked = idx > currentIdx;
-        return `
-          <div class="lk-tier-row ${isCurrent ? 'lk-tier-row--current' : ''} ${isLocked ? 'lk-tier-row--locked' : ''}">
-            <div class="lk-tier-row__left">
-              <span class="lk-tier-row__dot lk-tier-row__dot--${tid}"></span>
-              <span class="lk-tier-row__name">${t.name}</span>
-              ${isCurrent ? '<span class="lk-tier-row__badge">ваш</span>' : ''}
-            </div>
-            <div class="lk-tier-row__right">
-              <span class="lk-tier-row__rate">${fmtRate(t.dailyRate)}/день</span>
-              <span class="lk-tier-row__limit">до ${fmtNum(t.maxLimit)} \u20bd</span>
-            </div>
-          </div>
-        `;
-      }).join('')}
-    </div>
+    ${renderTierRows(state.currentTier)}
 
     ${!state.isFirstVisit ? `
     <!-- How it works (for returning users — at bottom) -->

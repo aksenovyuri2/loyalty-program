@@ -99,73 +99,7 @@
   margin-bottom: var(--sp-md);
 }
 
-/* Tier comparison rows */
-.lk-tiers-compare {
-  margin: 0 var(--sp-base) var(--sp-lg);
-  background: var(--color-surface);
-  border-radius: var(--r-lg);
-  padding: var(--sp-sm) var(--sp-base);
-  box-shadow: var(--shadow-section);
-}
-
-.lk-tier-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: var(--sp-md) 0;
-  border-bottom: 1px solid var(--color-divider);
-}
-
-.lk-tier-row:last-child { border-bottom: none; }
-
-.lk-tier-row--locked { opacity: 0.45; }
-
-.lk-tier-row__left {
-  display: flex;
-  align-items: center;
-  gap: var(--sp-sm);
-}
-
-.lk-tier-row__dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-}
-
-.lk-tier-row__dot--bronze { background: var(--bronze-3); }
-.lk-tier-row__dot--silver { background: var(--silver-3); }
-.lk-tier-row__dot--gold { background: var(--gold-3); }
-
-.lk-tier-row__name {
-  font-size: var(--fs-base);
-  font-weight: 600;
-}
-
-.lk-tier-row__badge {
-  font-size: var(--fs-xs);
-  font-weight: 600;
-  color: var(--brand-blue);
-  background: rgba(59, 130, 246, 0.1);
-  padding: 2px 8px;
-  border-radius: var(--r-full);
-}
-
-.lk-tier-row__right {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 1px;
-}
-
-.lk-tier-row__rate {
-  font-size: var(--fs-base);
-  font-weight: 700;
-}
-
-.lk-tier-row__limit {
-  font-size: var(--fs-xs);
-  color: var(--color-text-secondary);
-}
+/* Tier comparison rows — now using shared tier-row.css component */
 
 /* How it works */
 .lk-how-it-works {
