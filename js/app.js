@@ -5,6 +5,7 @@ import { initStatusScreen } from './screens/StatusScreen.js';
 import { initUpgradeScreen } from './screens/UpgradeScreen.js';
 import { initApplyScreen } from './screens/ApplyScreen.js';
 import { initApplySuccessScreen } from './screens/ApplySuccessScreen.js';
+import { initFaqScreen } from './screens/FaqScreen.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   renderBottomNav(document.getElementById('bottom-nav'));
@@ -13,5 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initUpgradeScreen();
   initApplyScreen();
   initApplySuccessScreen();
+  initFaqScreen();
   initRouter();
 });

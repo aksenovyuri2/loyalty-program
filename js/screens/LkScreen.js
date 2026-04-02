@@ -1,6 +1,6 @@
 import { TIERS, TIER_ORDER, CURRENT_LOAN, BASE_RATE, TIER_PROGRESS, STREAK, LIFETIME_SAVINGS } from '../../data/mock-data.js';
 import { getState } from '../state.js';
-import { navigate } from '../router.js';
+import { navigate, onEnter } from '../router.js';
 import { fmtNum, fmtRate, loanWord } from '../utils.js';
 import { renderTierRows } from '../components/TierRow.js';
 
@@ -9,6 +9,7 @@ let tooltipOpen = false;
 export function initLkScreen() {
   const screen = document.getElementById('screen-lk');
   renderFull(screen);
+  onEnter('/lk', () => renderFull(screen));
 }
 
 /* ---------- helpers ---------- */

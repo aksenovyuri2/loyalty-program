@@ -22,7 +22,7 @@ export const TIERS = {
     perks: ['Сниженная ставка 0,70%/день', 'Лимит до 60 000 ₽', 'Финансовая консультация'],
     nextPerks: ['Ставка 0,60%/день', 'Телемедицина 30 дней', 'Приоритетная линия'],
     conditions: [
-      { text: 'Своевременное погашение 6 займов', completed: false },
+      { text: 'Своевременное погашение 6 займов', completed: true },
       { text: 'Общая сумма займов от 30 000 ₽', completed: true },
       { text: 'Статус «Бронза» не менее 30 дней', completed: true },
     ],
@@ -44,10 +44,10 @@ export const TIERS = {
 
 // Progress toward next tier
 export const TIER_PROGRESS = {
-  loansCompleted: 2,
-  loansNeeded: 3,
-  amountPaid: 6500,
-  amountNeeded: 10000,
+  loansCompleted: 7,
+  loansNeeded: 10,
+  amountPaid: 42000,
+  amountNeeded: 60000,
 };
 
 export const TIER_ORDER = ['bronze', 'silver', 'gold'];
@@ -55,7 +55,7 @@ export const TIER_ORDER = ['bronze', 'silver', 'gold'];
 export const USER = {
   name: 'Андрей',
   fullName: 'Андрей Александрович',
-  tier: 'bronze',
+  tier: 'silver',
 };
 
 // Dynamic payment date: 14 days from now
@@ -66,25 +66,31 @@ const mm = String(paymentDate.getMonth() + 1).padStart(2, '0');
 const yyyy = paymentDate.getFullYear();
 
 export const CURRENT_LOAN = {
-  id: 'A24-2758246',
-  remainingDebt: 1000,
+  id: 'A25-4812903',
+  remainingDebt: 18500,
   paymentDate: `${dd}.${mm}.${yyyy}`,
-  minPayment: 250,
+  minPayment: 3200,
   dpd: 0,  // days past due — set >= 7 to test frozen state
 };
 
 export const STATUS_HISTORY = [
-  { tier: 'bronze', date: '10 мая 2025', active: true },
+  { tier: 'bronze', date: '10 мая 2025', active: false },
+  { tier: 'silver', date: '18 ноября 2025', active: true },
 ];
 
 // Streak — consecutive on-time repayments
 export const STREAK = {
-  count: 2,
+  count: 6,
   isActive: true,
 };
 
 // Lifetime savings vs base rate across all past loans
-export const LIFETIME_SAVINGS = 1450;
+export const LIFETIME_SAVINGS = 4200;
 
 // Previous tier (for upgrade before/after comparison)
 export const PREVIOUS_TIER = 'bronze';
+
+// Mutable overrides — used by FAQ/Preview screen to demo different states
+export const MOCK_OVERRIDES = {
+  previousTier: 'bronze',
+};

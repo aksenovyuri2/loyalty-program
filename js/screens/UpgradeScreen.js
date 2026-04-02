@@ -1,9 +1,11 @@
-import { TIERS, TIER_ORDER, STATUS_HISTORY, PREVIOUS_TIER, LIFETIME_SAVINGS } from '../../data/mock-data.js';
+import { TIERS, TIER_ORDER, STATUS_HISTORY, MOCK_OVERRIDES, LIFETIME_SAVINGS } from '../../data/mock-data.js';
 import { getState } from '../state.js';
 import { navigate, onEnter } from '../router.js';
 import { fmtNum, fmtRate } from '../utils.js';
 
 let confettiShown = false;
+
+export function resetUpgradeConfetti() { confettiShown = false; }
 
 export function initUpgradeScreen() {
   const screen = document.getElementById('screen-upgrade');
@@ -20,7 +22,7 @@ function render(screen) {
   const currentTier = TIERS[state.currentTier];
 
   // Before→After delta (behavioral: show the CHANGE, not just the result)
-  const prevTier = TIERS[PREVIOUS_TIER] || currentTier;
+  const prevTier = TIERS[MOCK_OVERRIDES.previousTier] || currentTier;
   const displayTier = isMaxTier ? currentTier : nextTier;
   const tierInitial = displayTier.name.charAt(0).toUpperCase();
 
