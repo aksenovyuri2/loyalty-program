@@ -5,23 +5,55 @@
   margin-bottom: var(--sp-base);
 }
 
+/* Visually unified with .user-card on the LK screen */
 .status-card {
   margin: 0 var(--sp-base);
   border-radius: var(--r-xl);
-  padding: var(--sp-lg) var(--sp-xl);
+  padding: var(--sp-lg) var(--sp-lg) var(--sp-base);
+  position: relative;
+  overflow: hidden;
   color: #fff;
-  box-shadow: var(--shadow-card);
+  box-shadow: var(--shadow-card), 0 8px 32px rgba(0, 0, 0, 0.12);
 }
 
-.status-card--bronze { background: var(--bronze-gradient); color: var(--bronze-text); }
-.status-card--silver { background: var(--silver-gradient); color: var(--silver-text); }
-.status-card--gold   { background: var(--gold-gradient);   color: var(--gold-text); }
+/* Dark shadow blob — bottom-left (same as user-card) */
+.status-card::before {
+  content: '';
+  position: absolute;
+  bottom: -20%;
+  left: -10%;
+  width: 50%;
+  height: 60%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(0,0,0,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Light shine blob — top-right (same as user-card) */
+.status-card::after {
+  content: '';
+  position: absolute;
+  top: -30%;
+  right: -15%;
+  width: 55%;
+  height: 75%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(255,255,255,0.30) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+/* Same gradient variables as LK user-card */
+.status-card--bronze { background: var(--card-gradient-bronze); }
+.status-card--silver { background: var(--card-gradient-silver); }
+.status-card--gold   { background: var(--card-gradient-gold); }
 
 .status-card__top {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: var(--sp-lg);
+  position: relative;
+  z-index: 1;
 }
 
 .status-card__user-name {
@@ -38,35 +70,45 @@
 
 .status-card__since {
   font-size: var(--fs-xs);
-  opacity: 0.6;
+  opacity: 0.7;
   padding: 4px 10px;
   border-radius: var(--r-full);
-  background: rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.25);
   align-self: flex-start;
   white-space: nowrap;
+  font-weight: 600;
 }
 
+/* Glass metric boxes — same treatment as user-card__metric */
 .status-card__metrics {
   display: flex;
-  gap: var(--sp-xl);
+  gap: var(--sp-sm);
+  position: relative;
+  z-index: 1;
 }
 
 .status-card__metric {
+  flex: 1;
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(4px);
+  border-radius: var(--r-md);
+  padding: var(--sp-sm) var(--sp-md);
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
 
 .status-card__metric-value {
-  font-size: var(--fs-lg);
+  font-size: var(--fs-md);
   font-weight: 700;
 }
 
 .status-card__metric-old {
   font-weight: 400;
-  opacity: 0.6;
+  opacity: 0.55;
+  font-size: var(--fs-sm);
   text-decoration: line-through;
-  margin-right: 4px;
+  margin-right: 2px;
 }
 
 .status-card__metric-label {
