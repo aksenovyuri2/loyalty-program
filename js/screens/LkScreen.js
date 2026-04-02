@@ -2,7 +2,6 @@ import { TIERS, TIER_ORDER, CURRENT_LOAN, BASE_RATE, TIER_PROGRESS, STREAK } fro
 import { getState } from '../state.js';
 import { navigate, onEnter } from '../router.js';
 import { fmtNum, fmtRate, loanWord } from '../utils.js';
-import { renderTierRows } from '../components/TierRow.js';
 
 let tooltipOpen = false;
 let streakDismissed = false;
@@ -106,7 +105,6 @@ function renderFull(screen) {
     <!-- PRIORITY 1: Pay current loan -->
     <div class="loan-section">
       <div class="loan-header">Текущий заём</div>
-      <div class="loan-number">${loan.id}</div>
       <div class="loan-info-row">
         <span class="loan-info-row__label">Остаток долга</span>
         <span class="loan-info-row__value">${fmtNum(loan.remainingDebt)} \u20bd</span>
@@ -140,8 +138,8 @@ function renderFull(screen) {
     <!-- PRIORITY 2: New loan -->
     <div class="lk-new-loan-section">
       <div class="lk-new-loan__text">
-        <div class="lk-new-loan__title">Новый займ по привилегиям ${tier.name}</div>
-        <div class="lk-new-loan__subtitle">Ставка <strong>${fmtRate(tier.dailyRate)}/день</strong> вместо ${fmtRate(BASE_RATE)} без программы</div>
+        <div class="lk-new-loan__title">Займ по ставке ${fmtRate(tier.dailyRate)}/день</div>
+        <div class="lk-new-loan__subtitle">Экономия на процентах: вместо стандартных ${fmtRate(BASE_RATE)}</div>
       </div>
       <button class="btn-secondary" id="btn-new-apply" aria-label="Новая заявка">Новая заявка</button>
     </div>
@@ -163,7 +161,6 @@ function renderFull(screen) {
       <span class="lk-loyalty-header__title">Программа лояльности</span>
       <button class="lk-loyalty-header__link" id="btn-how-works">Как работает?</button>
     </div>
-    ${renderTierRows(state.currentTier)}
   `;
 
   updateCard();
@@ -257,10 +254,7 @@ function updateCard() {
         ` : ''}
       </div>
       <div class="user-card__progress">
-        <div class="user-card__progress-bar">
-          <div class="user-card__progress-fill" style="width: ${Math.round((prog.loansCompleted / prog.loansNeeded) * 100)}%"></div>
-        </div>
-        <span class="user-card__progress-text">${isMaxTier ? 'Максимальный уровень — лучшие условия ваши' : `Ещё ${loansLeft} ${loanWord(loansLeft)} до «${nextTier.name}» — не упустите`}</span>
+        <span class="user-card__progress-text">${isMaxTier ? 'Максимальный уровень — лучшие условия ваши' : `Ещё ${loansLeft} ${loanWord(loansLeft)} до «${nextTier.name}»`}</span>
       </div>
     </div>
   `;

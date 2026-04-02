@@ -139,6 +139,16 @@ function render(screen) {
     spawnConfetti(screen);
     confettiShown = true;
   }
+
+  // Fallback: force hero visibility if animation didn't fire (e.g. preview environments)
+  setTimeout(() => {
+    screen.querySelectorAll('.upgrade-hero__avatar, .upgrade-hero__title, .upgrade-hero__subtitle').forEach(el => {
+      if (getComputedStyle(el).opacity === '0') {
+        el.style.opacity = '1';
+        el.style.transform = 'scale(1)';
+      }
+    });
+  }, 800);
 }
 
 function spawnConfetti(screen) {

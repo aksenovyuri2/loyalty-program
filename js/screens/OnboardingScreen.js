@@ -1,6 +1,6 @@
-import { TIERS, TIER_ORDER, BASE_RATE } from '../../data/mock-data.js';
+import { BASE_RATE } from '../../data/mock-data.js';
 import { navigate, onEnter } from '../router.js';
-import { fmtRate, fmtNum } from '../utils.js';
+import { fmtRate } from '../utils.js';
 
 export function initOnboardingScreen() {
   const screen = document.getElementById('screen-onboarding');
@@ -11,7 +11,7 @@ export function initOnboardingScreen() {
 function render(screen) {
   screen.innerHTML = `
     <div class="onb-header">
-      <button class="screen-header__back" id="onb-close" aria-label="Закрыть">
+      <button class="onb-close-btn" id="onb-close" aria-label="Закрыть">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
@@ -48,25 +48,7 @@ function render(screen) {
       </div>
     </div>
 
-    <div class="section-title" style="padding: 0 var(--sp-base) var(--sp-sm)">Уровни программы</div>
-
-    <div class="onb-tiers">
-      ${TIER_ORDER.map((tid, i) => {
-        const t = TIERS[tid];
-        const icons = ['🥉','🥈','🥇'];
-        return `
-        <div class="onb-tier onb-tier--${tid}">
-          <div class="onb-tier__icon">${icons[i]}</div>
-          <div class="onb-tier__content">
-            <div class="onb-tier__name">${t.name}</div>
-            <div class="onb-tier__perks">${t.perks.slice(0,2).join(' · ')}</div>
-          </div>
-          <div class="onb-tier__rate">${fmtRate(t.dailyRate)}<span class="onb-tier__rate-label">/день</span></div>
-        </div>`;
-      }).join('')}
-    </div>
-
-    <div style="padding: var(--sp-lg) var(--sp-base); padding-bottom: calc(var(--bottom-nav-height, 64px) + var(--sp-xl))">
+    <div style="padding: var(--sp-xl) var(--sp-base); padding-bottom: calc(var(--bottom-nav-height, 64px) + var(--sp-xl))">
       <button class="btn-primary" id="onb-ok" style="width: 100%" aria-label="Понятно">Понятно!</button>
     </div>
   `;
