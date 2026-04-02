@@ -69,20 +69,20 @@ function render(screen) {
         </div>
         <div class="status-card__metrics">
           <div class="status-card__metric">
-            <span class="status-card__metric-value"><s class="status-card__metric-old">${fmtRate(BASE_RATE)}</s> ${fmtRate(tier.dailyRate)}</span>
             <span class="status-card__metric-label">ставка/день</span>
+            <span class="status-card__metric-value">${fmtRate(tier.dailyRate)} <s class="status-card__metric-old">${fmtRate(BASE_RATE)}</s></span>
           </div>
           <div class="status-card__metric">
-            <span class="status-card__metric-value">${fmtNum(tier.maxLimit)} ₽</span>
             <span class="status-card__metric-label">макс. лимит</span>
+            <span class="status-card__metric-value">${fmtNum(tier.maxLimit)} ₽</span>
           </div>
-          ${LIFETIME_SAVINGS > 0 ? `
-          <div class="status-card__metric">
-            <span class="status-card__metric-value">${fmtNum(LIFETIME_SAVINGS)} ₽</span>
-            <span class="status-card__metric-label">сэкономлено</span>
-          </div>
-          ` : ''}
         </div>
+        ${LIFETIME_SAVINGS > 0 ? `
+        <div class="status-card__savings">
+          <span class="status-card__savings-label">сэкономлено с программой</span>
+          <span class="status-card__savings-value">${fmtNum(LIFETIME_SAVINGS)} ₽</span>
+        </div>
+        ` : ''}
         <button class="status-card__how-works" id="status-how-works" aria-label="Как работает программа лояльности">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
           Как работает программа лояльности →

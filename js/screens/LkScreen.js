@@ -218,7 +218,7 @@ function updateCard() {
       </div>
       <div class="user-card__metrics">
         <div class="user-card__metric">
-          <span class="user-card__metric-value"><s class="user-card__metric-old">${fmtRate(BASE_RATE)}</s> ${fmtRate(tier.dailyRate)}</span>
+          <span class="user-card__metric-value">${fmtRate(tier.dailyRate)} <s class="user-card__metric-old">${fmtRate(BASE_RATE)}</s></span>
           <span class="user-card__metric-label">ставка/день</span>
         </div>
         <div class="user-card__metric">
