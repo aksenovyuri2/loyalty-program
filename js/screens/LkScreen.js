@@ -1,10 +1,16 @@
-import { TIERS, TIER_ORDER, CURRENT_LOAN, BASE_RATE, TIER_PROGRESS, STREAK } from '../../data/mock-data.js';
+import { TIERS, TIER_ORDER, CURRENT_LOAN, BASE_RATE, TIER_PROGRESS } from '../../data/mock-data.js';
 import { getState } from '../state.js';
 import { navigate, onEnter } from '../router.js';
 import { fmtNum, fmtRate, loanWord } from '../utils.js';
 
+function progressDots(completed, needed, variant = 'card') {
+  return Array.from({ length: needed }, (_, i) => {
+    const cls = i < completed ? 'prog-dot--card-filled' : 'prog-dot--card-empty';
+    return `<span class="prog-dot ${cls}"></span>`;
+  }).join('');
+}
+
 let tooltipOpen = false;
-let streakDismissed = false;
 
 export function initLkScreen() {
   const screen = document.getElementById('screen-lk');
@@ -38,20 +44,6 @@ function dayWord(n) {
   return 'дней';
 }
 
-function progressRingSVG(completed, needed, radius = 18) {
-  const circumference = 2 * Math.PI * radius;
-  const pct = Math.min(completed / needed, 1);
-  const offset = circumference * (1 - pct);
-  const size = (radius + 3) * 2;
-  return `
-    <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" class="progress-ring__svg">
-      <circle cx="${size / 2}" cy="${size / 2}" r="${radius}" class="progress-ring__circle-bg"/>
-      <circle cx="${size / 2}" cy="${size / 2}" r="${radius}" class="progress-ring__circle-fill"
-        stroke-dasharray="${circumference}" stroke-dashoffset="${offset}"/>
-      <text x="${size / 2}" y="${size / 2}" text-anchor="middle" dy="0.35em"
-        fill="#fff" font-size="11" font-weight="800">${completed}/${needed}</text>
-    </svg>`;
-}
 
 /* ---------- Main render ---------- */
 
@@ -65,7 +57,6 @@ function renderFull(screen) {
   const prog = TIER_PROGRESS;
   const days = daysUntilPayment();
   const loansLeft = prog.loansNeeded - prog.loansCompleted;
-  const showStreak = STREAK.isActive && STREAK.count >= 2 && !streakDismissed;
 
   screen.innerHTML = `
     <div class="app-header">
@@ -87,18 +78,6 @@ function renderFull(screen) {
     </div>
     ` : ''}
 
-    ${showStreak ? `
-    <div class="streak-badge" id="streak-badge">
-      <div class="streak-badge__icon">\uD83D\uDD25</div>
-      <div>
-        <div class="streak-badge__text">${STREAK.count} ${loanWord(STREAK.count)} погашены вовремя подряд</div>
-        <div class="streak-badge__sub">Продолжайте — каждый вовремя приближает к ${isMaxTier ? 'лучшим условиям' : nextTier.name}</div>
-      </div>
-      <button class="streak-badge__dismiss" id="streak-dismiss" aria-label="Скрыть">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
-    </div>
-    ` : ''}
 
     ${state.hasActiveLoan ? `
 
@@ -170,10 +149,6 @@ function renderFull(screen) {
   screen.querySelector('#btn-new-apply')?.addEventListener('click', () => navigate('/apply'));
   screen.querySelector('#btn-new-loan')?.addEventListener('click', () => navigate('/apply'));
   screen.querySelector('#btn-how-works')?.addEventListener('click', () => navigate('/onboarding'));
-  screen.querySelector('#streak-dismiss')?.addEventListener('click', () => {
-    streakDismissed = true;
-    screen.querySelector('#streak-badge')?.remove();
-  });
 }
 
 function showPaymentStub(screen) {
@@ -246,15 +221,16 @@ function updateCard() {
           <span class="user-card__metric-value">${fmtNum(tier.maxLimit)} \u20bd</span>
           <span class="user-card__metric-label">макс. лимит</span>
         </div>
-        ${!isMaxTier ? `
-        <div class="progress-ring">
-          ${progressRingSVG(prog.loansCompleted, prog.loansNeeded)}
-          <div class="progress-ring__text">до<br>${nextTier.name}</div>
-        </div>
-        ` : ''}
       </div>
       <div class="user-card__progress">
-        <span class="user-card__progress-text">${isMaxTier ? 'Максимальный уровень — лучшие условия ваши' : `Ещё ${loansLeft} ${loanWord(loansLeft)} до «${nextTier.name}»`}</span>
+        ${!isMaxTier ? `
+          <div class="prog-dots prog-dots--sm">
+            ${progressDots(prog.loansCompleted, prog.loansNeeded)}
+          </div>
+          <span class="user-card__progress-text">${loansLeft} ${loanWord(loansLeft)} до «${nextTier.name}»</span>
+        ` : `
+          <span class="user-card__progress-text">Максимальный уровень — лучшие условия ваши</span>
+        `}
       </div>
     </div>
   `;

@@ -1,18 +1,20 @@
-import { TIERS, TIER_ORDER, TIER_PROGRESS, BASE_RATE, CURRENT_LOAN, STREAK, LIFETIME_SAVINGS } from '../../data/mock-data.js';
+import { TIERS, TIER_ORDER, TIER_PROGRESS, BASE_RATE, CURRENT_LOAN, LIFETIME_SAVINGS } from '../../data/mock-data.js';
 import { getState } from '../state.js';
 import { navigate, onEnter } from '../router.js';
 import { fmtNum, fmtRate, loanWord } from '../utils.js';
 import { renderTierRows } from '../components/TierRow.js';
 
-let streakDismissed = false;
+function progressDots(completed, needed, tierClass) {
+  return Array.from({ length: needed }, (_, i) => {
+    const cls = i < completed ? `prog-dot--${tierClass}` : 'prog-dot--empty';
+    return `<span class="prog-dot ${cls}"></span>`;
+  }).join('');
+}
 
 export function initStatusScreen() {
   const screen = document.getElementById('screen-status');
   render(screen);
-  onEnter('/status', () => {
-    streakDismissed = false;
-    render(screen);
-  });
+  onEnter('/status', () => render(screen));
 }
 
 function render(screen) {
@@ -28,7 +30,7 @@ function render(screen) {
   const progressPct = Math.round((prog.loansCompleted / prog.loansNeeded) * 100);
   const loansLeft = prog.loansNeeded - prog.loansCompleted;
 
-  // Conditions for next tier only (no tabs)
+  // Conditions for next tier only
   const condTier = isMaxTier ? tier : nextTier;
   const condAllDone = condTier.conditions.every(c => c.completed);
 
@@ -38,17 +40,15 @@ function render(screen) {
     if (loansMatch) {
       const needed = parseInt(loansMatch[1]);
       const done = Math.min(prog.loansCompleted, needed);
-      return `${text} <span style="color: var(--brand-blue); font-weight: 600">(${done} из ${needed})</span>`;
+      return `${text} <span style="color:var(--brand-blue);font-weight:600">(${done} из ${needed})</span>`;
     }
     return text;
   }
 
-  // Personal savings on current loan
+  // Monthly savings vs next tier
   const loanAmount = CURRENT_LOAN.remainingDebt;
-  const loanDays = 30; // standard month for comparability
-  const savingsVsBase = loanAmount * ((BASE_RATE - tier.dailyRate) / 100) * loanDays;
   const savingsNextVsCurrent = nextTier
-    ? loanAmount * ((tier.dailyRate - nextTier.dailyRate) / 100) * loanDays
+    ? Math.round(loanAmount * ((tier.dailyRate - nextTier.dailyRate) / 100) * 30)
     : 0;
 
   screen.innerHTML = `
@@ -76,6 +76,12 @@ function render(screen) {
             <span class="status-card__metric-value">${fmtNum(tier.maxLimit)} ₽</span>
             <span class="status-card__metric-label">макс. лимит</span>
           </div>
+          ${LIFETIME_SAVINGS > 0 ? `
+          <div class="status-card__metric">
+            <span class="status-card__metric-value">${fmtNum(LIFETIME_SAVINGS)} ₽</span>
+            <span class="status-card__metric-label">сэкономлено</span>
+          </div>
+          ` : ''}
         </div>
         <button class="status-card__how-works" id="status-how-works" aria-label="Как работает программа лояльности">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
@@ -84,64 +90,33 @@ function render(screen) {
       </div>
     </div>
 
-    ${STREAK.isActive && STREAK.count >= 2 && !streakDismissed ? `
-    <div class="streak-badge" id="status-streak-badge" style="margin-top: calc(-1 * var(--sp-sm))">
-      <div class="streak-badge__icon">🔥</div>
-      <div>
-        <div class="streak-badge__text">${STREAK.count} ${loanWord(STREAK.count)} подряд вовремя</div>
-        <div class="streak-badge__sub">Серия не прервана — продолжайте</div>
-      </div>
-      <button class="streak-badge__dismiss" id="status-streak-dismiss" aria-label="Скрыть">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
-    </div>
-    ` : ''}
-
     ${!isMaxTier ? `
     <div class="status-progress-section">
       <div class="status-progress__header">
-        <span class="status-progress__title">Погашено ${prog.loansCompleted} из ${prog.loansNeeded} займов</span>
-        <span class="status-progress__target" id="status-scroll-to-conditions" role="button" aria-label="Перейти к условиям ${nextTier.name}">до «${nextTier.name}»</span>
+        <span class="status-progress__title">
+          <strong>${prog.loansCompleted}</strong><span class="status-progress__total"> / ${prog.loansNeeded}</span>
+          займов погашено вовремя
+        </span>
+        <span class="status-progress__target" id="status-scroll-to-conditions" role="button">до «${nextTier.name}»</span>
       </div>
-      <div class="status-progress__bar">
-        <div class="status-progress__fill status-progress__fill--${currentTier}" style="width: ${progressPct}%"></div>
+      <div class="prog-dots prog-dots--md" style="margin-bottom: var(--sp-sm)">
+        ${progressDots(prog.loansCompleted, prog.loansNeeded, currentTier)}
       </div>
-      <div class="status-progress__hint">Ещё ${loansLeft} ${loanWord(loansLeft)} вовремя — и статус повысится</div>
+      <div class="status-progress__hint">
+        Ещё ${loansLeft} ${loanWord(loansLeft)} вовремя — статус повысится
+        ${savingsNextVsCurrent > 0 ? `· +${fmtNum(savingsNextVsCurrent)} ₽/мес` : ''}
+      </div>
     </div>
     ` : `
     <div class="status-progress-section">
       <div class="status-progress__header">
         <span class="status-progress__title">Максимальный уровень</span>
       </div>
-      <div class="status-progress__bar">
-        <div class="status-progress__fill status-progress__fill--${currentTier}" style="width: 100%"></div>
+      <div class="prog-dots prog-dots--md" style="margin-bottom: var(--sp-sm)">
+        ${progressDots(prog.loansNeeded, prog.loansNeeded, currentTier)}
       </div>
       <div class="status-progress__hint">Вам доступны лучшие условия</div>
     </div>
-    `}
-
-    ${LIFETIME_SAVINGS > 0 ? `
-    <div class="lifetime-savings">
-      <div class="lifetime-savings__icon">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-      </div>
-      <div class="lifetime-savings__text">
-        Уже сэкономили <span class="lifetime-savings__amount">${fmtNum(LIFETIME_SAVINGS)} ₽</span> с программой boostra
-        ${!isMaxTier ? `— до «${nextTier.name}» ещё ${fmtNum(Math.round(savingsNextVsCurrent))} ₽/мес` : ''}
-      </div>
-    </div>
-    ` : `
-    ${!isMaxTier && savingsVsBase > 0 ? `
-    <div class="lifetime-savings">
-      <div class="lifetime-savings__icon">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-      </div>
-      <div class="lifetime-savings__text">
-        По статусу ${tier.name} экономите <span class="lifetime-savings__amount">${fmtNum(Math.round(savingsVsBase))} ₽/мес</span> vs базовой ставки
-        ${savingsNextVsCurrent > 0 ? `— «${nextTier.name}» даст ещё +${fmtNum(Math.round(savingsNextVsCurrent))} ₽` : ''}
-      </div>
-    </div>
-    ` : ''}
     `}
 
     <div class="section-title">Ставки по уровням</div>
@@ -156,7 +131,7 @@ function render(screen) {
           <div class="condition-item__check condition-item__check--done">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
           </div>
-          <span class="condition-item__text" style="color: var(--brand-green); font-weight: 600">Все условия выполнены</span>
+          <span class="condition-item__text" style="color:var(--brand-green);font-weight:600">Все условия выполнены</span>
         </div>
       </div>
       ` : `
@@ -164,9 +139,7 @@ function render(screen) {
         <div class="condition-item ${c.completed ? 'condition-item--done' : ''}">
           <div class="condition-item__left">
             <div class="condition-item__check ${c.completed ? 'condition-item__check--done' : ''}">
-              ${c.completed
-                ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>'
-                : ''}
+              ${c.completed ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>' : ''}
             </div>
             <span class="condition-item__text">${conditionText(c.text)}</span>
           </div>
@@ -200,8 +173,4 @@ function render(screen) {
     if (anchor) anchor.scrollIntoView({ behavior: 'smooth' });
   });
   screen.querySelector('#status-how-works')?.addEventListener('click', () => navigate('/onboarding'));
-  screen.querySelector('#status-streak-dismiss')?.addEventListener('click', () => {
-    streakDismissed = true;
-    screen.querySelector('#status-streak-badge')?.remove();
-  });
 }
