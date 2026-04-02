@@ -328,30 +328,27 @@
   color: var(--color-text-secondary);
 }
 
-/* How it works link on Status card */
+/* How it works — pill button inside the status card */
 .status-card__how-works {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
   margin-top: var(--sp-md);
-  padding-top: var(--sp-sm);
-  border-top: 1px solid rgba(255,255,255,0.15);
+  padding: 6px 12px;
+  border-radius: var(--r-full);
+  background: rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,0.28);
   font-size: var(--fs-xs);
-  color: rgba(255,255,255,0.65);
+  color: rgba(255,255,255,0.92);
   cursor: pointer;
   position: relative;
   z-index: 1;
-  background: none;
-  border-left: none;
-  border-right: none;
-  border-bottom: none;
-  width: 100%;
-  text-align: left;
   font-family: inherit;
-  font-weight: 500;
-  transition: color 0.15s;
+  font-weight: 600;
+  transition: background 0.15s;
+  backdrop-filter: blur(4px);
 }
 
 .status-card__how-works:active {
-  color: rgba(255,255,255,0.9);
+  background: rgba(255,255,255,0.28);
 }
