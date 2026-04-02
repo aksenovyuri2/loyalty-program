@@ -266,3 +266,91 @@
   line-height: 1.4;
   margin-bottom: var(--sp-sm);
 }
+
+/* Streak badge dismiss button */
+.streak-badge {
+  position: relative;
+}
+
+.streak-badge__dismiss {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.06);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.streak-badge__dismiss:active {
+  background: rgba(0,0,0,0.12);
+}
+
+/* SBP secondary link inside loan section */
+.loan-sbp-link {
+  width: 100%;
+  background: none;
+  border: none;
+  color: var(--color-text-secondary);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  padding: var(--sp-sm) var(--sp-base);
+  text-align: center;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: var(--sp-xs);
+}
+
+.loan-sbp-link:active {
+  opacity: 0.7;
+}
+
+.loan-sbp-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #5b2d8e;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 800;
+  padding: 1px 5px;
+  border-radius: 4px;
+  letter-spacing: 0.02em;
+}
+
+/* Loyalty program section label on LK */
+.lk-loyalty-header {
+  padding: var(--sp-lg) var(--sp-base) var(--sp-xs);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.lk-loyalty-header__title {
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.lk-loyalty-header__link {
+  font-size: var(--fs-sm);
+  color: var(--brand-blue);
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}

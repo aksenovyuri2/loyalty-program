@@ -1,0 +1,163 @@
+/* ============================================================
+   Onboarding / How It Works screen
+   ============================================================ */
+
+.onb-header {
+  display: flex;
+  align-items: center;
+  padding: var(--sp-base) var(--sp-base) 0;
+  min-height: 52px;
+}
+
+.onb-hero {
+  text-align: center;
+  padding: var(--sp-lg) var(--sp-base) var(--sp-xl);
+}
+
+.onb-hero__icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 20px;
+  background: rgba(232, 135, 14, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--sp-md);
+}
+
+.onb-hero__title {
+  font-size: var(--fs-xl);
+  font-weight: 800;
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+
+.onb-hero__sub {
+  font-size: var(--fs-base);
+  color: var(--color-text-secondary);
+}
+
+/* Steps */
+.onb-steps {
+  margin: 0 var(--sp-base) var(--sp-xl);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  background: var(--color-surface);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-section);
+}
+
+.onb-step {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-md);
+  padding: var(--sp-md) var(--sp-base);
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.onb-step:last-child {
+  border-bottom: none;
+}
+
+.onb-step__num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--brand-blue);
+  color: #fff;
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.onb-step__content {
+  flex: 1;
+}
+
+.onb-step__title {
+  font-size: var(--fs-base);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 2px;
+}
+
+.onb-step__text {
+  font-size: var(--fs-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+}
+
+/* Tier cards */
+.onb-tiers {
+  margin: 0 var(--sp-base) var(--sp-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.onb-tier {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-md);
+  padding: var(--sp-md) var(--sp-base);
+  border-radius: var(--r-lg);
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.onb-tier::after {
+  content: '';
+  position: absolute;
+  top: -40%;
+  right: -10%;
+  width: 50%;
+  height: 180%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(255,255,255,0.20) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.onb-tier--bronze { background: var(--card-gradient-bronze); }
+.onb-tier--silver { background: var(--card-gradient-silver); }
+.onb-tier--gold   { background: var(--card-gradient-gold); }
+
+.onb-tier__icon {
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.onb-tier__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.onb-tier__name {
+  font-size: var(--fs-base);
+  font-weight: 700;
+}
+
+.onb-tier__perks {
+  font-size: var(--fs-xs);
+  opacity: 0.75;
+  margin-top: 1px;
+}
+
+.onb-tier__rate {
+  font-size: var(--fs-lg);
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.onb-tier__rate-label {
+  font-size: var(--fs-xs);
+  font-weight: 400;
+  opacity: 0.75;
+}

@@ -87,6 +87,10 @@ function render(screen) {
           </div>
         </div>
       </div>
+      <button class="status-card__how-works" id="status-how-works" aria-label="Как работает программа лояльности">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        Как работает программа лояльности →
+      </button>
     </div>
 
     ${STREAK.isActive && STREAK.count >= 2 ? `
@@ -250,6 +254,7 @@ function render(screen) {
     const anchor = screen.querySelector('#conditions-anchor');
     if (anchor) anchor.scrollIntoView({ behavior: 'smooth' });
   });
+  screen.querySelector('#status-how-works')?.addEventListener('click', () => navigate('/onboarding'));
   screen.querySelectorAll('[data-view-tier]').forEach(btn => {
     btn.addEventListener('click', () => {
       activeTab = btn.dataset.viewTier;

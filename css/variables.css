@@ -34,7 +34,7 @@
   /* Bronze tier */
   --bronze-1: #9a6e1e;
   --bronze-2: #c4943a;
-  --bronze-3: #ddb35c;
+  --bronze-3: #c47040;
   --bronze-4: #eece82;
   --bronze-6: #8a5e14;
   --bronze-gradient: linear-gradient(145deg, var(--bronze-6) 0%, var(--bronze-2) 18%, var(--bronze-4) 40%, var(--bronze-3) 55%, var(--bronze-2) 72%, var(--bronze-6) 100%);
@@ -43,7 +43,7 @@
   /* Silver tier */
   --silver-1: #8e8e8e;
   --silver-2: #b0b0b0;
-  --silver-3: #d0d0d0;
+  --silver-3: #5a7a96;
   --silver-4: #e8e8e8;
   --silver-6: #8e8e8e;
   --silver-gradient: linear-gradient(145deg, var(--silver-6) 0%, var(--silver-2) 18%, var(--silver-4) 40%, var(--silver-3) 55%, var(--silver-2) 72%, var(--silver-6) 100%);
@@ -52,16 +52,19 @@
   /* Gold tier */
   --gold-1: #b8880a;
   --gold-2: #d4a82a;
-  --gold-3: #efc842;
+  --gold-3: #c49020;
   --gold-4: #fad96a;
   --gold-6: #a07808;
   --gold-gradient: linear-gradient(145deg, var(--gold-6) 0%, var(--gold-2) 18%, var(--gold-4) 40%, var(--gold-3) 55%, var(--gold-2) 72%, var(--gold-6) 100%);
   --gold-text: #4a3808;
 
-  /* User card gradient (ЛК) — warm orange/amber */
-  --card-gradient-bronze: linear-gradient(145deg, #b87a1a 0%, #d4a03a 20%, #ecc464 45%, #d4a03a 70%, #b87a1a 100%);
-  --card-gradient-silver: linear-gradient(145deg, #8a9aa8 0%, #b0c0cc 20%, #d0dce4 45%, #b0c0cc 70%, #8a9aa8 100%);
-  --card-gradient-gold: linear-gradient(145deg, #b89018 0%, #d4b030 20%, #f0d050 45%, #d4b030 70%, #b89018 100%);
+  /* User card gradient — distinct, dark enough for white text */
+  /* Bronze = copper/reddish-brown */
+  --card-gradient-bronze: linear-gradient(145deg, #6b2d0a 0%, #984418 22%, #b55e28 44%, #984418 68%, #6b2d0a 100%);
+  /* Silver = dark steel/titanium */
+  --card-gradient-silver: linear-gradient(145deg, #252e3a 0%, #3a4858 22%, #526070 44%, #3a4858 68%, #252e3a 100%);
+  /* Gold = warm rich amber-gold */
+  --card-gradient-gold: linear-gradient(145deg, #7a5000 0%, #a87010 22%, #c48a18 44%, #a87010 68%, #7a5000 100%);
 
   /* Spacing */
   --sp-xs: 4px;
