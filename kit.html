@@ -1,0 +1,2218 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>boostra UI Kit v1.0 — Developer Handoff</title>
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/components/button.css">
+  <link rel="stylesheet" href="css/components/card.css">
+  <link rel="stylesheet" href="css/components/navbar.css">
+  <link rel="stylesheet" href="css/components/tier-row.css">
+  <link rel="stylesheet" href="css/components/growth.css">
+  <link rel="stylesheet" href="css/screens/lk.css">
+  <link rel="stylesheet" href="css/screens/status.css">
+  <link rel="stylesheet" href="css/screens/apply.css">
+
+  <style>
+    /* ===== KIT PAGE LAYOUT ===== */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+      background: #f8fafc;
+      color: #1a1a2e;
+      margin: 0;
+    }
+
+    /* Top border accent */
+    body::before {
+      content: '';
+      display: block;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+      z-index: 999;
+    }
+
+    /* ===== HEADER ===== */
+    .kit-header {
+      position: fixed;
+      top: 3px; left: 0; right: 0;
+      height: 60px;
+      background: #fff;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      gap: 16px;
+      z-index: 200;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+
+    .kit-header__logo {
+      font-size: 20px;
+      font-weight: 800;
+      color: #1a1a2e;
+      letter-spacing: -0.02em;
+    }
+
+    .kit-header__tag {
+      font-size: 11px;
+      font-weight: 700;
+      color: #3b82f6;
+      background: rgba(59,130,246,0.08);
+      padding: 3px 8px;
+      border-radius: 9999px;
+      letter-spacing: 0.02em;
+    }
+
+    .kit-header__subtitle {
+      font-size: 13px;
+      color: #64748b;
+      margin-left: auto;
+    }
+
+    /* ===== SIDEBAR ===== */
+    .kit-sidebar {
+      position: fixed;
+      top: 63px;
+      left: 0;
+      width: 220px;
+      height: calc(100vh - 63px);
+      background: #fff;
+      border-right: 1px solid #e2e8f0;
+      overflow-y: auto;
+      padding: 24px 0 32px;
+      z-index: 100;
+    }
+
+    .kit-sidebar__group {
+      padding: 0 16px 8px;
+    }
+
+    .kit-sidebar__group-title {
+      font-size: 10px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0 8px;
+      margin-bottom: 4px;
+    }
+
+    .kit-sidebar__item {
+      display: block;
+      padding: 7px 8px;
+      border-radius: 8px;
+      font-size: 13px;
+      color: #64748b;
+      text-decoration: none;
+      transition: all 0.12s;
+      font-weight: 500;
+    }
+
+    .kit-sidebar__item:hover {
+      background: #f1f5f9;
+      color: #1a1a2e;
+    }
+
+    .kit-sidebar__item.active {
+      background: rgba(59,130,246,0.08);
+      color: #3b82f6;
+      font-weight: 600;
+    }
+
+    .kit-sidebar__divider {
+      height: 1px;
+      background: #f1f5f9;
+      margin: 12px 16px;
+    }
+
+    /* ===== MAIN CONTENT ===== */
+    .kit-main {
+      margin-left: 220px;
+      padding: 92px 48px 80px;
+      max-width: 1100px;
+    }
+
+    /* ===== SECTIONS ===== */
+    .kit-section {
+      margin-bottom: 64px;
+    }
+
+    .kit-section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .kit-section-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .kit-section h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin: 0 0 4px;
+      padding-left: 12px;
+      border-left: 3px solid #3b82f6;
+      line-height: 1.2;
+    }
+
+    .kit-section-desc {
+      font-size: 14px;
+      color: #64748b;
+      margin: 0 0 24px;
+      line-height: 1.5;
+      padding-left: 15px;
+    }
+
+    /* ===== COMPONENT EXAMPLE BOX ===== */
+    .kit-example {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 12px;
+      position: relative;
+    }
+
+    .kit-example--dark {
+      background: #1e293b;
+    }
+
+    .kit-example--gray {
+      background: #eef2f7;
+    }
+
+    .kit-example-label {
+      position: absolute;
+      top: -10px;
+      left: 16px;
+      font-size: 10px;
+      font-weight: 700;
+      color: #94a3b8;
+      background: #fff;
+      padding: 0 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .kit-example--dark .kit-example-label {
+      background: #1e293b;
+      color: #64748b;
+    }
+
+    /* ===== CODE SNIPPET ===== */
+    .kit-code-wrap {
+      position: relative;
+      margin-bottom: 24px;
+    }
+
+    .kit-code {
+      display: block;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 12.5px;
+      font-family: 'SF Mono', 'Menlo', 'Fira Code', 'Consolas', monospace;
+      color: #334155;
+      line-height: 1.6;
+      overflow-x: auto;
+      white-space: pre;
+      padding-right: 56px;
+    }
+
+    .kit-copy-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      padding: 4px 10px;
+      background: #e2e8f0;
+      border: none;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #64748b;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .kit-copy-btn:hover {
+      background: #3b82f6;
+      color: #fff;
+    }
+
+    .kit-copy-btn.copied {
+      background: #2eaa57;
+      color: #fff;
+    }
+
+    /* ===== COLOR SWATCHES ===== */
+    .kit-swatch-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .kit-swatch {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+      min-width: 110px;
+    }
+
+    .kit-swatch__color {
+      width: 100%;
+      height: 52px;
+      border-radius: 10px;
+      border: 1px solid rgba(0,0,0,0.06);
+      min-width: 110px;
+    }
+
+    .kit-swatch__var {
+      font-size: 11px;
+      font-family: 'SF Mono', 'Menlo', monospace;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    .kit-swatch__hex {
+      font-size: 11px;
+      color: #94a3b8;
+    }
+
+    .kit-swatch-group-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin: 20px 0 10px;
+    }
+
+    .kit-gradient-preview {
+      height: 52px;
+      border-radius: 10px;
+      margin-bottom: 6px;
+    }
+
+    /* ===== TYPOGRAPHY ===== */
+    .kit-type-row {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      padding: 10px 0;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .kit-type-row:last-child { border-bottom: none; }
+
+    .kit-type-var {
+      font-size: 11px;
+      font-family: 'SF Mono', 'Menlo', monospace;
+      color: #94a3b8;
+      min-width: 90px;
+      flex-shrink: 0;
+    }
+
+    .kit-type-px {
+      font-size: 11px;
+      color: #cbd5e1;
+      min-width: 40px;
+      flex-shrink: 0;
+    }
+
+    .kit-type-sample { flex: 1; }
+
+    /* ===== SPACING BARS ===== */
+    .kit-spacing-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 6px 0;
+    }
+
+    .kit-spacing-bar {
+      background: #3b82f6;
+      height: 20px;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+
+    .kit-spacing-var {
+      font-size: 11px;
+      font-family: 'SF Mono', 'Menlo', monospace;
+      color: #64748b;
+      min-width: 80px;
+    }
+
+    .kit-spacing-px {
+      font-size: 11px;
+      color: #94a3b8;
+    }
+
+    /* ===== RADIUS & SHADOW DEMOS ===== */
+    .kit-radius-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 8px;
+    }
+
+    .kit-radius-box {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .kit-radius-label {
+      font-size: 10px;
+      color: rgba(255,255,255,0.9);
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .kit-shadow-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: 8px;
+    }
+
+    .kit-shadow-box {
+      width: 140px;
+      height: 80px;
+      background: #fff;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .kit-shadow-var {
+      font-size: 10px;
+      font-family: 'SF Mono', 'Menlo', monospace;
+      color: #94a3b8;
+    }
+
+    /* ===== BUTTON DEMO ===== */
+    .kit-btn-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .kit-btn-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      min-width: 160px;
+    }
+
+    .kit-btn-item .btn-primary,
+    .kit-btn-item .btn-secondary {
+      max-width: 200px;
+      width: 100%;
+    }
+
+    /* ===== CARD DEMO ===== */
+    .kit-card-demo {
+      max-width: 390px;
+    }
+
+    /* ===== PROGRESS DOTS DEMO ===== */
+    .kit-prog-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 8px 0;
+    }
+
+    .kit-prog-label {
+      font-size: 11px;
+      font-family: 'SF Mono', 'Menlo', monospace;
+      color: #94a3b8;
+      min-width: 130px;
+    }
+
+    /* ===== NAV DEMO ===== */
+    .kit-nav-demo {
+      position: relative;
+      height: 66px;
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      overflow: hidden;
+      max-width: 430px;
+    }
+
+    .kit-nav-demo .bottom-nav {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      transform: none;
+      max-width: 100%;
+    }
+
+    /* ===== CLASS TREE ===== */
+    .kit-class-tree {
+      background: #0f172a;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+      overflow-x: auto;
+    }
+
+    .kit-class-tree pre {
+      margin: 0;
+      font-size: 12px;
+      line-height: 1.7;
+      font-family: 'SF Mono', 'Menlo', 'Fira Code', monospace;
+      color: #e2e8f0;
+    }
+
+    .kit-class-tree .ct-class { color: #7dd3fc; }
+    .kit-class-tree .ct-mod { color: #86efac; }
+    .kit-class-tree .ct-child { color: #fde68a; }
+    .kit-class-tree .ct-comment { color: #475569; }
+
+    /* ===== BADGE GRID ===== */
+    .kit-badge-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .kit-badge-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .kit-badge-item code {
+      font-size: 10px;
+      color: #94a3b8;
+      font-family: 'SF Mono', 'Menlo', monospace;
+    }
+
+    /* ===== APPLY DEMO ===== */
+    .kit-apply-demo {
+      background: #eef2f7;
+      border-radius: 12px;
+      padding: 24px 0;
+      max-width: 430px;
+      overflow: hidden;
+    }
+
+    /* ===== BOTTOM SHEET DEMO ===== */
+    .kit-sheet-demo {
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 16px;
+      max-width: 430px;
+    }
+
+    .kit-sheet-demo .payment-stub__sheet {
+      position: relative;
+      transform: none;
+      border-radius: 20px;
+    }
+
+    /* ===== USAGE GUIDE ===== */
+    .kit-guide-section {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+
+    .kit-guide-section h3 {
+      font-size: 15px;
+      font-weight: 700;
+      margin: 0 0 8px;
+      color: #1a1a2e;
+    }
+
+    .kit-guide-section p {
+      font-size: 14px;
+      color: #64748b;
+      margin: 0 0 12px;
+      line-height: 1.5;
+    }
+
+    /* ===== TWO-COLUMN LAYOUT ===== */
+    .kit-two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 900px) {
+      .kit-two-col { grid-template-columns: 1fr; }
+    }
+
+    /* ===== PROP TABLE ===== */
+    .kit-prop-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-bottom: 16px;
+    }
+
+    .kit-prop-table th {
+      text-align: left;
+      padding: 8px 12px;
+      background: #f8fafc;
+      color: #64748b;
+      font-weight: 600;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .kit-prop-table td {
+      padding: 8px 12px;
+      border-bottom: 1px solid #f1f5f9;
+      color: #334155;
+      vertical-align: top;
+    }
+
+    .kit-prop-table td code {
+      font-family: 'SF Mono', 'Menlo', monospace;
+      font-size: 11.5px;
+      color: #3b82f6;
+      background: rgba(59,130,246,0.06);
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+
+    .kit-prop-table tr:last-child td { border-bottom: none; }
+
+    /* ===== MOBILE ===== */
+    @media (max-width: 768px) {
+      .kit-sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid #e2e8f0;
+        padding: 12px 0;
+        overflow-x: auto;
+        white-space: nowrap;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+      }
+
+      .kit-sidebar__group {
+        display: inline-flex;
+        gap: 4px;
+        padding: 0 8px;
+      }
+
+      .kit-sidebar__group-title { display: none; }
+      .kit-sidebar__divider { display: none; }
+
+      .kit-sidebar__item {
+        white-space: nowrap;
+        font-size: 12px;
+        padding: 5px 10px;
+      }
+
+      .kit-main {
+        margin-left: 0;
+        padding: 80px 16px 40px;
+      }
+
+      .kit-header__subtitle { display: none; }
+    }
+
+    /* ===== INLINE TAG ===== */
+    .kit-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 99px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .kit-tag--blue { background: rgba(59,130,246,0.1); color: #3b82f6; }
+    .kit-tag--green { background: rgba(46,170,87,0.1); color: #2eaa57; }
+    .kit-tag--orange { background: rgba(232,135,14,0.1); color: #e8870e; }
+
+    /* Spinner keyframe for demo */
+    @keyframes kitSpin {
+      to { transform: rotate(360deg); }
+    }
+
+    .kit-spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: kitSpin 0.6s linear infinite;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOP HEADER -->
+<header class="kit-header">
+  <span class="kit-header__logo">boostra</span>
+  <span class="kit-header__tag">UI Kit v1.0</span>
+  <span class="kit-header__subtitle">Developer handoff · последнее обновление April 2026</span>
+</header>
+
+<!-- SIDEBAR -->
+<nav class="kit-sidebar">
+  <div class="kit-sidebar__group">
+    <div class="kit-sidebar__group-title">Foundation</div>
+    <a class="kit-sidebar__item" href="#colors">Colors</a>
+    <a class="kit-sidebar__item" href="#typography">Typography</a>
+    <a class="kit-sidebar__item" href="#spacing">Spacing</a>
+    <a class="kit-sidebar__item" href="#radius">Radius &amp; Shadows</a>
+  </div>
+  <div class="kit-sidebar__divider"></div>
+  <div class="kit-sidebar__group">
+    <div class="kit-sidebar__group-title">Components</div>
+    <a class="kit-sidebar__item" href="#buttons">Buttons</a>
+    <a class="kit-sidebar__item" href="#cards">Cards</a>
+    <a class="kit-sidebar__item" href="#progress">Progress</a>
+    <a class="kit-sidebar__item" href="#navigation">Navigation</a>
+    <a class="kit-sidebar__item" href="#badges">Badges &amp; Pills</a>
+    <a class="kit-sidebar__item" href="#forms">Forms</a>
+    <a class="kit-sidebar__item" href="#overlays">Overlays</a>
+    <a class="kit-sidebar__item" href="#states">States</a>
+  </div>
+  <div class="kit-sidebar__divider"></div>
+  <div class="kit-sidebar__group">
+    <a class="kit-sidebar__item" href="#guide">Usage Guide</a>
+  </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main class="kit-main">
+
+  <!-- ============================================================
+       SECTION: COLORS
+  ============================================================ -->
+  <section class="kit-section" id="colors">
+    <div class="kit-section-eyebrow">Foundation</div>
+    <h2>Colors</h2>
+    <p class="kit-section-desc">All colors defined as CSS custom properties in <code>css/variables.css</code>. Always use variables, never raw hex values in component code.</p>
+
+    <!-- Brand Colors -->
+    <div class="kit-swatch-group-title">Brand</div>
+    <div class="kit-swatch-grid">
+      <div class="kit-swatch">
+        <div class="kit-swatch__color" style="background:#3b82f6;"></div>
+        <div class="kit-swatch__var">--brand-blue</div>
+        <div class="kit-swatch__hex">#3b82f6</div>
+      </div>
+      <div class="kit-swatch">
+        <div class="kit-swatch__color" style="background:#2563eb;"></div>
+        <div class="kit-swatch__var">--brand-blue-dark</div>
+        <div class="kit-swatch__hex">#2563eb</div>
+      </div>
+      <div class="kit-swatch">
+        <div class="kit-swatch__color" style="background:#2eaa57;"></div>
+        <div class="kit-swatch__var">--brand-green</div>
+        <div class="kit-swatch__hex">#2eaa57</div>
+      </div>
+      <div class="kit-swatch">
+        <div class="kit-swatch__color" style="background:#249448;"></div>
+        <div class="kit-swatch__var">--brand-green-dark</div>
+        <div class="kit-swatch__hex">#249448</div>
+      </div>
+      <div class="kit-swatch">
+        <div class="kit-swatch__color" style="background:#e05a3a;"></div>
+        <div class="kit-swatch__var">--brand-red</div>
+        <div class="kit-swatch__hex">#e05a3a</div>
+      </div>
+      <div class="kit-swatch">
+        <div class="kit-swatch__color" style="background:#e8870e;"></div>
+        <div class="kit-swatch__var">--brand-orange</div>
+        <div class="kit-swatch__hex">#e8870e</div>
+      </div>
+    </div>
+
+    <!-- Neutrals -->
+    <div class="kit-swatch-group-title">Neutrals</div>
+    <div class="kit-swatch-grid">
+      <div class="kit-swatch">
+        <div class="kit-swatch__color" style="background:#eef2f7;"></div>
+        <div class="kit-swatch__var">--color-bg</div>
+        <div class="kit-swatch__hex">#eef2f7</div>
+      </div>
+      <div class="kit-swatch">
+        <div class="kit-swatch__color" style="background:#ffffff;"></div>
+        <div class="kit-swatch__var">--color-surface</div>
+        <div class="kit-swatch__hex">#ffffff</div>
+      </div>
+      <div class="kit-swatch">
+        <div class="kit-swatch__color" style="background:#f8fafc;"></div>
+        <div class="kit-swatch__var">--color-surface-secondary</div>
+        <div class="kit-swatch__hex">#f8fafc</div>
+      </div>
+      <div class="kit-swatch">
+        <div class="kit-swatch__color" style="background:#1a1a2e;"></div>
+        <div class="kit-swatch__var">--color-text</div>
+        <div class="kit-swatch__hex">#1a1a2e</div>
+      </div>
+      <div class="kit-swatch">
+        <div class="kit-swatch__color" style="background:#64748b;"></div>
+        <div class="kit-swatch__var">--color-text-secondary</div>
+        <div class="kit-swatch__hex">#64748b</div>
+      </div>
+      <div class="kit-swatch">
+        <div class="kit-swatch__color" style="background:#94a3b8;"></div>
+        <div class="kit-swatch__var">--color-text-tertiary</div>
+        <div class="kit-swatch__hex">#94a3b8</div>
+      </div>
+      <div class="kit-swatch">
+        <div class="kit-swatch__color" style="background:#e2e8f0;"></div>
+        <div class="kit-swatch__var">--color-border</div>
+        <div class="kit-swatch__hex">#e2e8f0</div>
+      </div>
+      <div class="kit-swatch">
+        <div class="kit-swatch__color" style="background:#f1f5f9;"></div>
+        <div class="kit-swatch__var">--color-divider</div>
+        <div class="kit-swatch__hex">#f1f5f9</div>
+      </div>
+    </div>
+
+    <!-- Bronze Tier -->
+    <div class="kit-swatch-group-title">Bronze Tier</div>
+    <div class="kit-swatch-grid">
+      <div class="kit-swatch">
+        <div class="kit-swatch__color" style="background:#9a6e1e;"></div>
+        <div class="kit-swatch__var">--bronze-1</div>
+        <div class="kit-swatch__hex">#9a6e1e</div>
+      </div>
+      <div class="kit-swatch">
+        <div class="kit-swatch__color" style="background:#c4943a;"></div>
+        <div class="kit-swatch__var">--bronze-2</div>
+        <div class="kit-swatch__hex">#c4943a</div>
+      </div>
+      <div class="kit-swatch">
+        <div class="kit-swatch__color" style="background:#c47040;"></div>
+        <div class="kit-swatch__var">--bronze-3</div>
+        <div class="kit-swatch__hex">#c47040</div>
+      </div>
+      <div class="kit-swatch">
+        <div class="kit-swatch__color" style="background:#eece82;"></div>
+        <div class="kit-swatch__var">--bronze-4</div>
+        <div class="kit-swatch__hex">#eece82</div>
+      </div>
+      <div class="kit-swatch" style="min-width: 180px;">
+        <div class="kit-gradient-preview" style="background: linear-gradient(145deg, #6b2d0a 0%, #984418 22%, #b55e28 44%, #984418 68%, #6b2d0a 100%); min-width: 180px;"></div>
+        <div class="kit-swatch__var">--card-gradient-bronze</div>
+        <div class="kit-swatch__hex">Card background</div>
+      </div>
+    </div>
+
+    <!-- Silver Tier -->
+    <div class="kit-swatch-group-title">Silver Tier</div>
+    <div class="kit-swatch-grid">
+      <div class="kit-swatch">
+        <div class="kit-swatch__color" style="background:#8e8e8e;"></div>
+        <div class="kit-swatch__var">--silver-1</div>
+        <div class="kit-swatch__hex">#8e8e8e</div>
+      </div>
+      <div class="kit-swatch">
+        <div class="kit-swatch__color" style="background:#b0b0b0;"></div>
+        <div class="kit-swatch__var">--silver-2</div>
+        <div class="kit-swatch__hex">#b0b0b0</div>
+      </div>
+      <div class="kit-swatch">
+        <div class="kit-swatch__color" style="background:#5a7a96;"></div>
+        <div class="kit-swatch__var">--silver-3</div>
+        <div class="kit-swatch__hex">#5a7a96</div>
+      </div>
+      <div class="kit-swatch">
+        <div class="kit-swatch__color" style="background:#e8e8e8;"></div>
+        <div class="kit-swatch__var">--silver-4</div>
+        <div class="kit-swatch__hex">#e8e8e8</div>
+      </div>
+      <div class="kit-swatch" style="min-width: 180px;">
+        <div class="kit-gradient-preview" style="background: linear-gradient(145deg, #252e3a 0%, #3a4858 22%, #526070 44%, #3a4858 68%, #252e3a 100%); min-width: 180px;"></div>
+        <div class="kit-swatch__var">--card-gradient-silver</div>
+        <div class="kit-swatch__hex">Card background</div>
+      </div>
+    </div>
+
+    <!-- Gold Tier -->
+    <div class="kit-swatch-group-title">Gold Tier</div>
+    <div class="kit-swatch-grid">
+      <div class="kit-swatch">
+        <div class="kit-swatch__color" style="background:#b8880a;"></div>
+        <div class="kit-swatch__var">--gold-1</div>
+        <div class="kit-swatch__hex">#b8880a</div>
+      </div>
+      <div class="kit-swatch">
+        <div class="kit-swatch__color" style="background:#d4a82a;"></div>
+        <div class="kit-swatch__var">--gold-2</div>
+        <div class="kit-swatch__hex">#d4a82a</div>
+      </div>
+      <div class="kit-swatch">
+        <div class="kit-swatch__color" style="background:#c49020;"></div>
+        <div class="kit-swatch__var">--gold-3</div>
+        <div class="kit-swatch__hex">#c49020</div>
+      </div>
+      <div class="kit-swatch">
+        <div class="kit-swatch__color" style="background:#fad96a;"></div>
+        <div class="kit-swatch__var">--gold-4</div>
+        <div class="kit-swatch__hex">#fad96a</div>
+      </div>
+      <div class="kit-swatch" style="min-width: 180px;">
+        <div class="kit-gradient-preview" style="background: linear-gradient(145deg, #7a5000 0%, #a87010 22%, #c48a18 44%, #a87010 68%, #7a5000 100%); min-width: 180px;"></div>
+        <div class="kit-swatch__var">--card-gradient-gold</div>
+        <div class="kit-swatch__hex">Card background</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECTION: TYPOGRAPHY
+  ============================================================ -->
+  <section class="kit-section" id="typography">
+    <div class="kit-section-eyebrow">Foundation</div>
+    <h2>Typography</h2>
+    <p class="kit-section-desc">System font stack. No external font loading — fast and reliable across all platforms. Font: <code>--font-family</code>.</p>
+
+    <div class="kit-example">
+      <div class="kit-example-label">SCALE</div>
+
+      <div class="kit-type-row">
+        <div class="kit-type-var">--fs-xs</div>
+        <div class="kit-type-px">11px</div>
+        <div class="kit-type-sample" style="font-size: 11px; color: #94a3b8;">Подпись под иконкой · метка состояния</div>
+      </div>
+      <div class="kit-type-row">
+        <div class="kit-type-var">--fs-sm</div>
+        <div class="kit-type-px">12px</div>
+        <div class="kit-type-sample" style="font-size: 12px; color: #64748b;">Метка, дата, вторичный текст</div>
+      </div>
+      <div class="kit-type-row">
+        <div class="kit-type-var">--fs-base</div>
+        <div class="kit-type-px">14px</div>
+        <div class="kit-type-sample" style="font-size: 14px;">Основной текст интерфейса</div>
+      </div>
+      <div class="kit-type-row">
+        <div class="kit-type-var">--fs-md</div>
+        <div class="kit-type-px">16px</div>
+        <div class="kit-type-sample" style="font-size: 16px; font-weight: 700;">Значение в метрике · 0,70%</div>
+      </div>
+      <div class="kit-type-row">
+        <div class="kit-type-var">--fs-lg</div>
+        <div class="kit-type-px">18px</div>
+        <div class="kit-type-sample" style="font-size: 18px; font-weight: 600;">Подзаголовок раздела</div>
+      </div>
+      <div class="kit-type-row">
+        <div class="kit-type-var">--fs-xl</div>
+        <div class="kit-type-px">20px</div>
+        <div class="kit-type-sample" style="font-size: 20px; font-weight: 700;">Заголовок раздела</div>
+      </div>
+      <div class="kit-type-row">
+        <div class="kit-type-var">--fs-2xl</div>
+        <div class="kit-type-px">24px</div>
+        <div class="kit-type-sample" style="font-size: 24px; font-weight: 700;">Название статуса — Серебро</div>
+      </div>
+      <div class="kit-type-row">
+        <div class="kit-type-var">--fs-3xl</div>
+        <div class="kit-type-px">28px</div>
+        <div class="kit-type-sample" style="font-size: 28px; font-weight: 700;">60 000 ₽</div>
+      </div>
+    </div>
+
+    <div class="kit-example" style="margin-top:16px;">
+      <div class="kit-example-label">WEIGHTS</div>
+      <div class="kit-type-row">
+        <div class="kit-type-var">400</div>
+        <div class="kit-type-px">Regular</div>
+        <div class="kit-type-sample" style="font-size: 16px; font-weight: 400;">Обычный текст — Regular</div>
+      </div>
+      <div class="kit-type-row">
+        <div class="kit-type-var">600</div>
+        <div class="kit-type-px">Semibold</div>
+        <div class="kit-type-sample" style="font-size: 16px; font-weight: 600;">Полужирный текст — Semibold</div>
+      </div>
+      <div class="kit-type-row">
+        <div class="kit-type-var">700</div>
+        <div class="kit-type-px">Bold</div>
+        <div class="kit-type-sample" style="font-size: 16px; font-weight: 700;">Жирный заголовок — Bold</div>
+      </div>
+      <div class="kit-type-row">
+        <div class="kit-type-var">800</div>
+        <div class="kit-type-px">ExtraBold</div>
+        <div class="kit-type-sample" style="font-size: 16px; font-weight: 800;">Акцентное число — ExtraBold</div>
+      </div>
+    </div>
+
+    <div class="kit-code-wrap">
+      <code class="kit-code">font-size: var(--fs-base);     /* 14px */
+font-weight: 600;
+font-family: var(--font-family);</code>
+      <button class="kit-copy-btn" onclick="kitCopy(this, 'font-size: var(--fs-base);\nfont-weight: 600;\nfont-family: var(--font-family);')">Copy</button>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECTION: SPACING
+  ============================================================ -->
+  <section class="kit-section" id="spacing">
+    <div class="kit-section-eyebrow">Foundation</div>
+    <h2>Spacing</h2>
+    <p class="kit-section-desc">8-point-based spacing scale. Use these tokens consistently for padding, margin, and gap values.</p>
+
+    <div class="kit-example">
+      <div class="kit-spacing-row">
+        <div class="kit-spacing-var">--sp-xs</div>
+        <div class="kit-spacing-bar" style="width: 4px;"></div>
+        <div class="kit-spacing-px">4px</div>
+      </div>
+      <div class="kit-spacing-row">
+        <div class="kit-spacing-var">--sp-sm</div>
+        <div class="kit-spacing-bar" style="width: 8px;"></div>
+        <div class="kit-spacing-px">8px</div>
+      </div>
+      <div class="kit-spacing-row">
+        <div class="kit-spacing-var">--sp-md</div>
+        <div class="kit-spacing-bar" style="width: 12px;"></div>
+        <div class="kit-spacing-px">12px</div>
+      </div>
+      <div class="kit-spacing-row">
+        <div class="kit-spacing-var">--sp-base</div>
+        <div class="kit-spacing-bar" style="width: 16px;"></div>
+        <div class="kit-spacing-px">16px — standard screen padding</div>
+      </div>
+      <div class="kit-spacing-row">
+        <div class="kit-spacing-var">--sp-lg</div>
+        <div class="kit-spacing-bar" style="width: 20px;"></div>
+        <div class="kit-spacing-px">20px</div>
+      </div>
+      <div class="kit-spacing-row">
+        <div class="kit-spacing-var">--sp-xl</div>
+        <div class="kit-spacing-bar" style="width: 24px;"></div>
+        <div class="kit-spacing-px">24px</div>
+      </div>
+      <div class="kit-spacing-row">
+        <div class="kit-spacing-var">--sp-2xl</div>
+        <div class="kit-spacing-bar" style="width: 32px;"></div>
+        <div class="kit-spacing-px">32px — large section gaps</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECTION: RADIUS & SHADOWS
+  ============================================================ -->
+  <section class="kit-section" id="radius">
+    <div class="kit-section-eyebrow">Foundation</div>
+    <h2>Radius &amp; Shadows</h2>
+    <p class="kit-section-desc">Consistent corner radius and elevation tokens for all surfaces.</p>
+
+    <div class="kit-two-col">
+      <div>
+        <p style="font-size:12px; font-weight:700; color:#94a3b8; text-transform:uppercase; letter-spacing:.06em; margin:0 0 12px;">Border Radius</p>
+        <div class="kit-radius-grid">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+            <div class="kit-radius-box" style="border-radius:8px;">
+              <div class="kit-radius-label">--r-sm</div>
+              <div class="kit-radius-label">8px</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+            <div class="kit-radius-box" style="border-radius:12px;">
+              <div class="kit-radius-label">--r-md</div>
+              <div class="kit-radius-label">12px</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+            <div class="kit-radius-box" style="border-radius:16px;">
+              <div class="kit-radius-label">--r-lg</div>
+              <div class="kit-radius-label">16px</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+            <div class="kit-radius-box" style="border-radius:20px;">
+              <div class="kit-radius-label">--r-xl</div>
+              <div class="kit-radius-label">20px</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+            <div class="kit-radius-box" style="border-radius:9999px; width:100px; height:40px;">
+              <div class="kit-radius-label">--r-full</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <p style="font-size:12px; font-weight:700; color:#94a3b8; text-transform:uppercase; letter-spacing:.06em; margin:0 0 12px;">Shadows</p>
+        <div class="kit-shadow-grid">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+            <div class="kit-shadow-box" style="box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+              <div class="kit-shadow-var">--shadow-sm</div>
+              <div style="font-size:9px;color:#cbd5e1;">Subtle elevation</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+            <div class="kit-shadow-box" style="box-shadow: 0 2px 12px rgba(0,0,0,0.06);">
+              <div class="kit-shadow-var">--shadow-section</div>
+              <div style="font-size:9px;color:#cbd5e1;">Section cards</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+            <div class="kit-shadow-box" style="box-shadow: 0 4px 24px rgba(0,0,0,0.08);">
+              <div class="kit-shadow-var">--shadow-card</div>
+              <div style="font-size:9px;color:#cbd5e1;">User &amp; status cards</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="kit-code-wrap">
+      <code class="kit-code">border-radius: var(--r-lg);        /* 16px — section cards */
+border-radius: var(--r-xl);        /* 20px — user/status card */
+border-radius: var(--r-full);      /* 9999px — pills, buttons */
+box-shadow: var(--shadow-section); /* default card elevation */</code>
+      <button class="kit-copy-btn" onclick="kitCopy(this, 'border-radius: var(--r-lg);\nbox-shadow: var(--shadow-section);')">Copy</button>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECTION: BUTTONS
+  ============================================================ -->
+  <section class="kit-section" id="buttons">
+    <div class="kit-section-eyebrow">Components</div>
+    <h2>Buttons</h2>
+    <p class="kit-section-desc">All interactive controls. Buttons are always full-width within their container. Pills and badges are inline.</p>
+
+    <div class="kit-two-col">
+      <!-- Primary -->
+      <div>
+        <div class="kit-example">
+          <div class="kit-example-label">PRIMARY</div>
+          <button class="btn-primary">Оформить займ</button>
+        </div>
+        <div class="kit-code-wrap">
+          <code class="kit-code">&lt;button class="btn-primary"&gt;
+  Оформить займ
+&lt;/button&gt;</code>
+          <button class="kit-copy-btn" onclick="kitCopy(this, '<button class=\"btn-primary\">Оформить займ</button>')">Copy</button>
+        </div>
+      </div>
+      <!-- Secondary -->
+      <div>
+        <div class="kit-example">
+          <div class="kit-example-label">SECONDARY</div>
+          <button class="btn-secondary">Новая заявка</button>
+        </div>
+        <div class="kit-code-wrap">
+          <code class="kit-code">&lt;button class="btn-secondary"&gt;
+  Новая заявка
+&lt;/button&gt;</code>
+          <button class="kit-copy-btn" onclick="kitCopy(this, '<button class=\"btn-secondary\">Новая заявка</button>')">Copy</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading state -->
+    <div class="kit-example" style="margin-bottom:12px;">
+      <div class="kit-example-label">LOADING STATE</div>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;">
+        <div style="flex:1;min-width:200px;">
+          <button class="btn-primary btn-loading" style="display:flex;align-items:center;justify-content:center;gap:8px;">
+            Оформить займ
+            <span class="kit-spinner"></span>
+          </button>
+          <p style="font-size:12px;color:#94a3b8;margin:8px 0 0;text-align:center;"><code>.btn-primary.btn-loading</code></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pill / badges -->
+    <div class="kit-example" style="margin-bottom:12px;">
+      <div class="kit-example-label">PILLS &amp; BADGES</div>
+      <div class="kit-badge-grid">
+        <div class="kit-badge-item">
+          <span class="pill pill--orange">+1 шаг</span>
+          <code>.pill.pill--orange</code>
+        </div>
+        <div class="kit-badge-item">
+          <span class="pill pill--tier pill--tier-bronze">Бронза</span>
+          <code>.pill--tier.pill--tier-bronze</code>
+        </div>
+        <div class="kit-badge-item">
+          <span class="pill pill--tier pill--tier-silver">Серебро</span>
+          <code>.pill--tier.pill--tier-silver</code>
+        </div>
+        <div class="kit-badge-item">
+          <span class="pill pill--tier pill--tier-gold">Золото</span>
+          <code>.pill--tier.pill--tier-gold</code>
+        </div>
+        <div class="kit-badge-item">
+          <span class="countdown-badge countdown-badge--green">14 дней</span>
+          <code>.countdown-badge--green</code>
+        </div>
+        <div class="kit-badge-item">
+          <span class="countdown-badge countdown-badge--yellow">3 дня</span>
+          <code>.countdown-badge--yellow</code>
+        </div>
+        <div class="kit-badge-item">
+          <span class="countdown-badge countdown-badge--red">-2 дня</span>
+          <code>.countdown-badge--red</code>
+        </div>
+      </div>
+    </div>
+
+    <div class="kit-code-wrap">
+      <code class="kit-code">/* Pill — orange info badge */
+&lt;span class="pill pill--orange"&gt;+1 шаг&lt;/span&gt;
+
+/* Tier badge pill */
+&lt;span class="pill pill--tier pill--tier-silver"&gt;Серебро&lt;/span&gt;
+
+/* Countdown urgency badge */
+&lt;span class="countdown-badge countdown-badge--green"&gt;14 дней&lt;/span&gt;
+&lt;span class="countdown-badge countdown-badge--yellow"&gt;3 дня&lt;/span&gt;
+&lt;span class="countdown-badge countdown-badge--red"&gt;Просрочка&lt;/span&gt;</code>
+      <button class="kit-copy-btn" onclick="kitCopy(this, '<span class=\"pill pill--orange\">+1 шаг</span>')">Copy</button>
+    </div>
+
+    <table class="kit-prop-table">
+      <thead>
+        <tr><th>Class</th><th>Usage</th><th>File</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>.btn-primary</code></td><td>Primary CTA — blue gradient, full width, pill shape</td><td>components/button.css</td></tr>
+        <tr><td><code>.btn-secondary</code></td><td>Secondary CTA — outlined blue, full width, pill shape</td><td>components/button.css</td></tr>
+        <tr><td><code>.btn-loading</code></td><td>Loading modifier — adds spinner via ::after, disables pointer events</td><td>components/button.css</td></tr>
+        <tr><td><code>.pill</code></td><td>Base pill — requires a color modifier</td><td>components/button.css</td></tr>
+        <tr><td><code>.pill--orange</code></td><td>Orange info / promo badge</td><td>components/button.css</td></tr>
+        <tr><td><code>.pill--tier</code></td><td>Tier badge pill — requires <code>.pill--tier-[bronze|silver|gold]</code></td><td>components/button.css</td></tr>
+        <tr><td><code>.countdown-badge--[green|yellow|red]</code></td><td>Time-sensitive urgency badge</td><td>components/growth.css</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ============================================================
+       SECTION: CARDS
+  ============================================================ -->
+  <section class="kit-section" id="cards">
+    <div class="kit-section-eyebrow">Components</div>
+    <h2>Cards</h2>
+    <p class="kit-section-desc">Two main card types: the gradient identity card (user-card / status-card) and white section cards. Always apply a tier modifier class for identity cards.</p>
+
+    <!-- User Card -->
+    <p style="font-size:13px;font-weight:700;color:#334155;margin:0 0 10px;">User Card — LK screen</p>
+    <div class="kit-example kit-example--gray">
+      <div class="kit-example-label">LIVE EXAMPLE</div>
+      <div class="kit-card-demo">
+        <div class="user-card user-card--silver">
+          <div class="user-card__top">
+            <div>
+              <div class="user-card__name">Иван Петров</div>
+              <div class="user-card__subtitle">Личный кабинет</div>
+            </div>
+            <div class="user-card__badge">
+              Серебро <span class="user-card__badge-arrow">›</span>
+            </div>
+          </div>
+          <div class="user-card__metrics">
+            <div class="user-card__metric">
+              <div class="user-card__metric-value">
+                <span class="user-card__metric-old">1,00%</span> 0,70%
+              </div>
+              <div class="user-card__metric-label">Ставка в месяц</div>
+            </div>
+            <div class="user-card__metric">
+              <div class="user-card__metric-value">60 000 ₽</div>
+              <div class="user-card__metric-label">Лимит займа</div>
+            </div>
+          </div>
+          <div class="user-card__progress">
+            <div class="prog-dots prog-dots--sm">
+              <span class="prog-dot prog-dot--card-filled"></span>
+              <span class="prog-dot prog-dot--card-filled"></span>
+              <span class="prog-dot prog-dot--card-filled"></span>
+              <span class="prog-dot prog-dot--card-filled"></span>
+              <span class="prog-dot prog-dot--card-filled"></span>
+              <span class="prog-dot prog-dot--card-filled"></span>
+              <span class="prog-dot prog-dot--card-filled"></span>
+              <span class="prog-dot prog-dot--card-empty"></span>
+              <span class="prog-dot prog-dot--card-empty"></span>
+              <span class="prog-dot prog-dot--card-empty"></span>
+            </div>
+            <div class="user-card__progress-text">3 займа до «Золото»</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="kit-class-tree">
+      <pre><span class="ct-class">.user-card</span><span class="ct-mod">.user-card--[bronze|silver|gold]</span>
+  <span class="ct-child">.user-card__top</span>
+    <span class="ct-child">.user-card__name</span>        <span class="ct-comment">// Main name, fs-lg bold</span>
+    <span class="ct-child">.user-card__subtitle</span>     <span class="ct-comment">// Secondary line, fs-xs 0.7 opacity</span>
+    <span class="ct-child">.user-card__badge</span>        <span class="ct-comment">// Tier pill (glass white), clickable</span>
+      <span class="ct-child">.user-card__badge-arrow</span>  <span class="ct-comment">// "›" arrow character</span>
+  <span class="ct-child">.user-card__metrics</span>       <span class="ct-comment">// flex row, gap sp-sm</span>
+    <span class="ct-child">.user-card__metric</span>        <span class="ct-comment">// glass box, backdrop-filter blur</span>
+      <span class="ct-child">.user-card__metric-value</span>  <span class="ct-comment">// fs-md bold</span>
+      <span class="ct-child">.user-card__metric-old</span>   <span class="ct-comment">// Strikethrough old value (optional)</span>
+      <span class="ct-child">.user-card__metric-label</span>  <span class="ct-comment">// fs-xs 0.7 opacity</span>
+  <span class="ct-child">.user-card__progress</span>      <span class="ct-comment">// flex row, dots + text</span>
+    <span class="ct-child">.prog-dots.prog-dots--sm</span>  <span class="ct-comment">// White dots on dark bg</span>
+    <span class="ct-child">.user-card__progress-text</span> <span class="ct-comment">// "N займов до «Tier»"</span></pre>
+    </div>
+
+    <!-- Status Card -->
+    <p style="font-size:13px;font-weight:700;color:#334155;margin:20px 0 10px;">Status Card — Status screen</p>
+    <div class="kit-example kit-example--gray">
+      <div class="kit-example-label">LIVE EXAMPLE</div>
+      <div class="kit-card-demo">
+        <div class="status-card status-card--silver">
+          <div class="status-card__top">
+            <div>
+              <div class="status-card__user-name">Ваш статус</div>
+              <div class="status-card__tier-name">Серебро</div>
+            </div>
+            <div class="status-card__since">с марта 2024</div>
+          </div>
+          <div class="status-card__metrics">
+            <div class="status-card__metric">
+              <div class="status-card__metric-label">Ставка</div>
+              <div class="status-card__metric-value">0,70%</div>
+            </div>
+            <div class="status-card__metric">
+              <div class="status-card__metric-label">Лимит</div>
+              <div class="status-card__metric-value">60 000 ₽</div>
+            </div>
+            <div class="status-card__metric">
+              <div class="status-card__metric-label">Займов</div>
+              <div class="status-card__metric-value">7</div>
+            </div>
+          </div>
+          <div class="status-card__savings">
+            <div class="status-card__savings-label">Экономия с программой</div>
+            <div class="status-card__savings-value">1 200 ₽</div>
+          </div>
+          <button class="status-card__how-works">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+            Как работает
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="kit-class-tree">
+      <pre><span class="ct-class">.status-card</span><span class="ct-mod">.status-card--[bronze|silver|gold]</span>
+  <span class="ct-child">.status-card__top</span>          <span class="ct-comment">// justify: space-between</span>
+    <span class="ct-child">.status-card__user-name</span>    <span class="ct-comment">// "Ваш статус" — fs-sm 0.7 opacity</span>
+    <span class="ct-child">.status-card__tier-name</span>    <span class="ct-comment">// "Серебро" — fs-2xl bold</span>
+    <span class="ct-child">.status-card__since</span>        <span class="ct-comment">// Glass pill date badge</span>
+  <span class="ct-child">.status-card__metrics</span>       <span class="ct-comment">// flex row, glass boxes (label on top)</span>
+    <span class="ct-child">.status-card__metric</span>
+      <span class="ct-child">.status-card__metric-label</span> <span class="ct-comment">// fs-xs 0.7 opacity — on TOP</span>
+      <span class="ct-child">.status-card__metric-value</span> <span class="ct-comment">// fs-md bold</span>
+  <span class="ct-child">.status-card__savings</span>       <span class="ct-comment">// Full-width glass row</span>
+  <span class="ct-child">.status-card__how-works</span>     <span class="ct-comment">// Glass pill button</span></pre>
+    </div>
+
+    <!-- Section Card (Loan) -->
+    <p style="font-size:13px;font-weight:700;color:#334155;margin:20px 0 10px;">Section Card — Loan info</p>
+    <div class="kit-example">
+      <div class="kit-example-label">LIVE EXAMPLE</div>
+      <div style="max-width:390px;">
+        <div class="loan-section">
+          <div class="loan-header">Текущий займ</div>
+          <div class="loan-number">#2024-0847</div>
+          <div class="loan-info-row">
+            <span class="loan-info-row__label">Остаток долга</span>
+            <span class="loan-info-row__value">8 500 ₽</span>
+          </div>
+          <div class="loan-info-row">
+            <span class="loan-info-row__label">Ставка</span>
+            <span class="loan-info-row__value">0,70% / мес</span>
+          </div>
+          <div class="loan-info-row">
+            <span class="loan-info-row__label">Дата погашения</span>
+            <span class="loan-info-row__value">15 мая 2026</span>
+          </div>
+          <div class="loan-progress-hint">
+            <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            Погасите вовремя → +1 шаг к «Золото»
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="kit-code-wrap">
+      <code class="kit-code">&lt;div class="loan-section"&gt;
+  &lt;div class="loan-header"&gt;Текущий займ&lt;/div&gt;
+  &lt;div class="loan-number"&gt;#2024-0847&lt;/div&gt;
+  &lt;div class="loan-info-row"&gt;
+    &lt;span class="loan-info-row__label"&gt;Остаток долга&lt;/span&gt;
+    &lt;span class="loan-info-row__value"&gt;8 500 ₽&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="loan-progress-hint"&gt;★ Погасите вовремя → +1 шаг&lt;/div&gt;
+&lt;/div&gt;</code>
+      <button class="kit-copy-btn" onclick="kitCopy(this, '.loan-section > .loan-header + .loan-number + .loan-info-row*')">Copy</button>
+    </div>
+
+    <!-- Empty CTA -->
+    <p style="font-size:13px;font-weight:700;color:#334155;margin:20px 0 10px;">Empty CTA — No active loan</p>
+    <div class="kit-example">
+      <div class="kit-example-label">LIVE EXAMPLE</div>
+      <div style="max-width:390px;">
+        <div class="empty-cta">
+          <div>
+            <span class="empty-cta__rate">0,70</span><span class="empty-cta__rate-unit">% / мес</span>
+          </div>
+          <div class="empty-cta__label">ваша персональная ставка</div>
+          <span class="empty-cta__hint">Серебряный статус · экономия 30%</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="kit-code-wrap">
+      <code class="kit-code">&lt;div class="empty-cta"&gt;
+  &lt;span class="empty-cta__rate"&gt;0,70&lt;/span&gt;
+  &lt;span class="empty-cta__rate-unit"&gt;% / мес&lt;/span&gt;
+  &lt;div class="empty-cta__label"&gt;ваша персональная ставка&lt;/div&gt;
+  &lt;span class="empty-cta__hint"&gt;Серебряный статус · экономия 30%&lt;/span&gt;
+&lt;/div&gt;</code>
+      <button class="kit-copy-btn" onclick="kitCopy(this, '<div class=\"empty-cta\">...</div>')">Copy</button>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECTION: PROGRESS
+  ============================================================ -->
+  <section class="kit-section" id="progress">
+    <div class="kit-section-eyebrow">Components</div>
+    <h2>Progress</h2>
+    <p class="kit-section-desc">Progress dots replace ring/bar — simpler and more readable. Two palettes: white (on dark gradient cards) and tier-colored (on light backgrounds).</p>
+
+    <!-- Progress Dots -->
+    <p style="font-size:13px;font-weight:700;color:#334155;margin:0 0 12px;">Progress Dots</p>
+
+    <div class="kit-example kit-example--dark" style="margin-bottom:12px;">
+      <div class="kit-example-label">ON DARK CARD (white dots)</div>
+      <div class="kit-prog-row">
+        <div class="kit-prog-label">prog-dots--sm</div>
+        <div class="prog-dots prog-dots--sm">
+          <span class="prog-dot prog-dot--card-filled"></span>
+          <span class="prog-dot prog-dot--card-filled"></span>
+          <span class="prog-dot prog-dot--card-filled"></span>
+          <span class="prog-dot prog-dot--card-filled"></span>
+          <span class="prog-dot prog-dot--card-filled"></span>
+          <span class="prog-dot prog-dot--card-filled"></span>
+          <span class="prog-dot prog-dot--card-filled"></span>
+          <span class="prog-dot prog-dot--card-empty"></span>
+          <span class="prog-dot prog-dot--card-empty"></span>
+          <span class="prog-dot prog-dot--card-empty"></span>
+        </div>
+        <span style="font-size:11px;color:#64748b;margin-left:8px;">7/10</span>
+      </div>
+      <div class="kit-prog-row">
+        <div class="kit-prog-label">prog-dots--md</div>
+        <div class="prog-dots prog-dots--md">
+          <span class="prog-dot prog-dot--card-filled"></span>
+          <span class="prog-dot prog-dot--card-filled"></span>
+          <span class="prog-dot prog-dot--card-filled"></span>
+          <span class="prog-dot prog-dot--card-filled"></span>
+          <span class="prog-dot prog-dot--card-filled"></span>
+          <span class="prog-dot prog-dot--card-filled"></span>
+          <span class="prog-dot prog-dot--card-filled"></span>
+          <span class="prog-dot prog-dot--card-empty"></span>
+          <span class="prog-dot prog-dot--card-empty"></span>
+          <span class="prog-dot prog-dot--card-empty"></span>
+        </div>
+      </div>
+      <div class="kit-prog-row">
+        <div class="kit-prog-label">prog-dots--lg</div>
+        <div class="prog-dots prog-dots--lg">
+          <span class="prog-dot prog-dot--card-filled"></span>
+          <span class="prog-dot prog-dot--card-filled"></span>
+          <span class="prog-dot prog-dot--card-filled"></span>
+          <span class="prog-dot prog-dot--card-filled"></span>
+          <span class="prog-dot prog-dot--card-filled"></span>
+          <span class="prog-dot prog-dot--card-filled"></span>
+          <span class="prog-dot prog-dot--card-filled"></span>
+          <span class="prog-dot prog-dot--card-empty"></span>
+          <span class="prog-dot prog-dot--card-empty"></span>
+          <span class="prog-dot prog-dot--card-empty"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="kit-example" style="margin-bottom:12px;">
+      <div class="kit-example-label">ON LIGHT BG (tier-colored dots)</div>
+      <div class="kit-prog-row">
+        <div class="kit-prog-label" style="color:#94a3b8;">silver (--r-sm)</div>
+        <div class="prog-dots prog-dots--sm">
+          <span class="prog-dot prog-dot--silver"></span>
+          <span class="prog-dot prog-dot--silver"></span>
+          <span class="prog-dot prog-dot--silver"></span>
+          <span class="prog-dot prog-dot--silver"></span>
+          <span class="prog-dot prog-dot--silver"></span>
+          <span class="prog-dot prog-dot--silver"></span>
+          <span class="prog-dot prog-dot--silver"></span>
+          <span class="prog-dot prog-dot--empty"></span>
+          <span class="prog-dot prog-dot--empty"></span>
+          <span class="prog-dot prog-dot--empty"></span>
+        </div>
+      </div>
+      <div class="kit-prog-row">
+        <div class="kit-prog-label" style="color:#94a3b8;">bronze</div>
+        <div class="prog-dots prog-dots--md">
+          <span class="prog-dot prog-dot--bronze"></span>
+          <span class="prog-dot prog-dot--bronze"></span>
+          <span class="prog-dot prog-dot--bronze"></span>
+          <span class="prog-dot prog-dot--bronze"></span>
+          <span class="prog-dot prog-dot--bronze"></span>
+          <span class="prog-dot prog-dot--empty"></span>
+          <span class="prog-dot prog-dot--empty"></span>
+          <span class="prog-dot prog-dot--empty"></span>
+          <span class="prog-dot prog-dot--empty"></span>
+          <span class="prog-dot prog-dot--empty"></span>
+        </div>
+      </div>
+      <div class="kit-prog-row">
+        <div class="kit-prog-label" style="color:#94a3b8;">gold</div>
+        <div class="prog-dots prog-dots--lg">
+          <span class="prog-dot prog-dot--gold"></span>
+          <span class="prog-dot prog-dot--gold"></span>
+          <span class="prog-dot prog-dot--gold"></span>
+          <span class="prog-dot prog-dot--gold"></span>
+          <span class="prog-dot prog-dot--gold"></span>
+          <span class="prog-dot prog-dot--gold"></span>
+          <span class="prog-dot prog-dot--gold"></span>
+          <span class="prog-dot prog-dot--gold"></span>
+          <span class="prog-dot prog-dot--gold"></span>
+          <span class="prog-dot prog-dot--gold"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="kit-code-wrap">
+      <code class="kit-code">&lt;!-- On dark card: --&gt;
+&lt;div class="prog-dots prog-dots--sm"&gt;
+  &lt;span class="prog-dot prog-dot--card-filled"&gt;&lt;/span&gt;
+  &lt;span class="prog-dot prog-dot--card-empty"&gt;&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- On light bg (silver): --&gt;
+&lt;div class="prog-dots prog-dots--md"&gt;
+  &lt;span class="prog-dot prog-dot--silver"&gt;&lt;/span&gt;
+  &lt;span class="prog-dot prog-dot--empty"&gt;&lt;/span&gt;
+&lt;/div&gt;</code>
+      <button class="kit-copy-btn" onclick="kitCopy(this, '<div class=\"prog-dots prog-dots--sm\">...')">Copy</button>
+    </div>
+
+    <!-- Condition Items -->
+    <p style="font-size:13px;font-weight:700;color:#334155;margin:20px 0 12px;">Condition Items — Upgrade requirements</p>
+    <div class="kit-example">
+      <div class="kit-example-label">LIVE EXAMPLE</div>
+      <div style="max-width:390px;">
+        <div class="conditions-section">
+          <div class="condition-item condition-item--done">
+            <div class="condition-item__left">
+              <div class="condition-item__check condition-item__check--done">
+                <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div class="condition-item__text">Статус «Серебро» не менее 60 дней</div>
+            </div>
+          </div>
+          <div class="condition-item">
+            <div class="condition-item__left">
+              <div class="condition-item__check"></div>
+              <div class="condition-item__text">Своевременное погашение 10 займов <span style="color:#94a3b8;font-size:12px;">(7 из 10)</span></div>
+            </div>
+            <span class="countdown-badge countdown-badge--yellow">3 займа</span>
+          </div>
+          <div class="condition-item">
+            <div class="condition-item__left">
+              <div class="condition-item__check"></div>
+              <div class="condition-item__text">Общая сумма займов от 60 000 ₽</div>
+            </div>
+            <span class="countdown-badge countdown-badge--red">−12 000 ₽</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="kit-code-wrap">
+      <code class="kit-code">&lt;div class="conditions-section"&gt;
+
+  &lt;!-- Completed condition --&gt;
+  &lt;div class="condition-item condition-item--done"&gt;
+    &lt;div class="condition-item__left"&gt;
+      &lt;div class="condition-item__check condition-item__check--done"&gt;✓&lt;/div&gt;
+      &lt;div class="condition-item__text"&gt;Статус «Серебро» не менее 60 дней&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Pending condition --&gt;
+  &lt;div class="condition-item"&gt;
+    &lt;div class="condition-item__left"&gt;
+      &lt;div class="condition-item__check"&gt;&lt;/div&gt;
+      &lt;div class="condition-item__text"&gt;Своевременное погашение 10 займов&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;span class="countdown-badge countdown-badge--yellow"&gt;3 займа&lt;/span&gt;
+  &lt;/div&gt;
+
+&lt;/div&gt;</code>
+      <button class="kit-copy-btn" onclick="kitCopy(this, '.conditions-section > .condition-item')">Copy</button>
+    </div>
+
+    <!-- Tier Rows -->
+    <p style="font-size:13px;font-weight:700;color:#334155;margin:20px 0 12px;">Tier Rows — Rate comparison table</p>
+    <div class="kit-example">
+      <div class="kit-example-label">LIVE EXAMPLE</div>
+      <div style="max-width:390px;">
+        <div class="tier-row-list" style="margin:0;">
+          <div class="tier-row tier-row--locked">
+            <div class="tier-row__left">
+              <div class="tier-row__indicator">
+                <div class="tier-row__dot tier-row__dot--bronze"></div>
+                <div class="tier-row__stars">★★★</div>
+              </div>
+              <div class="tier-row__name">Бронза</div>
+            </div>
+            <div class="tier-row__right">
+              <div class="tier-row__rate">1,00% / мес</div>
+              <div class="tier-row__limit">до 30 000 ₽</div>
+            </div>
+          </div>
+          <div class="tier-row tier-row--current">
+            <div class="tier-row__left">
+              <div class="tier-row__indicator">
+                <div class="tier-row__dot tier-row__dot--silver"></div>
+                <div class="tier-row__stars">★★★</div>
+              </div>
+              <div class="tier-row__name">Серебро</div>
+              <span class="tier-row__badge">Текущий</span>
+            </div>
+            <div class="tier-row__right">
+              <div class="tier-row__rate">0,70% / мес</div>
+              <div class="tier-row__limit">до 60 000 ₽</div>
+            </div>
+          </div>
+          <div class="tier-row">
+            <div class="tier-row__left">
+              <div class="tier-row__indicator">
+                <div class="tier-row__dot tier-row__dot--gold"></div>
+                <div class="tier-row__stars">★★★</div>
+              </div>
+              <div class="tier-row__name">Золото</div>
+            </div>
+            <div class="tier-row__right">
+              <div class="tier-row__rate">0,50% / мес</div>
+              <div class="tier-row__limit">до 100 000 ₽</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="kit-class-tree">
+      <pre><span class="ct-class">.tier-row-list</span>              <span class="ct-comment">// Container with surface bg + shadow-section</span>
+  <span class="ct-child">.tier-row</span>                 <span class="ct-comment">// Default row</span>
+  <span class="ct-child">.tier-row.tier-row--current</span> <span class="ct-comment">// Blue-tinted highlight</span>
+  <span class="ct-child">.tier-row.tier-row--locked</span>  <span class="ct-comment">// 0.45 opacity</span>
+    <span class="ct-child">.tier-row__left</span>
+      <span class="ct-child">.tier-row__indicator</span>    <span class="ct-comment">// Dot + stars</span>
+        <span class="ct-child">.tier-row__dot.tier-row__dot--[bronze|silver|gold]</span>
+        <span class="ct-child">.tier-row__stars</span>       <span class="ct-comment">// "★★★" text, fs 8px</span>
+      <span class="ct-child">.tier-row__name</span>         <span class="ct-comment">// "Серебро"</span>
+      <span class="ct-child">.tier-row__badge</span>        <span class="ct-comment">// "Текущий" blue pill</span>
+    <span class="ct-child">.tier-row__right</span>
+      <span class="ct-child">.tier-row__rate</span>         <span class="ct-comment">// "0,70% / мес"</span>
+      <span class="ct-child">.tier-row__limit</span>        <span class="ct-comment">// "до 60 000 ₽"</span></pre>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECTION: NAVIGATION
+  ============================================================ -->
+  <section class="kit-section" id="navigation">
+    <div class="kit-section-eyebrow">Components</div>
+    <h2>Navigation</h2>
+    <p class="kit-section-desc">Bottom navigation bar. Fixed at bottom, max-width 430px (centered). Active item shows blue indicator line above.</p>
+
+    <div class="kit-nav-demo">
+      <nav class="bottom-nav" style="position:absolute;bottom:0;left:0;right:0;transform:none;max-width:100%;">
+        <button class="bottom-nav__item active">
+          <div class="bottom-nav__icon">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <span class="bottom-nav__label">Главная</span>
+        </button>
+        <button class="bottom-nav__item">
+          <div class="bottom-nav__icon">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          </div>
+          <span class="bottom-nav__label">Заявка</span>
+        </button>
+        <button class="bottom-nav__item">
+          <div class="bottom-nav__icon">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <span class="bottom-nav__label">Статус</span>
+        </button>
+        <button class="bottom-nav__item bottom-nav__item--disabled">
+          <div class="bottom-nav__icon">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          </div>
+          <span class="bottom-nav__label">Preview</span>
+        </button>
+      </nav>
+    </div>
+
+    <div class="kit-class-tree" style="margin-top:16px;">
+      <pre><span class="ct-class">.bottom-nav</span>                       <span class="ct-comment">// position:fixed, bottom:0, max-width:430px</span>
+  <span class="ct-child">.bottom-nav__item</span>               <span class="ct-comment">// Default nav tab (color-text-tertiary)</span>
+  <span class="ct-child">.bottom-nav__item.active</span>         <span class="ct-comment">// Blue color + top indicator line via ::before</span>
+  <span class="ct-child">.bottom-nav__item--disabled</span>      <span class="ct-comment">// 0.35 opacity, no pointer events</span>
+    <span class="ct-child">.bottom-nav__icon</span>              <span class="ct-comment">// 24x24 SVG wrapper</span>
+    <span class="ct-child">.bottom-nav__label</span>             <span class="ct-comment">// fs-xs 500 weight</span>
+    <span class="ct-child">.bottom-nav__dot</span>               <span class="ct-comment">// Red notification dot (optional)</span></pre>
+    </div>
+
+    <div class="kit-code-wrap">
+      <code class="kit-code">&lt;nav class="bottom-nav"&gt;
+  &lt;button class="bottom-nav__item active"&gt;
+    &lt;div class="bottom-nav__icon"&gt;&lt;!-- SVG --&gt;&lt;/div&gt;
+    &lt;span class="bottom-nav__label"&gt;Главная&lt;/span&gt;
+  &lt;/button&gt;
+  &lt;button class="bottom-nav__item"&gt;
+    &lt;div class="bottom-nav__icon"&gt;
+      &lt;div class="bottom-nav__dot"&gt;&lt;/div&gt; &lt;!-- optional badge --&gt;
+      &lt;!-- SVG --&gt;
+    &lt;/div&gt;
+    &lt;span class="bottom-nav__label"&gt;Заявка&lt;/span&gt;
+  &lt;/button&gt;
+&lt;/nav&gt;</code>
+      <button class="kit-copy-btn" onclick="kitCopy(this, '<nav class=\"bottom-nav\">...</nav>')">Copy</button>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECTION: BADGES & PILLS
+  ============================================================ -->
+  <section class="kit-section" id="badges">
+    <div class="kit-section-eyebrow">Components</div>
+    <h2>Badges &amp; Pills</h2>
+    <p class="kit-section-desc">All inline status indicators, labels, and banners.</p>
+
+    <div class="kit-example">
+      <div class="kit-example-label">ALL BADGE VARIANTS</div>
+      <div class="kit-badge-grid" style="row-gap: 20px;">
+        <div class="kit-badge-item">
+          <span class="pill pill--orange">Популярное</span>
+          <code>.pill.pill--orange</code>
+        </div>
+        <div class="kit-badge-item">
+          <span class="pill pill--tier pill--tier-bronze">Бронза</span>
+          <code>.pill--tier-bronze</code>
+        </div>
+        <div class="kit-badge-item">
+          <span class="pill pill--tier pill--tier-silver">Серебро ›</span>
+          <code>.pill--tier-silver</code>
+        </div>
+        <div class="kit-badge-item">
+          <span class="pill pill--tier pill--tier-gold">Золото</span>
+          <code>.pill--tier-gold</code>
+        </div>
+        <div class="kit-badge-item">
+          <span class="countdown-badge countdown-badge--green">
+            <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+            14 дней
+          </span>
+          <code>.countdown-badge--green</code>
+        </div>
+        <div class="kit-badge-item">
+          <span class="countdown-badge countdown-badge--yellow">
+            <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+            3 дня
+          </span>
+          <code>.countdown-badge--yellow</code>
+        </div>
+        <div class="kit-badge-item">
+          <span class="countdown-badge countdown-badge--red">Просрочка</span>
+          <code>.countdown-badge--red</code>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loan progress hint -->
+    <div class="kit-example" style="margin-top:16px;">
+      <div class="kit-example-label">LOAN PROGRESS HINT</div>
+      <div style="max-width: 300px;">
+        <div class="loan-progress-hint">
+          <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          Погасите вовремя → +1 шаг к «Золото»
+        </div>
+      </div>
+      <p style="font-size:11px;color:#94a3b8;margin:8px 0 0;font-family:monospace;">.loan-progress-hint</p>
+    </div>
+
+    <!-- Frozen banner -->
+    <div class="kit-example" style="margin-top:16px;">
+      <div class="kit-example-label">FROZEN / ERROR BANNER</div>
+      <div style="max-width:390px;">
+        <div class="frozen-banner" style="margin:0;">
+          <div class="frozen-banner__icon">🚫</div>
+          <div class="frozen-banner__text">
+            <strong>Заявка заморожена</strong>
+            Просроченный платёж. Погасите задолженность для продолжения.
+          </div>
+        </div>
+      </div>
+      <p style="font-size:11px;color:#94a3b8;margin:8px 0 0;font-family:monospace;">.frozen-banner &gt; .frozen-banner__icon + .frozen-banner__text</p>
+    </div>
+
+    <!-- Streak badge -->
+    <div class="kit-example" style="margin-top:16px;">
+      <div class="kit-example-label">STREAK BADGE</div>
+      <div style="max-width:390px;">
+        <div class="streak-badge" style="margin:0;">
+          <div class="streak-badge__icon">🔥</div>
+          <div>
+            <div class="streak-badge__text">3 займа подряд вовремя</div>
+            <div class="streak-badge__sub">Продолжайте — до статуса «Золото» 3 шага</div>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:11px;color:#94a3b8;margin:8px 0 0;font-family:monospace;">.streak-badge (components/growth.css)</p>
+    </div>
+
+    <!-- Lifetime savings -->
+    <div class="kit-example" style="margin-top:16px;">
+      <div class="kit-example-label">LIFETIME SAVINGS BANNER</div>
+      <div style="max-width:390px;">
+        <div class="lifetime-savings" style="margin:0;">
+          <div class="lifetime-savings__icon">
+            <svg width="16" height="16" fill="none" stroke="#fff" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <div class="lifetime-savings__text">
+            Экономия с программой лояльности: <span class="lifetime-savings__amount">4 800 ₽</span>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:11px;color:#94a3b8;margin:8px 0 0;font-family:monospace;">.lifetime-savings (components/growth.css)</p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECTION: FORMS
+  ============================================================ -->
+  <section class="kit-section" id="forms">
+    <div class="kit-section-eyebrow">Components</div>
+    <h2>Forms — Apply Screen</h2>
+    <p class="kit-section-desc">Loan calculator form elements. All form controls are in <code>css/screens/apply.css</code>.</p>
+
+    <div class="kit-apply-demo">
+      <!-- Amount field -->
+      <div class="apply-field">
+        <span class="apply-field__label">Сумма займа</span>
+        <div class="apply-field__value-row">
+          <span class="apply-field__amount">25 000</span>
+          <span class="apply-field__currency">₽</span>
+        </div>
+        <input class="apply-slider" type="range" min="5000" max="100000" step="1000" value="25000">
+        <div class="apply-field__range-labels">
+          <span>5 000 ₽</span>
+          <span>100 000 ₽</span>
+        </div>
+      </div>
+
+      <!-- Term chips -->
+      <div class="apply-field">
+        <span class="apply-field__label">Срок займа</span>
+        <div class="apply-terms" style="padding:0 var(--sp-base);">
+          <button class="apply-term-chip">7 дней</button>
+          <button class="apply-term-chip active">14 дней</button>
+          <button class="apply-term-chip">21 день</button>
+          <button class="apply-term-chip">30 дней</button>
+        </div>
+      </div>
+
+      <!-- Calc breakdown -->
+      <div class="apply-calc">
+        <div class="apply-calc__row">
+          <span class="apply-calc__label">Сумма займа</span>
+          <span class="apply-calc__value">25 000 ₽</span>
+        </div>
+        <div class="apply-calc__row">
+          <span class="apply-calc__label">Ставка (Серебро)</span>
+          <span class="apply-calc__value" style="color:#2eaa57;">0,70% / день</span>
+        </div>
+        <div class="apply-calc__row">
+          <span class="apply-calc__label">Проценты за 14 дней</span>
+          <span class="apply-calc__value">2 450 ₽</span>
+        </div>
+        <div class="apply-calc__row apply-calc__row--total">
+          <span class="apply-calc__label">Итого к возврату</span>
+          <span class="apply-calc__value">27 450 ₽</span>
+        </div>
+      </div>
+
+      <!-- Savings highlight -->
+      <div class="apply-savings" style="margin:0 var(--sp-base) var(--sp-lg);">
+        <div class="apply-savings__icon">
+          <svg width="14" height="14" fill="none" stroke="#fff" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="apply-savings__text">
+          <strong>Экономия 750 ₽</strong> по сравнению с базовым тарифом
+        </div>
+      </div>
+    </div>
+
+    <div class="kit-class-tree" style="margin-top:16px;">
+      <pre><span class="ct-class">.apply-field</span>               <span class="ct-comment">// Padded section for a form group</span>
+  <span class="ct-child">.apply-field__label</span>      <span class="ct-comment">// fs-sm secondary color</span>
+  <span class="ct-child">.apply-field__value-row</span>  <span class="ct-comment">// Big amount display</span>
+    <span class="ct-child">.apply-field__amount</span>   <span class="ct-comment">// fs-3xl bold</span>
+    <span class="ct-child">.apply-field__currency</span> <span class="ct-comment">// "₽" — fs-lg secondary</span>
+  <span class="ct-child">.apply-slider</span>           <span class="ct-comment">// range input, custom thumb</span>
+  <span class="ct-child">.apply-field__range-labels</span> <span class="ct-comment">// min/max labels</span>
+
+<span class="ct-class">.apply-terms</span>               <span class="ct-comment">// flex row for term chips</span>
+  <span class="ct-child">.apply-term-chip</span>         <span class="ct-comment">// Default chip — gray bg</span>
+  <span class="ct-child">.apply-term-chip.active</span>  <span class="ct-comment">// Blue outline + bg tint</span>
+
+<span class="ct-class">.apply-calc</span>                <span class="ct-comment">// White section card with dividers</span>
+  <span class="ct-child">.apply-calc__row</span>         <span class="ct-comment">// Space-between flex row</span>
+  <span class="ct-child">.apply-calc__row--total</span>  <span class="ct-comment">// Bold total row</span>
+    <span class="ct-child">.apply-calc__label</span>     <span class="ct-comment">// Secondary color label</span>
+    <span class="ct-child">.apply-calc__value</span>     <span class="ct-comment">// Bold value</span></pre>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECTION: OVERLAYS
+  ============================================================ -->
+  <section class="kit-section" id="overlays">
+    <div class="kit-section-eyebrow">Components</div>
+    <h2>Overlays — Bottom Sheet</h2>
+    <p class="kit-section-desc">Bottom drawer sheet. Opens from bottom with translateY animation. The overlay dims the background when <code>.payment-stub--open</code> is applied.</p>
+
+    <div class="kit-sheet-demo">
+      <div class="payment-stub__sheet" style="transform:none; border-radius:20px;">
+        <div class="payment-stub__header">
+          <div class="payment-stub__title">Оплата займа</div>
+          <button class="payment-stub__close" aria-label="Закрыть">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <div class="payment-stub__body">
+          <div class="payment-stub__icon">
+            <svg width="28" height="28" fill="none" stroke="#3b82f6" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+          </div>
+          <p>Для оплаты перейдите в мобильный банк или воспользуйтесь СБП.</p>
+          <p style="color:#94a3b8;font-size:13px;">Платёж отобразится в течение 15 минут.</p>
+        </div>
+        <button class="btn-primary">Перейти в банк</button>
+      </div>
+    </div>
+
+    <div class="kit-class-tree" style="margin-top:16px;">
+      <pre><span class="ct-class">.payment-stub</span>                  <span class="ct-comment">// position:fixed inset:0, flex align-end</span>
+  <span class="ct-child">.payment-stub__overlay</span>       <span class="ct-comment">// Full-screen dim layer</span>
+  <span class="ct-child">.payment-stub__sheet</span>         <span class="ct-comment">// White bottom sheet, r-xl top corners</span>
+    <span class="ct-child">.payment-stub__header</span>      <span class="ct-comment">// Title + close button</span>
+      <span class="ct-child">.payment-stub__title</span>     <span class="ct-comment">// fs-lg bold</span>
+      <span class="ct-child">.payment-stub__close</span>     <span class="ct-comment">// 44x44 close button</span>
+    <span class="ct-child">.payment-stub__body</span>        <span class="ct-comment">// Center-aligned content</span>
+      <span class="ct-child">.payment-stub__icon</span>      <span class="ct-comment">// 64x64 icon circle</span>
+
+<span class="ct-comment">/* Open state — add class to .payment-stub: */</span>
+<span class="ct-mod">.payment-stub--open .payment-stub__overlay</span>  <span class="ct-comment">// rgba(0,0,0,0.3)</span>
+<span class="ct-mod">.payment-stub--open .payment-stub__sheet</span>    <span class="ct-comment">// translateY(0)</span></pre>
+    </div>
+
+    <div class="kit-code-wrap">
+      <code class="kit-code">// Open the sheet:
+document.querySelector('.payment-stub').classList.add('payment-stub--open');
+
+// Close the sheet:
+document.querySelector('.payment-stub').classList.remove('payment-stub--open');</code>
+      <button class="kit-copy-btn" onclick="kitCopy(this, 'document.querySelector(\'.payment-stub\').classList.add(\'payment-stub--open\')')">Copy</button>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECTION: STATES & FEEDBACK
+  ============================================================ -->
+  <section class="kit-section" id="states">
+    <div class="kit-section-eyebrow">Components</div>
+    <h2>States &amp; Feedback</h2>
+    <p class="kit-section-desc">Visual feedback patterns for success, error, loading, and empty states.</p>
+
+    <div class="kit-two-col">
+      <!-- Success -->
+      <div>
+        <p style="font-size:12px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin:0 0 10px;">Success</p>
+        <div class="kit-example">
+          <div style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:rgba(46,170,87,0.08);border-radius:10px;border-left:3px solid #2eaa57;">
+            <svg width="18" height="18" fill="none" stroke="#2eaa57" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
+            <div>
+              <div style="font-size:13px;font-weight:600;color:#249448;">Платёж принят</div>
+              <div style="font-size:12px;color:#2eaa57;">+1 шаг к «Золото»</div>
+            </div>
+          </div>
+          <p style="font-size:11px;color:#94a3b8;margin:8px 0 0;">Green tint, brand-green border-left</p>
+        </div>
+      </div>
+
+      <!-- Error -->
+      <div>
+        <p style="font-size:12px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin:0 0 10px;">Error / Frozen</p>
+        <div class="kit-example">
+          <div class="frozen-banner" style="margin:0;">
+            <div class="frozen-banner__icon">🚫</div>
+            <div class="frozen-banner__text">
+              <strong>Программа заморожена</strong>
+              Просрочен платёж по займу
+            </div>
+          </div>
+          <p style="font-size:11px;color:#94a3b8;margin:8px 0 0;"><code>.frozen-banner</code></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="kit-two-col">
+      <!-- Loading -->
+      <div>
+        <p style="font-size:12px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin:0 0 10px;">Loading</p>
+        <div class="kit-example" style="display:flex;align-items:center;gap:16px;">
+          <button class="btn-primary btn-loading" style="max-width:180px;">
+            Загрузка
+          </button>
+        </div>
+        <div class="kit-code-wrap" style="margin-top:10px;">
+          <code class="kit-code" style="white-space:pre-wrap;">/* Add .btn-loading to any button.
+   Spinner added via CSS ::after */
+&lt;button class="btn-primary btn-loading"&gt;
+  Загрузка
+&lt;/button&gt;</code>
+          <button class="kit-copy-btn" onclick="kitCopy(this, '<button class=\"btn-primary btn-loading\">Загрузка</button>')">Copy</button>
+        </div>
+      </div>
+
+      <!-- Empty state -->
+      <div>
+        <p style="font-size:12px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin:0 0 10px;">Empty State</p>
+        <div class="kit-example">
+          <div class="empty-state" style="padding:24px 16px;">
+            <div class="empty-state__icon">
+              <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <div class="empty-state__title">Займов нет</div>
+            <div class="empty-state__text" style="margin-bottom:16px;">Оформите первый займ, чтобы начать участие в программе лояльности</div>
+          </div>
+          <p style="font-size:11px;color:#94a3b8;margin:0;"><code>.empty-state</code></p>
+        </div>
+      </div>
+    </div>
+
+    <table class="kit-prop-table">
+      <thead>
+        <tr><th>Pattern</th><th>CSS Class(es)</th><th>Color</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Success banner</td><td><code>rgba(46,170,87,0.08) + border-left: brand-green</code></td><td>--brand-green</td></tr>
+        <tr><td>Error / Frozen banner</td><td><code>.frozen-banner</code></td><td>--brand-red</td></tr>
+        <tr><td>Loading button</td><td><code>.btn-primary.btn-loading</code></td><td>--brand-blue</td></tr>
+        <tr><td>Empty state</td><td><code>.empty-state &gt; .empty-state__icon + __title + __text</code></td><td>--color-text-tertiary</td></tr>
+        <tr><td>Empty CTA</td><td><code>.empty-cta &gt; .empty-cta__rate + __label + __hint</code></td><td>--brand-blue (hint)</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ============================================================
+       SECTION: COMPONENT USAGE GUIDE
+  ============================================================ -->
+  <section class="kit-section" id="guide">
+    <div class="kit-section-eyebrow">Reference</div>
+    <h2>Component Usage Guide</h2>
+    <p class="kit-section-desc">Key patterns and conventions used throughout the app.</p>
+
+    <div class="kit-guide-section">
+      <h3>1. Tier Color System</h3>
+      <p>Always use the tier modifier class. Never hardcode tier colors — they change as the user progresses.</p>
+      <div class="kit-code-wrap">
+        <code class="kit-code">/* CORRECT — use modifier class */
+&lt;div class="user-card user-card--silver"&gt;...&lt;/div&gt;
+&lt;div class="status-card status-card--gold"&gt;...&lt;/div&gt;
+&lt;span class="pill pill--tier pill--tier-bronze"&gt;Бронза&lt;/span&gt;
+
+/* Available modifiers: --bronze | --silver | --gold */
+
+/* For progress dots on light bg, match the user's tier: */
+&lt;span class="prog-dot prog-dot--silver"&gt;&lt;/span&gt;  /* user is silver */
+
+/* For progress dots ON the gradient card, always use white: */
+&lt;span class="prog-dot prog-dot--card-filled"&gt;&lt;/span&gt;
+&lt;span class="prog-dot prog-dot--card-empty"&gt;&lt;/span&gt;</code>
+        <button class="kit-copy-btn" onclick="kitCopy(this, 'user-card user-card--silver')">Copy</button>
+      </div>
+    </div>
+
+    <div class="kit-guide-section">
+      <h3>2. Glass Metric Pattern</h3>
+      <p>Metric boxes on gradient cards use glassmorphism. This is achieved via <code>background: rgba(255,255,255,0.18)</code> + <code>backdrop-filter: blur(4px)</code>. Both <code>.user-card__metric</code> and <code>.status-card__metric</code> use this pattern.</p>
+      <div class="kit-code-wrap">
+        <code class="kit-code">/* Glass metric inside gradient card */
+.user-card__metric {
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(4px);
+  border-radius: var(--r-md);
+  padding: var(--sp-sm) var(--sp-md);
+}
+
+/* Key difference between user-card and status-card metrics:
+   user-card  → value on top, label below
+   status-card → label on top, value below  */</code>
+        <button class="kit-copy-btn" onclick="kitCopy(this, 'background: rgba(255,255,255,0.18);\nbackdrop-filter: blur(4px);')">Copy</button>
+      </div>
+    </div>
+
+    <div class="kit-guide-section">
+      <h3>3. Navigation Active State</h3>
+      <p>Active nav item is indicated by a 2px blue line at the top (via <code>::before</code> pseudo-element) and brand-blue color. Toggle by adding/removing <code>.active</code> class.</p>
+      <div class="kit-code-wrap">
+        <code class="kit-code">// JavaScript: switch active tab
+document.querySelectorAll('.bottom-nav__item').forEach(item => {
+  item.classList.remove('active');
+});
+document.querySelector('[data-tab="status"]').classList.add('active');</code>
+        <button class="kit-copy-btn" onclick="kitCopy(this, 'item.classList.add(\'active\')')">Copy</button>
+      </div>
+    </div>
+
+    <div class="kit-guide-section">
+      <h3>4. CSS File Map</h3>
+      <table class="kit-prop-table">
+        <thead>
+          <tr><th>File</th><th>Contains</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>css/variables.css</code></td><td>All design tokens: colors, spacing, radius, shadows, typography</td></tr>
+          <tr><td><code>css/reset.css</code></td><td>Base resets and box-sizing</td></tr>
+          <tr><td><code>css/base.css</code></td><td>Body styles, global typography, app shell layout</td></tr>
+          <tr><td><code>css/components/button.css</code></td><td>.btn-primary, .btn-secondary, .btn-loading, .pill, .countdown-badge, .tab-btn</td></tr>
+          <tr><td><code>css/components/card.css</code></td><td>.user-card, .prog-dots, .prog-dot variants, .upgrade-user-card</td></tr>
+          <tr><td><code>css/components/navbar.css</code></td><td>.bottom-nav, .bottom-nav__item, active state, dot badge</td></tr>
+          <tr><td><code>css/components/tier-row.css</code></td><td>.tier-row-list, .tier-row variants (current, locked)</td></tr>
+          <tr><td><code>css/components/growth.css</code></td><td>.countdown-badge, .streak-badge, .lifetime-savings, .loan-progress-hint, animations</td></tr>
+          <tr><td><code>css/screens/lk.css</code></td><td>.loan-section, .empty-cta, .payment-stub, .sbp-banner, .frozen-banner (partial)</td></tr>
+          <tr><td><code>css/screens/status.css</code></td><td>.status-card, .status-card__*, .conditions-section, .condition-item, .history-section</td></tr>
+          <tr><td><code>css/screens/apply.css</code></td><td>.apply-field, .apply-slider, .apply-terms, .apply-calc, .apply-savings, .frozen-banner</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="kit-guide-section">
+      <h3>5. Responsive / Layout Notes</h3>
+      <p>The app is a <strong>mobile-first single-column layout</strong>, max-width 430px, centered. Key layout variables:</p>
+      <div class="kit-code-wrap">
+        <code class="kit-code">--max-width: 430px;   /* App shell max width */
+--nav-height: 60px;  /* Bottom nav height (excludes safe area) */
+
+/* Most sections use: */
+margin: 0 var(--sp-base) var(--sp-lg);
+/* = margin: 0 16px 20px  */
+
+/* Screen padding-bottom to clear the nav: */
+padding-bottom: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px) + 16px);</code>
+        <button class="kit-copy-btn" onclick="kitCopy(this, '--max-width: 430px;\n--nav-height: 60px;')">Copy</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // Copy to clipboard
+  function kitCopy(btn, text) {
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = 'Copy';
+        btn.classList.remove('copied');
+      }, 1800);
+    }).catch(() => {
+      btn.textContent = 'Error';
+      setTimeout(() => { btn.textContent = 'Copy'; }, 1800);
+    });
+  }
+
+  // Sidebar active state on scroll
+  const sections = document.querySelectorAll('.kit-section[id]');
+  const sidebarLinks = document.querySelectorAll('.kit-sidebar__item');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        sidebarLinks.forEach(link => link.classList.remove('active'));
+        const active = document.querySelector(`.kit-sidebar__item[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+
+  sections.forEach(s => observer.observe(s));
+
+  // Smooth scroll
+  sidebarLinks.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const id = link.getAttribute('href').slice(1);
+      const target = document.getElementById(id);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+</script>
+</body>
+</html>
