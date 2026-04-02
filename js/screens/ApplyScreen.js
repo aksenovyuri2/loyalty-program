@@ -1,12 +1,13 @@
-import { TIERS, BASE_RATE } from '../../data/mock-data.js';
+import { TIERS, TIER_ORDER, BASE_RATE, TIER_PROGRESS } from '../../data/mock-data.js';
 import { getState } from '../state.js';
 import { navigate, onEnter } from '../router.js';
 import { setLastApplication } from './ApplySuccessScreen.js';
-import { fmtNum, fmtRate } from '../utils.js';
+import { fmtNum, fmtRate, loanWord } from '../utils.js';
 
 const TERMS = [5, 10, 15, 21, 30];
-let selectedAmount = 10000;
-let selectedTerm = 10;
+const POPULAR_TERM = 15;
+let selectedAmount = 15000; // Anchoring bias: higher default = higher AOV
+let selectedTerm = POPULAR_TERM;
 
 export function initApplyScreen() {
   const screen = document.getElementById('screen-apply');
@@ -28,11 +29,13 @@ function updateCalc(screen) {
   const baseInterest = selectedAmount * baseDaily * selectedTerm;
   const savings = baseInterest - interest;
   const total = selectedAmount + interest;
+  const savingsPct = baseInterest > 0 ? Math.round((savings / baseInterest) * 100) : 0;
 
   screen.querySelector('#calc-amount').textContent = `${fmtNum(selectedAmount)} ₽`;
   screen.querySelector('#calc-interest').textContent = `${fmtNum(Math.round(interest))} ₽`;
   screen.querySelector('#calc-total').textContent = `${fmtNum(Math.round(total))} ₽`;
 
+  // Loss aversion framing for savings
   const wrap = screen.querySelector('#apply-savings-wrap');
   if (wrap) {
     wrap.innerHTML = savings > 0 ? `
@@ -41,9 +44,8 @@ function updateCalc(screen) {
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
         </div>
         <div class="apply-savings__text">
-          Без программы: <strong>${fmtNum(Math.round(baseInterest))} \u20bd</strong> процентов<br>
-          Ваши проценты: <strong>${fmtNum(Math.round(interest))} \u20bd</strong>.
-          Экономия: <strong>${fmtNum(Math.round(savings))} \u20bd</strong>
+          Без программы: <strong>${fmtNum(Math.round(baseInterest))} \u20bd</strong> процентов.<br>
+          Вы не переплатите <strong>${fmtNum(Math.round(savings))} \u20bd</strong> (−${savingsPct}%)
         </div>
       </div>
     ` : '';
@@ -54,6 +56,11 @@ function render(screen) {
   const state = getState();
   const tier = TIERS[state.currentTier];
   const maxAmount = tier.maxLimit;
+  const currentIdx = TIER_ORDER.indexOf(state.currentTier);
+  const isMaxTier = currentIdx >= TIER_ORDER.length - 1;
+  const nextTier = isMaxTier ? null : TIERS[TIER_ORDER[currentIdx + 1]];
+  const prog = TIER_PROGRESS;
+  const loansLeft = prog.loansNeeded - prog.loansCompleted;
 
   if (selectedAmount > maxAmount) selectedAmount = maxAmount;
 
@@ -63,6 +70,12 @@ function render(screen) {
   const baseInterest = selectedAmount * baseDaily * selectedTerm;
   const savings = baseInterest - interest;
   const total = selectedAmount + interest;
+  const savingsPct = baseInterest > 0 ? Math.round((savings / baseInterest) * 100) : 0;
+
+  // Progress ring for tier banner
+  const circumference = 2 * Math.PI * 14;
+  const pct = Math.min(prog.loansCompleted / prog.loansNeeded, 1);
+  const offset = circumference * (1 - pct);
 
   screen.innerHTML = `
     <div class="screen-header">
@@ -81,18 +94,34 @@ function render(screen) {
       </div>
     </div>
 
+    ${!isMaxTier ? `
+    <div class="tier-progress-banner">
+      <svg width="36" height="36" viewBox="0 0 36 36" class="tier-progress-banner__ring">
+        <circle cx="18" cy="18" r="14" class="tier-progress-banner__ring-bg"/>
+        <circle cx="18" cy="18" r="14" class="tier-progress-banner__ring-fill"
+          stroke-dasharray="${circumference}" stroke-dashoffset="${offset}"/>
+        <text x="18" y="18" text-anchor="middle" dy="0.35em"
+          fill="var(--brand-blue)" font-size="10" font-weight="800">${prog.loansCompleted}/${prog.loansNeeded}</text>
+      </svg>
+      <div class="tier-progress-banner__content">
+        <div class="tier-progress-banner__title">Этот займ засчитается в прогресс к ${nextTier.name}</div>
+        <div class="tier-progress-banner__sub">Ещё ${loansLeft} ${loanWord(loansLeft)} вовремя \u2192 ставка ${fmtRate(nextTier.dailyRate)}, лимит ${fmtNum(nextTier.maxLimit)} \u20bd</div>
+      </div>
+    </div>
+    ` : ''}
+
     <div class="apply-field">
       <label class="apply-field__label">Сумма займа</label>
       <div class="apply-field__value-row">
         <span class="apply-field__amount" id="apply-amount-display">${fmtNum(selectedAmount)}</span>
-        <span class="apply-field__currency">₽</span>
+        <span class="apply-field__currency">\u20bd</span>
       </div>
       <input type="range" class="apply-slider" id="apply-amount-slider"
         min="1000" max="${maxAmount}" step="1000" value="${selectedAmount}"
         aria-label="Сумма займа">
       <div class="apply-field__range-labels">
-        <span>1 000 ₽</span>
-        <span>${fmtNum(maxAmount)} ₽</span>
+        <span>1 000 \u20bd</span>
+        <span>${fmtNum(maxAmount)} \u20bd</span>
       </div>
     </div>
 
@@ -100,7 +129,8 @@ function render(screen) {
       <label class="apply-field__label">Срок</label>
       <div class="apply-terms">
         ${TERMS.map(t => `
-          <button class="apply-term-chip ${t === selectedTerm ? 'active' : ''}" data-term="${t}" aria-label="${t} дней" aria-pressed="${t === selectedTerm}">
+          <button class="apply-term-chip ${t === selectedTerm ? 'active' : ''} ${t === POPULAR_TERM ? 'popular-badge' : ''}"
+            data-term="${t}" aria-label="${t} дней${t === POPULAR_TERM ? ', популярный выбор' : ''}" aria-pressed="${t === selectedTerm}">
             ${t} дн.
           </button>
         `).join('')}
@@ -110,10 +140,10 @@ function render(screen) {
     <div class="apply-calc">
       <div class="apply-calc__row">
         <span class="apply-calc__label">Сумма займа</span>
-        <span class="apply-calc__value" id="calc-amount">${fmtNum(selectedAmount)} ₽</span>
+        <span class="apply-calc__value" id="calc-amount">${fmtNum(selectedAmount)} \u20bd</span>
       </div>
       <div class="apply-calc__row">
-        <span class="apply-calc__label">Ставка</span>
+        <span class="apply-calc__label">Ставка (${tier.name})</span>
         <span class="apply-calc__value">${fmtRate(tier.dailyRate)}/день</span>
       </div>
       <div class="apply-calc__row">
@@ -122,11 +152,11 @@ function render(screen) {
       </div>
       <div class="apply-calc__row">
         <span class="apply-calc__label">Проценты</span>
-        <span class="apply-calc__value" id="calc-interest">${fmtNum(Math.round(interest))} ₽</span>
+        <span class="apply-calc__value" id="calc-interest">${fmtNum(Math.round(interest))} \u20bd</span>
       </div>
       <div class="apply-calc__row apply-calc__row--total">
         <span class="apply-calc__label">К возврату</span>
-        <span class="apply-calc__value" id="calc-total">${fmtNum(Math.round(total))} ₽</span>
+        <span class="apply-calc__value" id="calc-total">${fmtNum(Math.round(total))} \u20bd</span>
       </div>
     </div>
 
@@ -137,9 +167,8 @@ function render(screen) {
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
       <div class="apply-savings__text">
-        Без программы: <strong>${fmtNum(Math.round(baseInterest))} \u20bd</strong> процентов<br>
-        Ваши проценты: <strong>${fmtNum(Math.round(interest))} \u20bd</strong>.
-        Экономия: <strong>${fmtNum(Math.round(savings))} \u20bd</strong>
+        Без программы: <strong>${fmtNum(Math.round(baseInterest))} \u20bd</strong> процентов.<br>
+        Вы не переплатите <strong>${fmtNum(Math.round(savings))} \u20bd</strong> (\u2212${savingsPct}%)
       </div>
     </div>
     ` : ''}
@@ -157,14 +186,20 @@ function render(screen) {
       `).join('')}
     </div>
 
-    ${tier.nextPerks && tier.nextPerks.length > 0 ? `
-    <div class="section-title" style="text-align:left">На следующем уровне</div>
+    ${!isMaxTier ? `
+    <div class="section-title" style="text-align:left">До ${nextTier.name} — ${loansLeft} ${loanWord(loansLeft)}</div>
     <div class="apply-perks" style="opacity: 0.65">
-      ${tier.nextPerks.map(p => `
+      <div class="apply-perk">
+        <span class="apply-perk__check" style="background: var(--color-text-tertiary)"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg></span>
+        Ставка ${fmtRate(nextTier.dailyRate)}/день
+      </div>
+      <div class="apply-perk">
+        <span class="apply-perk__check" style="background: var(--color-text-tertiary)"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg></span>
+        Лимит до ${fmtNum(nextTier.maxLimit)} \u20bd
+      </div>
+      ${nextTier.perks.filter(p => !p.includes('Ставка') && !p.includes('Лимит')).map(p => `
         <div class="apply-perk">
-          <span class="apply-perk__check" style="background: var(--color-text-tertiary)">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg>
-          </span>
+          <span class="apply-perk__check" style="background: var(--color-text-tertiary)"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg></span>
           ${p}
         </div>
       `).join('')}
@@ -172,11 +207,11 @@ function render(screen) {
     ` : ''}
 
     <div class="apply-submit">
-      <button class="btn-primary" id="apply-submit-btn" aria-label="Оформить заявку">Оформить заявку</button>
+      <button class="btn-primary" id="apply-submit-btn" aria-label="Оформить заявку">Оформить по ставке ${fmtRate(tier.dailyRate)}</button>
     </div>
 
     <div class="apply-disclaimer">
-      Нажимая «Оформить заявку», вы соглашаетесь с условиями договора.
+      Нажимая кнопку, вы соглашаетесь с условиями договора.
       Ставка и лимит определяются индивидуально.
     </div>
   `;
@@ -212,7 +247,7 @@ function render(screen) {
       setLastApplication({ amount: selectedAmount, term: selectedTerm, rate: tier.dailyRate });
       navigate('/apply-success');
       btn.classList.remove('btn-loading');
-      btn.textContent = 'Оформить заявку';
+      btn.textContent = `Оформить по ставке ${fmtRate(tier.dailyRate)}`;
     }, 500);
   });
 }

@@ -1,4 +1,4 @@
-import { TIERS, TIER_ORDER, TIER_PROGRESS, BASE_RATE, STATUS_HISTORY, CURRENT_LOAN } from '../../data/mock-data.js';
+import { TIERS, TIER_ORDER, TIER_PROGRESS, BASE_RATE, STATUS_HISTORY, CURRENT_LOAN, STREAK, LIFETIME_SAVINGS } from '../../data/mock-data.js';
 import { getState } from '../state.js';
 import { navigate, onEnter } from '../router.js';
 import { fmtNum, fmtRate, loanWord } from '../utils.js';
@@ -28,14 +28,14 @@ function render(screen) {
   const progressPct = Math.round((prog.loansCompleted / prog.loansNeeded) * 100);
   const loansLeft = prog.loansNeeded - prog.loansCompleted;
 
-  // Default tab = next tier (P0 fix), or current if max
+  // Default tab = next tier, or current if max
   const viewTier = activeTab || (isMaxTier ? currentTier : nextTierId);
   const viewTierData = TIERS[viewTier];
   const viewTierAllDone = viewTierData.conditions.every(c => c.completed);
 
-  // Savings example — use current loan data if available, otherwise defaults
-  const exampleAmount = CURRENT_LOAN.remainingDebt > 0 ? Math.max(CURRENT_LOAN.remainingDebt, 5000) : 10000;
-  const exampleDays = 10;
+  // Savings example — use REALISTIC amounts for motivation (not tiny 5k)
+  const exampleAmount = 20000;
+  const exampleDays = 30;
   const baseInterest = exampleAmount * (BASE_RATE / 100) * exampleDays;
   const currentInterest = exampleAmount * (tier.dailyRate / 100) * exampleDays;
   const nextInterest = nextTier ? exampleAmount * (nextTier.dailyRate / 100) * exampleDays : 0;
@@ -45,6 +45,18 @@ function render(screen) {
   // History: inline if only 1 entry
   const showHistorySection = STATUS_HISTORY.length >= 2;
 
+  // Conditions with inline progress (Zeigarnik effect)
+  function conditionText(text, tierConditions) {
+    // Extract "X займов" and show progress if it's the loans condition
+    const loansMatch = text.match(/погашение (\d+) займов/);
+    if (loansMatch) {
+      const needed = parseInt(loansMatch[1]);
+      const done = Math.min(prog.loansCompleted, needed);
+      return `${text} <span style="color: var(--brand-blue); font-weight: 600">(${done} из ${needed})</span>`;
+    }
+    return text;
+  }
+
   screen.innerHTML = `
     <div class="screen-header">
       <button class="screen-header__back" id="status-back" aria-label="Назад">
@@ -53,7 +65,6 @@ function render(screen) {
       <span class="screen-header__title">Ваш статус</span>
     </div>
 
-    <!-- Status card with name, rate, limit -->
     <div class="status-card-area">
       <div class="status-card status-card--${currentTier}">
         <div class="status-card__top">
@@ -71,19 +82,28 @@ function render(screen) {
             <span class="status-card__metric-label">ставка/день</span>
           </div>
           <div class="status-card__metric">
-            <span class="status-card__metric-value">${fmtNum(tier.maxLimit)} ₽</span>
+            <span class="status-card__metric-value">${fmtNum(tier.maxLimit)} \u20bd</span>
             <span class="status-card__metric-label">макс. лимит</span>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Progress bar with labels -->
+    ${STREAK.isActive && STREAK.count >= 2 ? `
+    <div class="streak-badge" style="margin-top: calc(-1 * var(--sp-sm))">
+      <div class="streak-badge__icon">\uD83D\uDD25</div>
+      <div>
+        <div class="streak-badge__text">${STREAK.count} ${loanWord(STREAK.count)} подряд вовремя</div>
+        <div class="streak-badge__sub">Серия не прервана — продолжайте</div>
+      </div>
+    </div>
+    ` : ''}
+
     ${!isMaxTier ? `
     <div class="status-progress-section">
       <div class="status-progress__header">
         <span class="status-progress__title">Погашено ${prog.loansCompleted} из ${prog.loansNeeded} займов</span>
-        <span class="status-progress__target" id="status-scroll-to-conditions" role="button" aria-label="Перейти к условиям Серебро">до «${nextTier.name}»</span>
+        <span class="status-progress__target" id="status-scroll-to-conditions" role="button" aria-label="Перейти к условиям ${nextTier.name}">до «${nextTier.name}»</span>
       </div>
       <div class="status-progress__bar">
         <div class="status-progress__fill status-progress__fill--${currentTier}" style="width: ${progressPct}%"></div>
@@ -102,61 +122,68 @@ function render(screen) {
     </div>
     `}
 
-    <!-- Tier comparison -->
+    ${LIFETIME_SAVINGS > 0 ? `
+    <div class="lifetime-savings">
+      <div class="lifetime-savings__icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="lifetime-savings__text">
+        Вы уже сэкономили <span class="lifetime-savings__amount">${fmtNum(LIFETIME_SAVINGS)} \u20bd</span> с программой boostra.
+        Повышайте статус — экономьте ещё больше.
+      </div>
+    </div>
+    ` : ''}
+
     <div class="section-title">Ставки по уровням</div>
     ${renderTierRows(currentTier)}
 
-    <!-- Savings example -->
     ${!isMaxTier ? `
     <div class="status-savings-example">
-      <div class="status-savings-example__title">Пример экономии</div>
-      <div class="status-savings-example__subtitle">Займ ${fmtNum(exampleAmount)} ₽ на ${exampleDays} дней</div>
+      <div class="status-savings-example__title">Пример: займ ${fmtNum(exampleAmount)} \u20bd на ${exampleDays} дней</div>
       <div class="status-savings-example__rows">
         <div class="status-savings-example__row">
           <span>Без программы (${fmtRate(BASE_RATE)})</span>
-          <span>${fmtNum(Math.round(baseInterest))} ₽</span>
+          <span>${fmtNum(Math.round(baseInterest))} \u20bd</span>
         </div>
         <div class="status-savings-example__row status-savings-example__row--current">
           <span>${tier.name} (${fmtRate(tier.dailyRate)})</span>
-          <span>${fmtNum(Math.round(currentInterest))} ₽</span>
+          <span>${fmtNum(Math.round(currentInterest))} \u20bd</span>
         </div>
         <div class="status-savings-example__row status-savings-example__row--next">
           <span>${nextTier.name} (${fmtRate(nextTier.dailyRate)})</span>
-          <span>${fmtNum(Math.round(nextInterest))} ₽</span>
+          <span>${fmtNum(Math.round(nextInterest))} \u20bd</span>
         </div>
       </div>
       <div class="status-savings-example__result">
-        Повысив статус, сэкономите ещё <strong>${fmtNum(Math.round(savingsNextVsCurrent))} ₽</strong> на процентах
+        Повысив статус, не переплатите <strong>${fmtNum(Math.round(savingsNextVsCurrent))} \u20bd</strong> на процентах
       </div>
     </div>
     ` : `
     <div class="status-savings-example">
-      <div class="status-savings-example__title">Ваша экономия</div>
-      <div class="status-savings-example__subtitle">Займ ${fmtNum(exampleAmount)} ₽ на ${exampleDays} дней</div>
+      <div class="status-savings-example__title">Ваша экономия: займ ${fmtNum(exampleAmount)} \u20bd на ${exampleDays} дней</div>
       <div class="status-savings-example__rows">
         <div class="status-savings-example__row">
           <span>Без программы (${fmtRate(BASE_RATE)})</span>
-          <span>${fmtNum(Math.round(baseInterest))} ₽</span>
+          <span>${fmtNum(Math.round(baseInterest))} \u20bd</span>
         </div>
         <div class="status-savings-example__row status-savings-example__row--current">
           <span>${tier.name} (${fmtRate(tier.dailyRate)})</span>
-          <span>${fmtNum(Math.round(currentInterest))} ₽</span>
+          <span>${fmtNum(Math.round(currentInterest))} \u20bd</span>
         </div>
       </div>
       <div class="status-savings-example__result">
-        Вы экономите <strong>${fmtNum(Math.round(savingsVsBase))} ₽</strong> благодаря статусу ${tier.name}
+        Вы не переплачиваете <strong>${fmtNum(Math.round(savingsVsBase))} \u20bd</strong> благодаря статусу ${tier.name}
       </div>
     </div>
     `}
 
-    <!-- Conditions with tabs -->
     <div class="section-title" id="conditions-anchor">Условия перехода</div>
     <div class="tab-bar">
       ${TIER_ORDER.map(tid => {
         const t = TIERS[tid];
         const isActive = tid === viewTier;
         const allDone = t.conditions.every(c => c.completed);
-        return `<button class="tab-btn ${isActive ? 'active--' + tid : ''}" data-view-tier="${tid}" aria-label="${t.name}${allDone ? ' — выполнено' : ''}">${t.name}${allDone && TIER_ORDER.indexOf(tid) <= currentIdx ? ' ✓' : ''}</button>`;
+        return `<button class="tab-btn ${isActive ? 'active--' + tid : ''}" data-view-tier="${tid}" aria-label="${t.name}${allDone ? ' — выполнено' : ''}">${t.name}${allDone && TIER_ORDER.indexOf(tid) <= currentIdx ? ' \u2713' : ''}</button>`;
       }).join('')}
     </div>
     <div class="conditions-section">
@@ -178,14 +205,13 @@ function render(screen) {
                 ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>'
                 : ''}
             </div>
-            <span class="condition-item__text">${c.text}</span>
+            <span class="condition-item__text">${conditionText(c.text, viewTierData.conditions)}</span>
           </div>
         </div>
       `).join('')}
       `}
     </div>
 
-    <!-- History (only if 2+ entries) -->
     ${showHistorySection ? `
     <div class="section-title">История статусов</div>
     <div class="history-section">
@@ -201,26 +227,29 @@ function render(screen) {
     </div>
     ` : ''}
 
-    <!-- CTA -->
+    <!-- Personalized CTA — Goal Gradient in copy -->
     <div style="padding: 0 var(--sp-base); margin-bottom: var(--sp-md)">
-      <button class="btn-primary" id="status-apply" style="width:100%" aria-label="Оформить заявку">Оформить заявку со ставкой ${fmtRate(tier.dailyRate)}</button>
+      <button class="btn-primary" id="status-apply" style="width:100%" aria-label="Оформить заявку">
+        ${isMaxTier
+          ? `Оформить заявку по ставке ${fmtRate(tier.dailyRate)}`
+          : `Оформить ${prog.loansCompleted + 1}-й займ \u2192 ${nextTier.name}`
+        }
+      </button>
     </div>
     <div style="padding: 0 var(--sp-base); margin-bottom: var(--sp-lg); font-size: var(--fs-xs); color: var(--color-text-secondary); text-align: center">
-      Ваш статус ${tier.name} даёт лучшие условия
+      ${isMaxTier
+        ? `Статус ${tier.name} — лучшие условия уже ваши`
+        : `Погасите вовремя — и статус ${nextTier.name} ваш`
+      }
     </div>
   `;
 
-  // Back button
   screen.querySelector('#status-back')?.addEventListener('click', () => navigate('/lk'));
   screen.querySelector('#status-apply')?.addEventListener('click', () => navigate('/apply'));
-
-  // "до Серебро" → scroll to conditions
   screen.querySelector('#status-scroll-to-conditions')?.addEventListener('click', () => {
     const anchor = screen.querySelector('#conditions-anchor');
     if (anchor) anchor.scrollIntoView({ behavior: 'smooth' });
   });
-
-  // Tab switching
   screen.querySelectorAll('[data-view-tier]').forEach(btn => {
     btn.addEventListener('click', () => {
       activeTab = btn.dataset.viewTier;

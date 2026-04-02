@@ -1,4 +1,4 @@
-import { TIERS, TIER_ORDER, CURRENT_LOAN, BASE_RATE, TIER_PROGRESS } from '../../data/mock-data.js';
+import { TIERS, TIER_ORDER, CURRENT_LOAN, BASE_RATE, TIER_PROGRESS, STREAK, LIFETIME_SAVINGS } from '../../data/mock-data.js';
 import { getState } from '../state.js';
 import { navigate } from '../router.js';
 import { fmtNum, fmtRate, loanWord } from '../utils.js';
@@ -11,6 +11,50 @@ export function initLkScreen() {
   renderFull(screen);
 }
 
+/* ---------- helpers ---------- */
+
+function daysUntilPayment() {
+  const [dd, mm, yyyy] = CURRENT_LOAN.paymentDate.split('.');
+  const target = new Date(+yyyy, +mm - 1, +dd);
+  const now = new Date();
+  now.setHours(0, 0, 0, 0);
+  return Math.ceil((target - now) / 86400000);
+}
+
+function countdownColor(days) {
+  if (days > 7) return 'green';
+  if (days >= 3) return 'yellow';
+  return 'red';
+}
+
+function dayWord(n) {
+  const abs = Math.abs(n);
+  const mod10 = abs % 10;
+  const mod100 = abs % 100;
+  if (mod100 >= 11 && mod100 <= 14) return 'дней';
+  if (mod10 === 1) return 'день';
+  if (mod10 >= 2 && mod10 <= 4) return 'дня';
+  return 'дней';
+}
+
+/* ---------- Progress ring SVG (Goal Gradient on card) ---------- */
+function progressRingSVG(completed, needed, radius = 18) {
+  const circumference = 2 * Math.PI * radius;
+  const pct = Math.min(completed / needed, 1);
+  const offset = circumference * (1 - pct);
+  const size = (radius + 3) * 2;
+  return `
+    <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" class="progress-ring__svg">
+      <circle cx="${size / 2}" cy="${size / 2}" r="${radius}" class="progress-ring__circle-bg"/>
+      <circle cx="${size / 2}" cy="${size / 2}" r="${radius}" class="progress-ring__circle-fill"
+        stroke-dasharray="${circumference}" stroke-dashoffset="${offset}"/>
+      <text x="${size / 2}" y="${size / 2}" text-anchor="middle" dy="0.35em"
+        fill="#fff" font-size="11" font-weight="800">${completed}/${needed}</text>
+    </svg>`;
+}
+
+/* ---------- Main render ---------- */
+
 function renderFull(screen) {
   const state = getState();
   const tier = TIERS[state.currentTier];
@@ -19,6 +63,8 @@ function renderFull(screen) {
   const isMaxTier = currentIdx >= TIER_ORDER.length - 1;
   const nextTier = isMaxTier ? null : TIERS[TIER_ORDER[currentIdx + 1]];
   const prog = TIER_PROGRESS;
+  const days = daysUntilPayment();
+  const loansLeft = prog.loansNeeded - prog.loansCompleted;
 
   screen.innerHTML = `
     <div class="app-header">
@@ -40,21 +86,34 @@ function renderFull(screen) {
     </div>
     ` : ''}
 
+    ${STREAK.isActive && STREAK.count >= 2 ? `
+    <div class="streak-badge">
+      <div class="streak-badge__icon">\uD83D\uDD25</div>
+      <div>
+        <div class="streak-badge__text">${STREAK.count} ${loanWord(STREAK.count)} погашены вовремя подряд</div>
+        <div class="streak-badge__sub">Продолжайте — каждый вовремя приближает к ${isMaxTier ? 'лучшим условиям' : nextTier.name}</div>
+      </div>
+    </div>
+    ` : ''}
+
+    ${LIFETIME_SAVINGS > 0 ? `
+    <div class="lifetime-savings">
+      <div class="lifetime-savings__icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="lifetime-savings__text">
+        Экономия с boostra: <span class="lifetime-savings__amount">${fmtNum(LIFETIME_SAVINGS)} \u20bd</span>
+        <br>Без программы вы бы переплатили эту сумму
+      </div>
+    </div>
+    ` : ''}
+
     ${state.isFirstVisit ? `
     <div class="section-title">Как это работает</div>
     <div class="lk-how-it-works">
-      <div class="lk-how-step">
-        <div class="lk-how-step__num">1</div>
-        <div class="lk-how-step__text">Берёте займ по текущей ставке</div>
-      </div>
-      <div class="lk-how-step">
-        <div class="lk-how-step__num">2</div>
-        <div class="lk-how-step__text">Возвращаете вовремя — растёт статус</div>
-      </div>
-      <div class="lk-how-step">
-        <div class="lk-how-step__num">3</div>
-        <div class="lk-how-step__text">Выше статус — ниже ставка и больше лимит</div>
-      </div>
+      <div class="lk-how-step"><div class="lk-how-step__num">1</div><div class="lk-how-step__text">Берёте займ по текущей ставке</div></div>
+      <div class="lk-how-step"><div class="lk-how-step__num">2</div><div class="lk-how-step__text">Возвращаете вовремя — растёт статус</div></div>
+      <div class="lk-how-step"><div class="lk-how-step__num">3</div><div class="lk-how-step__text">Выше статус — ниже ставка и больше лимит</div></div>
     </div>
     ` : ''}
 
@@ -68,12 +127,21 @@ function renderFull(screen) {
       </div>
       <div class="loan-info-row">
         <span class="loan-info-row__label">Дата платежа</span>
-        <span class="loan-info-row__value">${loan.paymentDate}</span>
+        <span class="loan-info-row__value">
+          ${loan.paymentDate}
+          <span class="countdown-badge countdown-badge--${countdownColor(days)}">${days} ${dayWord(days)}</span>
+        </span>
       </div>
       <div class="min-payment">
         <span class="min-payment__label">Минимальный платёж</span>
         <span class="min-payment__value">${fmtNum(loan.minPayment)} \u20bd</span>
       </div>
+      ${!isMaxTier ? `
+      <div class="loan-progress-hint">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        Погасите вовремя \u2192 +1 шаг к ${nextTier.name}
+      </div>
+      ` : ''}
       <div class="loan-actions">
         <button class="btn-primary" id="btn-pay-loan" aria-label="Погасить займ">Погасить займ</button>
       </div>
@@ -81,8 +149,8 @@ function renderFull(screen) {
 
     <div class="lk-new-loan-section">
       <div class="lk-new-loan__text">
-        <div class="lk-new-loan__title">Нужны ещё деньги?</div>
-        <div class="lk-new-loan__subtitle">Ставка от <strong>${fmtRate(tier.dailyRate)}/день</strong> по статусу ${tier.name}</div>
+        <div class="lk-new-loan__title">Новый займ по привилегиям ${tier.name}</div>
+        <div class="lk-new-loan__subtitle">Ставка <strong>${fmtRate(tier.dailyRate)}/день</strong> вместо ${fmtRate(BASE_RATE)} без программы</div>
       </div>
       <button class="btn-secondary" id="btn-new-apply" aria-label="Новая заявка">Новая заявка</button>
     </div>
@@ -91,32 +159,21 @@ function renderFull(screen) {
       <div class="empty-state__icon">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
       </div>
-      <div class="empty-state__title">Нет активных займов</div>
-      <div class="empty-state__text">Ставка от <strong>${fmtRate(tier.dailyRate)}/день</strong> по статусу ${tier.name} вместо ${fmtRate(BASE_RATE)}</div>
-      <button class="btn-primary" style="width:100%" id="btn-new-loan" aria-label="Оформить заявку">Оформить заявку</button>
+      <div class="empty-state__title">Оформите первый займ</div>
+      <div class="empty-state__text">Ставка <strong>${fmtRate(tier.dailyRate)}/день</strong> по статусу ${tier.name} — вы не переплатите ${fmtRate(BASE_RATE)} как без программы</div>
+      <button class="btn-primary" style="width:100%" id="btn-new-loan" aria-label="Оформить заявку">Оформить заявку по ставке ${fmtRate(tier.dailyRate)}</button>
     </div>
     `}
 
-    <!-- Comparison section -->
     <div class="section-title">Уровни программы</div>
     ${renderTierRows(state.currentTier)}
 
     ${!state.isFirstVisit ? `
-    <!-- How it works (for returning users — at bottom) -->
     <div class="section-title">Как это работает</div>
     <div class="lk-how-it-works">
-      <div class="lk-how-step">
-        <div class="lk-how-step__num">1</div>
-        <div class="lk-how-step__text">Берёте займ по текущей ставке</div>
-      </div>
-      <div class="lk-how-step">
-        <div class="lk-how-step__num">2</div>
-        <div class="lk-how-step__text">Возвращаете вовремя — растёт статус</div>
-      </div>
-      <div class="lk-how-step">
-        <div class="lk-how-step__num">3</div>
-        <div class="lk-how-step__text">Выше статус — ниже ставка и больше лимит</div>
-      </div>
+      <div class="lk-how-step"><div class="lk-how-step__num">1</div><div class="lk-how-step__text">Берёте займ по текущей ставке</div></div>
+      <div class="lk-how-step"><div class="lk-how-step__num">2</div><div class="lk-how-step__text">Возвращаете вовремя — растёт статус</div></div>
+      <div class="lk-how-step"><div class="lk-how-step__num">3</div><div class="lk-how-step__text">Выше статус — ниже ставка и больше лимит</div></div>
     </div>
     ` : ''}
 
@@ -129,14 +186,12 @@ function renderFull(screen) {
 
   updateCard();
 
-  // Navigation
   screen.querySelector('#btn-pay-loan')?.addEventListener('click', () => showPaymentStub(screen));
   screen.querySelector('#btn-new-apply')?.addEventListener('click', () => navigate('/apply'));
   screen.querySelector('#btn-new-loan')?.addEventListener('click', () => navigate('/apply'));
 }
 
 function showPaymentStub(screen) {
-  // Check if already showing
   if (screen.querySelector('.payment-stub')) return;
 
   const stub = document.createElement('div');
@@ -161,8 +216,6 @@ function showPaymentStub(screen) {
     </div>
   `;
   screen.appendChild(stub);
-
-  // Animate in
   requestAnimationFrame(() => stub.classList.add('payment-stub--open'));
 
   const close = () => {
@@ -173,6 +226,8 @@ function showPaymentStub(screen) {
   stub.querySelector('.payment-stub__ok').addEventListener('click', close);
   stub.querySelector('.payment-stub__overlay').addEventListener('click', close);
 }
+
+/* ---------- Card with Progress Ring ---------- */
 
 function updateCard() {
   const state = getState();
@@ -206,12 +261,18 @@ function updateCard() {
           <span class="user-card__metric-value">${fmtNum(tier.maxLimit)} \u20bd</span>
           <span class="user-card__metric-label">макс. лимит</span>
         </div>
+        ${!isMaxTier ? `
+        <div class="progress-ring">
+          ${progressRingSVG(prog.loansCompleted, prog.loansNeeded)}
+          <div class="progress-ring__text">до<br>${nextTier.name}</div>
+        </div>
+        ` : ''}
       </div>
       <div class="user-card__progress">
         <div class="user-card__progress-bar">
           <div class="user-card__progress-fill" style="width: ${Math.round((prog.loansCompleted / prog.loansNeeded) * 100)}%"></div>
         </div>
-        <span class="user-card__progress-text">${isMaxTier ? 'Максимальный уровень' : `Ещё ${loansLeft} ${loanWord(loansLeft)} до «${nextTier.name}»`}</span>
+        <span class="user-card__progress-text">${isMaxTier ? 'Максимальный уровень — лучшие условия ваши' : `Ещё ${loansLeft} ${loanWord(loansLeft)} до «${nextTier.name}» — не упустите`}</span>
       </div>
     </div>
   `;

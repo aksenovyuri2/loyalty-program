@@ -1,0 +1,421 @@
+/* ==========================================================================
+   Growth Components — behavioral economics UI patterns
+   ========================================================================== */
+
+/* ---------- Progress Ring (Goal Gradient) ---------- */
+.progress-ring {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm);
+}
+
+.progress-ring__svg {
+  flex-shrink: 0;
+}
+
+.progress-ring__circle-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.25);
+  stroke-width: 3;
+}
+
+.progress-ring__circle-fill {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 3;
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: center;
+  transition: stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.progress-ring__text {
+  font-size: var(--fs-xs);
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.3;
+}
+
+.progress-ring__count {
+  font-size: var(--fs-base);
+  font-weight: 700;
+  color: #fff;
+}
+
+/* ---------- Streak Badge (Habit Formation) ---------- */
+.streak-badge {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm);
+  background: var(--color-surface);
+  border-radius: var(--r-lg);
+  padding: var(--sp-md) var(--sp-base);
+  margin: 0 var(--sp-base) var(--sp-md);
+  box-shadow: var(--shadow-sm);
+  border-left: 3px solid var(--brand-orange);
+}
+
+.streak-badge__icon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.streak-badge__text {
+  font-size: var(--fs-sm);
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.streak-badge__sub {
+  font-weight: 400;
+  color: var(--color-text-secondary);
+}
+
+/* ---------- Lifetime Savings (Sunk Cost) ---------- */
+.lifetime-savings {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm);
+  background: linear-gradient(135deg, rgba(46, 170, 87, 0.08) 0%, rgba(46, 170, 87, 0.03) 100%);
+  border: 1px solid rgba(46, 170, 87, 0.15);
+  border-radius: var(--r-lg);
+  padding: var(--sp-md) var(--sp-base);
+  margin: 0 var(--sp-base) var(--sp-md);
+}
+
+.lifetime-savings__icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--brand-green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.lifetime-savings__text {
+  font-size: var(--fs-sm);
+  color: var(--color-text);
+}
+
+.lifetime-savings__amount {
+  font-weight: 700;
+  color: var(--brand-green-dark);
+}
+
+/* ---------- Countdown Badge (Urgency) ---------- */
+.countdown-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: var(--r-full);
+}
+
+.countdown-badge--green {
+  background: rgba(46, 170, 87, 0.1);
+  color: var(--brand-green-dark);
+}
+
+.countdown-badge--yellow {
+  background: rgba(232, 135, 14, 0.1);
+  color: var(--brand-orange-dark);
+}
+
+.countdown-badge--red {
+  background: rgba(224, 90, 58, 0.1);
+  color: var(--brand-red);
+}
+
+/* ---------- Tier Progress Banner (Apply — Commitment) ---------- */
+.tier-progress-banner {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-md);
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.06) 0%, rgba(59, 130, 246, 0.02) 100%);
+  border: 1px solid rgba(59, 130, 246, 0.12);
+  border-radius: var(--r-lg);
+  padding: var(--sp-md) var(--sp-base);
+  margin: 0 var(--sp-base) var(--sp-md);
+}
+
+.tier-progress-banner__ring {
+  flex-shrink: 0;
+}
+
+.tier-progress-banner__ring-bg {
+  fill: none;
+  stroke: rgba(59, 130, 246, 0.15);
+  stroke-width: 3;
+}
+
+.tier-progress-banner__ring-fill {
+  fill: none;
+  stroke: var(--brand-blue);
+  stroke-width: 3;
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: center;
+}
+
+.tier-progress-banner__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.tier-progress-banner__title {
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 2px;
+}
+
+.tier-progress-banner__sub {
+  font-size: var(--fs-xs);
+  color: var(--color-text-secondary);
+}
+
+/* ---------- Popular Badge (Social Proof / Anchoring) ---------- */
+.popular-badge {
+  position: relative;
+}
+
+.popular-badge::after {
+  content: 'Популярный';
+  position: absolute;
+  top: -8px;
+  right: -4px;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #fff;
+  background: var(--brand-blue);
+  padding: 1px 5px;
+  border-radius: var(--r-full);
+  line-height: 1.4;
+}
+
+/* ---------- Before → After (Upgrade Delta) ---------- */
+.upgrade-delta {
+  display: flex;
+  gap: var(--sp-sm);
+  margin: 0 var(--sp-base) var(--sp-lg);
+}
+
+.upgrade-delta__card {
+  flex: 1;
+  background: var(--color-surface);
+  border-radius: var(--r-lg);
+  padding: var(--sp-base) var(--sp-sm);
+  box-shadow: var(--shadow-section);
+  text-align: center;
+}
+
+.upgrade-delta__old {
+  font-size: var(--fs-sm);
+  color: var(--color-text-tertiary);
+  text-decoration: line-through;
+  margin-bottom: 2px;
+}
+
+.upgrade-delta__new {
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 2px;
+}
+
+.upgrade-delta__diff {
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  color: var(--brand-green);
+}
+
+.upgrade-delta__label {
+  font-size: var(--fs-xs);
+  color: var(--color-text-secondary);
+  margin-top: 4px;
+}
+
+/* ---------- Share Button (Viral) ---------- */
+.share-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-sm);
+  width: 100%;
+  padding: var(--sp-md) var(--sp-base);
+  border: none;
+  background: none;
+  color: var(--brand-blue);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: var(--r-md);
+  transition: background 0.15s;
+}
+
+.share-btn:active {
+  background: rgba(59, 130, 246, 0.06);
+}
+
+/* ---------- Notification Prompt (Priming) ---------- */
+.notification-prompt {
+  background: var(--color-surface);
+  border-radius: var(--r-lg);
+  padding: var(--sp-base);
+  margin: 0 var(--sp-base) var(--sp-md);
+  box-shadow: var(--shadow-section);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-md);
+}
+
+.notification-prompt__icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-md);
+  background: rgba(59, 130, 246, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.notification-prompt__content {
+  flex: 1;
+}
+
+.notification-prompt__title {
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 2px;
+}
+
+.notification-prompt__sub {
+  font-size: var(--fs-xs);
+  color: var(--color-text-secondary);
+}
+
+.notification-prompt__action {
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  color: var(--brand-blue);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--sp-sm);
+  white-space: nowrap;
+}
+
+/* ---------- Timeline (Success screen) ---------- */
+.success-timeline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin: 0 var(--sp-base) var(--sp-lg);
+  padding: var(--sp-md) 0;
+}
+
+.success-timeline__step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+  position: relative;
+}
+
+.success-timeline__dot {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  z-index: 1;
+}
+
+.success-timeline__dot--done {
+  background: var(--brand-green);
+  color: #fff;
+}
+
+.success-timeline__dot--active {
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--brand-blue);
+  border: 2px solid var(--brand-blue);
+  animation: pulse-dot 2s infinite;
+}
+
+.success-timeline__dot--future {
+  background: var(--color-surface-secondary);
+  color: var(--color-text-tertiary);
+  border: 1px solid var(--color-border);
+}
+
+@keyframes pulse-dot {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.3); }
+  50% { box-shadow: 0 0 0 6px rgba(59, 130, 246, 0); }
+}
+
+.success-timeline__label {
+  font-size: 9px;
+  color: var(--color-text-secondary);
+  text-align: center;
+  max-width: 64px;
+  line-height: 1.2;
+}
+
+.success-timeline__line {
+  flex: 1;
+  height: 2px;
+  background: var(--color-border);
+  margin-bottom: 18px;
+}
+
+.success-timeline__line--done {
+  background: var(--brand-green);
+}
+
+/* ---------- Micro-interactions ---------- */
+.btn-primary:active,
+.btn-secondary:active,
+.btn-repay:active {
+  transform: scale(0.97);
+}
+
+.btn-primary,
+.btn-secondary {
+  transition: transform 0.1s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+}
+
+/* Section entrance animation */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-in {
+  animation: fadeInUp 0.35s ease-out both;
+}
+
+/* Loan section payment link */
+.loan-progress-hint {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--fs-xs);
+  color: var(--brand-blue);
+  font-weight: 600;
+  margin-top: var(--sp-sm);
+  padding-top: var(--sp-sm);
+  border-top: 1px solid var(--color-divider);
+}

@@ -76,3 +76,15 @@ export const CURRENT_LOAN = {
 export const STATUS_HISTORY = [
   { tier: 'bronze', date: '10 мая 2025', active: true },
 ];
+
+// Streak — consecutive on-time repayments
+export const STREAK = {
+  count: 2,
+  isActive: true,
+};
+
+// Lifetime savings vs base rate across all past loans
+export const LIFETIME_SAVINGS = 1450;
+
+// Previous tier (for upgrade before/after comparison)
+export const PREVIOUS_TIER = 'bronze';

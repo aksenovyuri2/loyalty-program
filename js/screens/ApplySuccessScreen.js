@@ -3,7 +3,6 @@ import { getState } from '../state.js';
 import { navigate, onEnter } from '../router.js';
 import { fmtNum, fmtRate, loanWord } from '../utils.js';
 
-// Store last application details (set by ApplyScreen before navigating)
 let lastApplication = null;
 
 export function setLastApplication(data) {
@@ -25,8 +24,7 @@ function render(screen) {
   const prog = TIER_PROGRESS;
   const loansLeft = prog.loansNeeded - prog.loansCompleted;
 
-  // Use stored application data or defaults
-  const app = lastApplication || { amount: 10000, term: 10, rate: tier.dailyRate };
+  const app = lastApplication || { amount: 15000, term: 15, rate: tier.dailyRate };
   const interest = app.amount * (app.rate / 100) * app.term;
   const total = app.amount + interest;
   const baseInterest = app.amount * (BASE_RATE / 100) * app.term;
@@ -45,9 +43,26 @@ function render(screen) {
         <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--brand-green)" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
       <h2 class="empty-state__title">Заявка отправлена!</h2>
-      <p class="empty-state__text" style="margin-bottom: var(--sp-sm)">
-        Обычно решение занимает до 15 минут.<br>Мы отправим SMS на ваш номер.
-      </p>
+    </div>
+
+    <!-- Timeline: reduce anxiety, set expectations -->
+    <div class="success-timeline">
+      <div class="success-timeline__step">
+        <div class="success-timeline__dot success-timeline__dot--done">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="success-timeline__label">Заявка</div>
+      </div>
+      <div class="success-timeline__line success-timeline__line--done"></div>
+      <div class="success-timeline__step">
+        <div class="success-timeline__dot success-timeline__dot--active">2</div>
+        <div class="success-timeline__label">Решение до 15 мин</div>
+      </div>
+      <div class="success-timeline__line"></div>
+      <div class="success-timeline__step">
+        <div class="success-timeline__dot success-timeline__dot--future">3</div>
+        <div class="success-timeline__label">Деньги на карте</div>
+      </div>
     </div>
 
     <div class="apply-calc" style="margin-bottom: var(--sp-lg)">
@@ -75,10 +90,22 @@ function render(screen) {
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
       <div class="apply-savings__text">
-        Вы сэкономили <strong>${fmtNum(Math.round(savings))} \u20bd</strong> благодаря статусу ${tier.name}
+        Вы не переплатите <strong>${fmtNum(Math.round(savings))} \u20bd</strong> благодаря статусу ${tier.name}
       </div>
     </div>
     ` : ''}
+
+    <!-- Notification priming: value-first approach -->
+    <div class="notification-prompt">
+      <div class="notification-prompt__icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--brand-blue)" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      </div>
+      <div class="notification-prompt__content">
+        <div class="notification-prompt__title">Узнайте решение первым</div>
+        <div class="notification-prompt__sub">Отправим пуш, как только заявка будет одобрена</div>
+      </div>
+      <button class="notification-prompt__action" id="success-notify-btn">Включить</button>
+    </div>
 
     ${!isMaxTier ? `
     <div class="lk-new-loan-section" style="margin: 0 var(--sp-base) var(--sp-lg); text-align: center">
@@ -86,15 +113,36 @@ function render(screen) {
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--brand-blue)" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
       </div>
       <div class="lk-new-loan__title">Ещё ${loansLeft > 0 ? loansLeft : 1} ${loanWord(loansLeft > 0 ? loansLeft : 1)} до «${nextTier.name}»</div>
-      <div class="lk-new-loan__subtitle">Ставка станет <strong>${fmtRate(nextTier.dailyRate)}/день</strong> — ещё выгоднее!</div>
+      <div class="lk-new-loan__subtitle">Погасите вовремя — ставка станет <strong>${fmtRate(nextTier.dailyRate)}/день</strong></div>
     </div>
     ` : ''}
 
+    <div style="padding: 0 var(--sp-base); margin-bottom: var(--sp-sm)">
+      <button class="btn-secondary" style="width: 100%" id="success-to-status" aria-label="Посмотреть прогресс">Посмотреть прогресс к ${isMaxTier ? 'статусу' : nextTier.name}</button>
+    </div>
+
+    <div style="padding: 0 var(--sp-base); margin-bottom: var(--sp-sm)">
+      <button class="share-btn" id="success-share" aria-label="Рассказать другу">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        Рассказать другу о boostra
+      </button>
+    </div>
+
     <div style="padding: 0 var(--sp-base)">
-      <button class="btn-secondary" style="width: 100%" id="success-to-lk" aria-label="Вернуться в личный кабинет">Вернуться в ЛК</button>
+      <button style="width: 100%; background: none; border: none; color: var(--color-text-secondary); font-size: var(--fs-sm); padding: var(--sp-md); cursor: pointer" id="success-to-lk">Вернуться в ЛК</button>
     </div>
   `;
 
   screen.querySelector('#success-close')?.addEventListener('click', () => navigate('/lk'));
   screen.querySelector('#success-to-lk')?.addEventListener('click', () => navigate('/lk'));
+  screen.querySelector('#success-to-status')?.addEventListener('click', () => navigate('/status'));
+  screen.querySelector('#success-notify-btn')?.addEventListener('click', (e) => {
+    e.target.textContent = '\u2713';
+    e.target.style.color = 'var(--brand-green)';
+  });
+  screen.querySelector('#success-share')?.addEventListener('click', () => {
+    if (navigator.share) {
+      navigator.share({ title: 'boostra', text: `Оформил займ по ставке ${fmtRate(app.rate)}/день в boostra. Статус ${tier.name} = выгоднее!`, url: location.href }).catch(() => {});
+    }
+  });
 }
