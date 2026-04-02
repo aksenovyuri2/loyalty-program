@@ -31,7 +31,7 @@ function render(screen) {
   const loansLeft = prog.loansNeeded - prog.loansCompleted;
 
   // Conditions for next tier only
-  const condTier = isMaxTier ? tier : nextTier;
+  const condTier = tier;
   const condAllDone = condTier.conditions.every(c => c.completed);
 
   // Inline progress hint in condition text
@@ -63,7 +63,7 @@ function render(screen) {
       <div class="status-card status-card--${currentTier}">
         <div class="status-card__top">
           <div>
-            <div class="status-card__user-name">${state.user.name}, ваш статус</div>
+            <div class="status-card__user-name">Ваш статус</div>
             <div class="status-card__tier-name">${tier.name}</div>
           </div>
         </div>

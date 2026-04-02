@@ -139,11 +139,6 @@ function renderFull(screen) {
     </div>
     `}
 
-    <!-- PRIORITY 4: Loyalty program -->
-    <div class="lk-loyalty-header">
-      <span class="lk-loyalty-header__title">Программа лояльности</span>
-      <button class="lk-loyalty-header__link" id="btn-how-works">Как работает?</button>
-    </div>
   `;
 
   updateCard();
@@ -152,7 +147,6 @@ function renderFull(screen) {
   screen.querySelector('#btn-sbp-link')?.addEventListener('click', () => showPaymentStub(screen));
   screen.querySelector('#btn-new-apply')?.addEventListener('click', () => navigate('/apply'));
   screen.querySelector('#btn-new-loan')?.addEventListener('click', () => navigate('/apply'));
-  screen.querySelector('#btn-how-works')?.addEventListener('click', () => navigate('/onboarding'));
 }
 
 function showPaymentStub(screen) {
@@ -239,18 +233,7 @@ function updateCard() {
     </div>
   `;
 
-  container.querySelector('#lk-badge')?.addEventListener('click', (e) => {
-    e.stopPropagation();
-    tooltipOpen = !tooltipOpen;
-    renderTooltip(container);
-  });
-
-  document.addEventListener('click', () => {
-    if (tooltipOpen) {
-      tooltipOpen = false;
-      renderTooltip(container);
-    }
-  }, { once: true });
+  container.querySelector('#lk-badge')?.addEventListener('click', () => navigate('/status'));
 }
 
 function renderTooltip(container) {
