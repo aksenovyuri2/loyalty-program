@@ -10,7 +10,7 @@
     margin: 0;
     padding: 40px 20px;
     background: #e8eaed;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -26,17 +26,17 @@
     width: 100%;
     max-width: 1215px;
     resize: horizontal;
-    overflow: hidden;
+    overflow: auto;
     min-width: 280px;
     border: 1px dashed #bbb;
     container-type: inline-size;
   }
 
   /* === BANNER === */
-  .fc-banner {
+  .b {
     display: block;
     text-decoration: none;
-    color: inherit;
+    color: #1a1a2e;
     position: relative;
     width: 100%;
     height: 240px;
@@ -46,250 +46,298 @@
     box-sizing: border-box;
     cursor: pointer;
   }
-  .fc-banner * { box-sizing: border-box; }
+  .b * { box-sizing: border-box; margin: 0; padding: 0; }
 
-  /* --- Top row --- */
-  .fc-top {
+  /* --- Logo --- */
+  .b-logo {
     position: absolute;
     top: 20px;
     left: 24px;
-    right: 80px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    z-index: 2;
-  }
-  .fc-logo {
-    flex-shrink: 0;
     height: 38px;
+    z-index: 5;
   }
-  .fc-logo img { height: 38px; width: auto; display: block; }
+  .b-logo img { height: 100%; width: auto; display: block; }
 
-  .fc-tags {
+  /* --- "Реклама" --- */
+  .b-ad {
+    position: absolute;
+    top: 17px;
+    right: 24px;
+    font-size: 13px;
+    color: rgba(0,0,0,0.35);
+    z-index: 5;
+  }
+
+  /* --- Tags --- */
+  .b-tags {
+    position: absolute;
+    top: 22px;
+    left: 180px;
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
-    align-items: center;
+    z-index: 5;
+    max-width: calc(100% - 280px);
   }
-  .fc-tags img {
-    height: 27px;
-    width: auto;
-    display: block;
+  .b-tag {
+    display: inline-block;
+    padding: 4px 14px;
+    border: 1px solid rgba(99,103,117,0.5);
+    border-radius: 13px;
+    font-size: 13px;
+    font-weight: 400;
+    color: #1a1a2e;
+    white-space: nowrap;
+    line-height: 1.2;
   }
-
-  .fc-ad {
-    position: absolute;
-    top: 20px;
-    right: 24px;
-    font-size: 12px;
-    color: rgba(0,0,0,0.35);
-    z-index: 2;
-  }
+  /* "Решение за 2 часа" — only visible at narrow */
+  .b-tag--решение { display: none; }
 
   /* --- Headline --- */
-  .fc-headline {
+  .b-headline {
     position: absolute;
-    top: 72px;
+    top: 66px;
     left: 24px;
-    z-index: 2;
+    z-index: 5;
   }
-  .fc-headline img {
-    height: 42px;
-    width: auto;
-    display: block;
-  }
+  .b-headline img { height: 52px; width: auto; display: block; }
 
-  /* --- CTA row --- */
-  .fc-cta-row {
+  /* --- Subtitle + CTA row --- */
+  .b-subtitle {
     position: absolute;
-    top: 130px;
+    top: 140px;
     left: 24px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    z-index: 2;
+    z-index: 5;
   }
-  .fc-subtitle img {
-    height: 19px;
-    width: auto;
-    display: block;
-  }
-  .fc-cta img {
-    height: 47px;
-    width: auto;
-    display: block;
+  .b-subtitle img { height: 22px; width: auto; display: block; }
+
+  .b-cta {
+    position: absolute;
+    top: 131px;
+    left: 228px;
+    z-index: 5;
     transition: transform 0.15s ease;
   }
-  .fc-banner:hover .fc-cta img {
-    transform: scale(1.03);
-  }
+  .b-cta img { height: 47px; width: auto; display: block; }
+  .b:hover .b-cta { transform: scale(1.03); }
 
   /* --- Disclaimer --- */
-  .fc-disclaimer {
+  .b-disclaimer {
     position: absolute;
-    bottom: 12px;
+    bottom: 10px;
     left: 24px;
-    z-index: 2;
-    max-width: 60%;
-  }
-  .fc-disclaimer img {
-    width: 100%;
-    height: auto;
-    display: block;
-    max-height: 24px;
+    z-index: 5;
+    font-size: 9px;
+    line-height: 1.35;
+    color: rgba(0,0,0,0.35);
+    max-width: 55%;
   }
 
   /* --- Illustration --- */
-  .fc-bag {
+  .b-bag {
     position: absolute;
-    right: 40px;
+    right: 50px;
     bottom: 0;
-    z-index: 1;
-    height: 200px;
+    height: 180px;
     width: auto;
+    z-index: 3;
   }
-  .fc-money {
+  .b-money {
     position: absolute;
-    z-index: 0;
+    z-index: 2;
   }
-  .fc-money--1 {
-    right: 220px;
-    top: 10px;
-    width: 60px;
-    transform: rotate(-10deg);
-    animation: floatMoney 3s ease-in-out infinite;
+  .b-money--1 {
+    width: 56px;
+    right: 200px;
+    top: -5px;
   }
-  .fc-money--2 {
-    right: 10px;
-    top: 30px;
-    width: 55px;
-    transform: rotate(15deg);
-    animation: floatMoney 3s 0.5s ease-in-out infinite;
-  }
-  .fc-money--3 {
-    right: 180px;
-    bottom: 20px;
+  .b-money--2 {
     width: 50px;
-    transform: rotate(5deg);
-    animation: floatMoney 3s 1s ease-in-out infinite;
+    right: -5px;
+    top: 15px;
+  }
+  .b-money--3 {
+    width: 48px;
+    right: 230px;
+    bottom: 30px;
   }
 
-  /* === Container query responsive === */
+  /* =============================================
+     STATE 2: Medium (≤ 900cqw)
+     ============================================= */
   @container (max-width: 900px) {
-    .fc-bag { height: 170px; right: 20px; }
-    .fc-money--1 { right: 170px; width: 50px; }
-    .fc-money--2 { right: 0; width: 45px; }
-    .fc-money--3 { right: 140px; width: 42px; }
+    .b-logo { top: 18px; left: 20px; height: 34px; }
+    .b-tags { left: 155px; top: 22px; max-width: calc(100% - 240px); }
+    .b-tag { font-size: 12px; padding: 3px 12px; }
+    .b-headline { top: 64px; left: 20px; }
+    .b-headline img { height: 46px; }
+    .b-subtitle { top: 130px; left: 20px; }
+    .b-cta { top: 122px; left: 200px; }
+    .b-cta img { height: 42px; }
+    .b-disclaimer { left: 20px; max-width: 58%; }
+    .b-bag { height: 155px; right: 25px; }
+    .b-money--1 { width: 46px; right: 150px; }
+    .b-money--2 { width: 40px; right: -5px; }
+    .b-money--3 { width: 38px; right: 170px; }
+    .b-ad { right: 20px; }
   }
 
-  @container (max-width: 700px) {
-    .fc-headline img { height: 34px; }
-    .fc-headline { top: 68px; }
-    .fc-cta-row { top: 115px; gap: 14px; }
-    .fc-cta img { height: 40px; }
-    .fc-subtitle img { height: 16px; }
-    .fc-bag { height: 145px; right: 10px; }
-    .fc-money--1 { right: 130px; width: 42px; }
-    .fc-money--2 { width: 38px; }
-    .fc-money--3 { right: 110px; width: 36px; }
-    .fc-tags img:nth-child(3) { display: none; }
-    .fc-disclaimer { max-width: 55%; }
+  /* =============================================
+     STATE 2b: (≤ 736cqw — exact medium breakpoint)
+     ============================================= */
+  @container (max-width: 736px) {
+    .b-logo { top: 16px; left: 20px; height: 32px; }
+    .b-tags { left: 145px; top: 20px; max-width: calc(100% - 230px); gap: 6px; }
+    .b-tag { font-size: 11px; padding: 3px 10px; }
+    .b-headline { top: 60px; left: 16px; }
+    .b-headline img { height: 42px; }
+    .b-subtitle { top: 120px; left: 16px; }
+    .b-subtitle img { height: 18px; }
+    .b-cta { top: 114px; left: 180px; }
+    .b-cta img { height: 38px; }
+    .b-disclaimer { left: 16px; font-size: 8px; max-width: 55%; bottom: 8px; }
+    .b-bag { height: 135px; right: 15px; }
+    .b-money--1 { width: 40px; right: 120px; top: -3px; }
+    .b-money--2 { width: 34px; }
+    .b-money--3 { width: 32px; right: 140px; }
+    .b-ad { font-size: 12px; right: 16px; top: 14px; }
   }
 
-  @container (max-width: 520px) {
-    .fc-top { gap: 8px; right: 60px; }
-    .fc-logo img { height: 30px; }
-    .fc-tags { display: none; }
-    .fc-ad { font-size: 11px; }
-    .fc-headline { top: 60px; left: 18px; }
-    .fc-headline img { height: 28px; }
-    .fc-cta-row { top: 100px; left: 18px; gap: 12px; flex-direction: column; align-items: flex-start; }
-    .fc-subtitle img { height: 14px; }
-    .fc-cta img { height: 36px; }
-    .fc-bag { height: 120px; right: 5px; }
-    .fc-money--1 { right: 100px; width: 34px; top: 20px; }
-    .fc-money--2 { width: 30px; top: 40px; }
-    .fc-money--3 { display: none; }
-    .fc-disclaimer { left: 18px; max-width: 50%; }
-    .fc-disclaimer img { max-height: 20px; }
+  /* =============================================
+     STATE 3: Narrow (≤ 400cqw)
+     ============================================= */
+  @container (max-width: 400px) {
+    .b-logo { top: 10px; left: 14px; height: 26px; }
+    .b-ad { top: 10px; right: 12px; font-size: 10px; }
+
+    .b-tags {
+      position: absolute;
+      top: 42px;
+      left: 14px;
+      max-width: 80%;
+      gap: 3px 4px;
+      flex-wrap: wrap;
+    }
+    .b-tag {
+      font-size: 7px;
+      padding: 1px 5px;
+      border-radius: 7px;
+      line-height: 1.3;
+    }
+    .b-tag--онлайн { display: none; }
+    .b-tag--решение { display: inline-block; }
+
+    .b-headline { top: 90px; left: 10px; }
+    .b-headline img { height: 28px; }
+
+    .b-subtitle { top: 123px; left: 10px; }
+    .b-subtitle img { height: 14px; }
+
+    .b-cta { top: 144px; left: 18px; }
+    .b-cta img { height: 32px; }
+
+    .b-disclaimer {
+      left: 10px;
+      right: 10px;
+      max-width: 60%;
+      font-size: 6.5px;
+      bottom: 4px;
+      line-height: 1.3;
+    }
+
+    .b-bag { height: 90px; right: -5px; bottom: 30px; }
+    .b-money--1 { width: 28px; right: 70px; top: 2px; }
+    .b-money--2 { width: 22px; right: -3px; top: 25px; }
+    .b-money--3 { display: none; }
   }
 
-  @container (max-width: 360px) {
-    .fc-headline img { height: 24px; }
-    .fc-cta-row { top: 92px; }
-    .fc-cta img { height: 32px; }
-    .fc-bag { height: 100px; right: 0; }
-    .fc-money--1 { display: none; }
-    .fc-disclaimer { max-width: 48%; }
-    .fc-disclaimer img { max-height: 18px; }
+  /* =============================================
+     STATE 3b: Very narrow (≤ 310cqw)
+     ============================================= */
+  @container (max-width: 310px) {
+    .b-logo { height: 24px; }
+    .b-tags { top: 38px; gap: 2px; }
+    .b-tag { font-size: 7px; padding: 2px 6px; }
+    .b-headline { top: 82px; }
+    .b-headline img { height: 25px; }
+    .b-subtitle { top: 112px; }
+    .b-cta { top: 132px; }
+    .b-cta img { height: 28px; }
+    .b-bag { height: 75px; bottom: 28px; }
+    .b-money--1 { width: 22px; right: 55px; }
+    .b-money--2 { width: 18px; }
+    .b-disclaimer { font-size: 6px; }
   }
 
   /* === Animations === */
-  .fc-top { animation: fadeIn 0.4s ease both; }
-  .fc-headline { animation: fadeIn 0.4s 0.15s ease both; }
-  .fc-cta-row { animation: fadeIn 0.4s 0.25s ease both; }
-  .fc-bag { animation: slideIn 0.5s 0.2s ease both; }
-  .fc-money { animation: slideIn 0.5s 0.1s ease both; }
+  .b-logo { animation: fadeIn 0.4s ease both; }
+  .b-tags { animation: fadeIn 0.4s 0.1s ease both; }
+  .b-headline { animation: fadeIn 0.4s 0.15s ease both; }
+  .b-subtitle { animation: fadeIn 0.4s 0.2s ease both; }
+  .b-cta { animation: fadeIn 0.4s 0.25s ease both; }
+  .b-bag { animation: slideIn 0.5s 0.2s ease both; }
+  .b-money { opacity: 0; animation: slideIn 0.4s 0.15s ease forwards; }
 
   @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-8px); }
+    from { opacity: 0; transform: translateY(-6px); }
     to { opacity: 1; transform: translateY(0); }
   }
   @keyframes slideIn {
-    from { opacity: 0; transform: translateX(20px); }
+    from { opacity: 0; transform: translateX(15px); }
     to { opacity: 1; transform: translateX(0); }
-  }
-  @keyframes floatMoney {
-    0%, 100% { transform: translateY(0) rotate(var(--rot, 0deg)); }
-    50% { transform: translateY(-6px) rotate(var(--rot, 0deg)); }
   }
 </style>
 </head>
 <body>
 
-<p class="preview-label">Резиновый баннер 280–1215px &times; 240px (потяните за правый край)</p>
+<p class="preview-label">Баннер 280–1215px &times; 240px (потяните за правый край для проверки адаптивности)</p>
 
 <div class="preview-wrap">
-<a href="https://freecapital.ru" target="_blank" class="fc-banner">
+<a href="https://freecapital.ru" target="_blank" class="b">
 
-  <!-- Top: logo + tags -->
-  <div class="fc-top">
-    <div class="fc-logo">
-      <img src="assets/banner/logo.svg" alt="FreeCapital">
-    </div>
-    <div class="fc-tags">
-      <img src="assets/banner/tag-ip.svg" alt="ИП и ООО">
-      <img src="assets/banner/tag-srok.svg" alt="Срок регистрации бизнеса от 3 месяцев">
-      <img src="assets/banner/tag-online.svg" alt="Подача онлайн">
-    </div>
+  <!-- Logo -->
+  <div class="b-logo">
+    <img src="assets/banner/logo.svg" alt="FreeCapital">
   </div>
-  <span class="fc-ad">Реклама</span>
+
+  <!-- "Реклама" -->
+  <span class="b-ad">Реклама</span>
+
+  <!-- Tags -->
+  <div class="b-tags">
+    <span class="b-tag">ИП и ООО</span>
+    <span class="b-tag">Срок регистрации бизнеса от 3 месяцев</span>
+    <span class="b-tag b-tag--онлайн">Подача онлайн</span>
+    <span class="b-tag b-tag--решение">Решение за 2 часа</span>
+  </div>
 
   <!-- Headline -->
-  <div class="fc-headline">
+  <div class="b-headline">
     <img src="assets/banner/headline.svg" alt="Займ для бизнеса">
   </div>
 
-  <!-- CTA row -->
-  <div class="fc-cta-row">
-    <div class="fc-subtitle">
-      <img src="assets/banner/subtitle.svg" alt="На любые цели">
-    </div>
-    <div class="fc-cta">
-      <img src="assets/banner/btn_48_blue.svg" alt="Подать заявку">
-    </div>
+  <!-- Subtitle -->
+  <div class="b-subtitle">
+    <img src="assets/banner/subtitle.svg" alt="На любые цели">
+  </div>
+
+  <!-- CTA -->
+  <div class="b-cta">
+    <img src="assets/banner/btn_48_blue.svg" alt="Подать заявку">
   </div>
 
   <!-- Disclaimer -->
-  <div class="fc-disclaimer">
-    <img src="assets/banner/disclaimer.svg" alt="Условия займа на сайте freecapital.ru">
+  <div class="b-disclaimer">
+    Условия займа на сайте freecapital.ru. Оценивайте свои финансовые возможности и&nbsp;риски.
+    Запись в&nbsp;Государственном реестре микрофинансовых организаций №&nbsp;2403045010029
+    от&nbsp;05.03.2024&nbsp;г. ООО МКК &laquo;ВипЗайм&raquo;. Не&nbsp;оферта.
   </div>
 
   <!-- Illustration -->
-  <img class="fc-money fc-money--1" src="assets/banner/money1.png" alt="">
-  <img class="fc-money fc-money--2" src="assets/banner/money2.png" alt="">
-  <img class="fc-money fc-money--3" src="assets/banner/money3.png" alt="">
-  <img class="fc-bag" src="assets/banner/bag.png" alt="">
+  <img class="b-money b-money--1" src="assets/banner/money1.png" alt="">
+  <img class="b-money b-money--2" src="assets/banner/money2.png" alt="">
+  <img class="b-money b-money--3" src="assets/banner/money3.png" alt="">
+  <img class="b-bag" src="assets/banner/bag.png" alt="">
 
 </a>
 </div>
