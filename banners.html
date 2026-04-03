@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Баннеры freecapital.ru</title>
+<style>
+  body {
+    margin: 0;
+    padding: 40px;
+    background: #f0f2f5;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 48px;
+  }
+  h2 { color: #333; font-weight: 500; font-size: 14px; margin: 0 0 12px; }
+
+  /* === BRAND COLORS === */
+  :root {
+    --fc-blue: #3356F6;
+    --fc-blue-dark: #2240D4;
+    --fc-blue-light: #5B7AFF;
+    --fc-dark: #1A1A2E;
+  }
+
+  /* === LOGO SVG (hexagon cube) === */
+  .fc-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    z-index: 1;
+  }
+  .fc-logo svg { flex-shrink: 0; }
+  .fc-logo-text {
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.3px;
+  }
+  .fc-logo-text span { font-weight: 400; }
+  .fc-logo-sub {
+    font-size: 9px;
+    color: rgba(255,255,255,0.6);
+    margin-top: -1px;
+    letter-spacing: 0.2px;
+  }
+
+  /* === BANNER BASE === */
+  .banner {
+    display: block;
+    text-decoration: none;
+    overflow: hidden;
+    position: relative;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(51,86,246,0.2);
+    background: var(--fc-blue);
+    color: #fff;
+    cursor: pointer;
+  }
+  .banner * { box-sizing: border-box; }
+
+  /* Decorative elements */
+  .banner::before {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .banner::after {
+    content: '';
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(91,122,255,0.4) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* === USP PILLS === */
+  .usp-pills {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+  .usp-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 500;
+    backdrop-filter: blur(4px);
+  }
+  .usp-pill-icon {
+    width: 14px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+  }
+
+  /* === CTA BUTTON === */
+  .cta-btn {
+    display: inline-block;
+    padding: 12px 24px;
+    background: #fff;
+    color: var(--fc-blue);
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 30px;
+    text-decoration: none;
+    position: relative;
+    z-index: 1;
+    animation: pulse 2.5s 1.5s ease infinite;
+    transition: transform 0.15s ease;
+  }
+  .cta-btn:hover { transform: scale(1.04); }
+
+  /* === 300x250 === */
+  .banner-300x250 {
+    width: 300px;
+    height: 250px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: linear-gradient(145deg, var(--fc-blue-dark) 0%, var(--fc-blue) 50%, var(--fc-blue-light) 100%);
+  }
+  .banner-300x250::before { top: -100px; right: -80px; }
+  .banner-300x250::after { bottom: -60px; left: -40px; }
+
+  .banner-300x250 .fc-logo { animation: fadeDown 0.5s ease both; }
+  .banner-300x250 .content { position: relative; z-index: 1; animation: fadeDown 0.5s 0.15s ease both; }
+  .banner-300x250 .headline {
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.3px;
+  }
+  .banner-300x250 .sub {
+    font-size: 13px;
+    opacity: 0.75;
+    margin-top: 4px;
+    line-height: 1.3;
+  }
+  .banner-300x250 .bottom-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    animation: fadeDown 0.5s 0.35s ease both;
+  }
+  .banner-300x250 .cta-btn { padding: 10px 20px; font-size: 13px; }
+  .banner-300x250 .domain-sm {
+    font-size: 11px;
+    opacity: 0.45;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* === 728x90 === */
+  .banner-728x90 {
+    width: 728px;
+    height: 90px;
+    padding: 0 28px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: linear-gradient(135deg, var(--fc-blue-dark) 0%, var(--fc-blue) 60%, var(--fc-blue-light) 100%);
+  }
+  .banner-728x90::before { top: -120px; right: 100px; }
+  .banner-728x90::after { bottom: -80px; left: 200px; }
+
+  .banner-728x90 .fc-logo { animation: fadeRight 0.4s ease both; flex-shrink: 0; }
+  .banner-728x90 .fc-logo-text { font-size: 14px; }
+  .banner-728x90 .divider {
+    width: 1px;
+    height: 44px;
+    background: rgba(255,255,255,0.2);
+    flex-shrink: 0;
+    animation: fadeRight 0.4s 0.1s ease both;
+  }
+  .banner-728x90 .text-block {
+    flex: 1;
+    min-width: 0;
+    position: relative;
+    z-index: 1;
+    animation: fadeRight 0.4s 0.15s ease both;
+  }
+  .banner-728x90 .headline {
+    font-size: 18px;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.2px;
+  }
+  .banner-728x90 .usp-pills { margin-top: 6px; }
+  .banner-728x90 .cta-btn {
+    padding: 10px 22px;
+    font-size: 13px;
+    flex-shrink: 0;
+    animation: fadeRight 0.4s 0.3s ease both;
+  }
+
+  /* === 160x600 === */
+  .banner-160x600 {
+    width: 160px;
+    height: 600px;
+    padding: 20px 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(180deg, var(--fc-blue-dark) 0%, var(--fc-blue) 40%, var(--fc-blue-light) 100%);
+  }
+  .banner-160x600::before { top: -100px; right: -100px; }
+  .banner-160x600::after { bottom: 100px; left: -80px; }
+
+  .banner-160x600 .fc-logo {
+    flex-direction: column;
+    gap: 4px;
+    animation: fadeDown 0.5s ease both;
+  }
+  .banner-160x600 .fc-logo-text { font-size: 13px; }
+
+  .banner-160x600 .mid-block {
+    margin: auto 0;
+    position: relative;
+    z-index: 1;
+  }
+  .banner-160x600 .amount {
+    font-size: 36px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -1px;
+    animation: fadeDown 0.5s 0.2s ease both;
+  }
+  .banner-160x600 .amount-sub {
+    font-size: 11px;
+    opacity: 0.65;
+    margin-top: 4px;
+    animation: fadeDown 0.5s 0.25s ease both;
+  }
+  .banner-160x600 .headline {
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-top: 20px;
+    animation: fadeDown 0.5s 0.3s ease both;
+  }
+  .banner-160x600 .usp-list {
+    list-style: none;
+    padding: 0;
+    margin: 16px 0 0;
+    font-size: 11px;
+    opacity: 0.8;
+    line-height: 1.7;
+    animation: fadeDown 0.5s 0.4s ease both;
+  }
+  .banner-160x600 .usp-list li::before {
+    content: '✓ ';
+    opacity: 0.7;
+  }
+
+  .banner-160x600 .cta-btn {
+    width: 100%;
+    text-align: center;
+    padding: 10px 14px;
+    font-size: 12px;
+    margin-top: auto;
+    animation: fadeDown 0.5s 0.55s ease both;
+  }
+  .banner-160x600 .domain {
+    font-size: 10px;
+    opacity: 0.4;
+    margin-top: 8px;
+    position: relative;
+    z-index: 1;
+    animation: fadeDown 0.5s 0.6s ease both;
+  }
+
+  /* === ANIMATIONS === */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeRight {
+    from { opacity: 0; transform: translateX(-14px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0.35); }
+    50% { box-shadow: 0 0 0 8px rgba(255,255,255,0); }
+  }
+</style>
+</head>
+<body>
+
+<!-- Inline SVG logo hexagon -->
+<svg style="display:none">
+  <symbol id="fc-hex" viewBox="0 0 36 36">
+    <!-- Back face -->
+    <path d="M18 2L32 10V26L18 34L4 26V10L18 2Z" fill="#2240D4"/>
+    <!-- Left face -->
+    <path d="M4 10L18 18V34L4 26V10Z" fill="#3356F6"/>
+    <!-- Right face -->
+    <path d="M32 10L18 18V34L32 26V10Z" fill="#1A2FA0"/>
+    <!-- Top face -->
+    <path d="M4 10L18 2L32 10L18 18L4 10Z" fill="#5B7AFF"/>
+    <!-- Inner hexagon highlight -->
+    <path d="M18 8L26 12.5V21.5L18 26L10 21.5V12.5L18 8Z" fill="rgba(255,255,255,0.15)"/>
+    <path d="M18 10L24 13.5V20.5L18 24L12 20.5V13.5L18 10Z" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="0.5"/>
+  </symbol>
+</svg>
+
+<!-- 300x250 Medium Rectangle -->
+<div>
+  <h2>300 &times; 250 &mdash; Medium Rectangle</h2>
+  <a href="https://freecapital.ru" target="_blank" class="banner banner-300x250">
+    <div class="fc-logo">
+      <svg width="28" height="28"><use href="#fc-hex"/></svg>
+      <div>
+        <div class="fc-logo-text">Free<span>Capital</span></div>
+        <div class="fc-logo-sub">Займы для бизнеса</div>
+      </div>
+    </div>
+    <div class="content">
+      <div class="headline">Финансирование<br>бизнеса</div>
+      <div class="sub">Без залога &middot; Решение за 2 часа</div>
+    </div>
+    <div class="bottom-row">
+      <span class="cta-btn">Получить деньги</span>
+      <span class="domain-sm">freecapital.ru</span>
+    </div>
+  </a>
+</div>
+
+<!-- 728x90 Leaderboard -->
+<div>
+  <h2>728 &times; 90 &mdash; Leaderboard</h2>
+  <a href="https://freecapital.ru" target="_blank" class="banner banner-728x90">
+    <div class="fc-logo">
+      <svg width="32" height="32"><use href="#fc-hex"/></svg>
+      <div>
+        <div class="fc-logo-text">Free<span>Capital</span></div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="text-block">
+      <div class="headline">Финансирование бизнеса &mdash; до 1 млн ₽</div>
+      <div class="usp-pills">
+        <span class="usp-pill"><span class="usp-pill-icon">⚡</span> За 2 часа</span>
+        <span class="usp-pill"><span class="usp-pill-icon">🔓</span> Без залога</span>
+        <span class="usp-pill"><span class="usp-pill-icon">📋</span> Минимум документов</span>
+      </div>
+    </div>
+    <span class="cta-btn">Получить деньги</span>
+  </a>
+</div>
+
+<!-- 160x600 Wide Skyscraper -->
+<div>
+  <h2>160 &times; 600 &mdash; Wide Skyscraper</h2>
+  <a href="https://freecapital.ru" target="_blank" class="banner banner-160x600">
+    <div class="fc-logo">
+      <svg width="36" height="36"><use href="#fc-hex"/></svg>
+      <div class="fc-logo-text">Free<span>Capital</span></div>
+    </div>
+    <div class="mid-block">
+      <div class="amount">1 млн ₽</div>
+      <div class="amount-sub">сумма до</div>
+      <div class="headline">Финансирование<br>бизнеса</div>
+      <ul class="usp-list">
+        <li>Быстрое решение</li>
+        <li>Без залога</li>
+        <li>Гибкие условия</li>
+        <li>Минимум документов</li>
+      </ul>
+    </div>
+    <span class="cta-btn">Получить деньги</span>
+    <div class="domain">freecapital.ru</div>
+  </a>
+</div>
+
+</body>
+</html>
